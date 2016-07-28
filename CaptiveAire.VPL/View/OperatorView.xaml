@@ -1,0 +1,36 @@
+﻿<UserControl x:Class="CaptiveAire.VPL.View.OperatorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:viewModel="clr-namespace:CaptiveAire.VPL.ViewModel"
+             xmlns:behaviors="clr-namespace:CaptiveAire.VPL.Behaviors"
+             xmlns:view="clr-namespace:CaptiveAire.VPL.View"
+             mc:Ignorable="d" 
+             Foreground="White"
+             d:DataContext="{x:Static viewModel:ViewModelLocator.BooleanOperator}">
+
+    <UserControl.RenderTransform>
+        <TranslateTransform X="{Binding Path=Location.X}" Y="{Binding Path=Location.Y}" />
+    </UserControl.RenderTransform>
+
+    <i:Interaction.Behaviors>
+        <behaviors:ElementDraggableBehavior/>
+    </i:Interaction.Behaviors>
+
+    <Border BorderThickness="1" BorderBrush="#2AB22A">
+        <Border.Effect>
+            <DropShadowEffect BlurRadius="2" Opacity="0.5" ShadowDepth="2"/>
+        </Border.Effect>
+        <Grid>
+            <Rectangle Fill="LimeGreen">
+            </Rectangle>
+            <StackPanel Orientation="Horizontal">
+                <ContentControl VerticalAlignment="Center" Grid.Row="0" Content="{Binding Path=Label}" Margin="4" />
+                <view:ParametersView VerticalAlignment="Center" DataContext="{Binding Path=Parameters}"></view:ParametersView>
+            </StackPanel>
+            
+        </Grid>
+    </Border>
+</UserControl>

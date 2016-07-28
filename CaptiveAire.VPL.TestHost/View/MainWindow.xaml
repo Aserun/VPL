@@ -1,0 +1,66 @@
+﻿<Window x:Class="CaptiveAire.VPL.TestHost.View.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:converters="clr-namespace:Cas.Common.WPF.Converters;assembly=Cas.Common.WPF"
+        xmlns:viewModel1="clr-namespace:CaptiveAire.VPL.TestHost.ViewModel"
+        xmlns:controls="clr-namespace:Cas.Common.WPF.Controls;assembly=Cas.Common.WPF"
+        mc:Ignorable="d"
+        DataContext="{x:Static viewModel1:HostViewModelLocator.Main}"
+        
+        Title="VPL Test" Height="600" Width="600" Icon="/CaptiveAire.VPL.TestHost;component/Images/WindowIcon.png">
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Menu>
+            <MenuItem Header="_File">
+                <MenuItem Header="_Open" Command="{Binding Path=OpenCommand}"/>
+                <MenuItem Header="_Save" Command="{Binding Path=SaveCommand}"/>
+                <Separator/>
+                <MenuItem Header="Save _As..." Command="{Binding Path=SaveAsCommand}" />
+            </MenuItem>
+            <MenuItem Header="_Edit">
+                <MenuItem Header="_Delete" Command="{Binding Path=DeleteCommand}"/>
+            </MenuItem>
+            <MenuItem Header="_Insert">
+                <MenuItem Header="Function" Command="{Binding Path=AddFunctionCommand}"/>
+            </MenuItem>
+        </Menu>
+        
+        <ToolBar Grid.Row="1">
+            <Button Command="{Binding Path=AddFunctionCommand}" ToolTip="Insert new function"><controls:AutoGreyableImage Source="/CaptiveAire.VPL.TestHost;component/Images/NewFunction.png"/></Button>
+            <Button Command="{Binding Path=DeleteCommand}" ToolTip="Delete function"><controls:AutoGreyableImage Width="16" Source="/CaptiveAire.VPL.TestHost;component/Images/Delete.gif"/></Button>
+        </ToolBar>
+        
+        <ListBox Grid.Row="2" ItemsSource="{Binding Path=Program.Functions}" DisplayMemberPath="Name" SelectedItem="{Binding Path=SelectedFunction}">
+            
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <EventSetter Event="MouseDoubleClick" Handler="FunctionListBoxItemMouseDoubleClick"/>
+                    <Setter Property="ContextMenu">
+                        <Setter.Value>
+                            <ContextMenu>
+                                <MenuItem Header="Edit..." Command="{Binding Path=EditCommand}"/>
+                                <MenuItem Header="Rename..." Command="{Binding Path=RenameCommand}"/>
+                            </ContextMenu>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListBox.ItemContainerStyle>
+           
+        </ListBox>
+        
+        <StatusBar Grid.Row="3">
+            <TextBlock Text="{Binding Path=Program.Functions.Count}"></TextBlock>
+        </StatusBar>
+    </Grid>
+    
+    
+</Window>

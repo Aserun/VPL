@@ -1,0 +1,41 @@
+﻿<UserControl x:Class="CaptiveAire.VPL.View.ParameterView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:converters="clr-namespace:Cas.Common.WPF.Converters;assembly=Cas.Common.WPF"
+             xmlns:viewModel="clr-namespace:CaptiveAire.VPL.ViewModel"
+             mc:Ignorable="d" 
+             d:DataContext="{x:Static viewModel:ViewModelLocator.BooleanParameter}">
+
+    <UserControl.Resources>
+        <converters:CollapsedWhenFalseConverter x:Key="CollapsedWhenFalseConverter"/>
+    </UserControl.Resources>
+
+    <Grid  Background="Transparent" IsHitTestVisible="True">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Grid.Column="0" Text="{Binding Path=Prefix}" VerticalAlignment="Center" Margin="2"/>
+
+        <Grid Grid.Column="1" IsHitTestVisible="True" Background="Transparent">
+
+            <Rectangle Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center" Fill="#8E98FB98" IsHitTestVisible="False"></Rectangle>
+            
+            <ContentControl VerticalAlignment="Center" HorizontalAlignment="Center" Content="{Binding Path=Editor}"/>
+            
+            <ContentControl Content="{Binding Path=Next}" />
+
+            <Rectangle Fill="Red" Opacity="0.6" Visibility="{Binding Path=IsDraggingOver, Converter={StaticResource CollapsedWhenFalseConverter}}"/>
+
+        </Grid>
+
+
+        <TextBlock Grid.Column="2" Text="{Binding Path=Postfix}" VerticalAlignment="Center" Margin="2" />
+
+    </Grid>
+</UserControl>

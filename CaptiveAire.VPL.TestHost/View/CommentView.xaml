@@ -1,0 +1,38 @@
+﻿<UserControl x:Class="CaptiveAire.VPL.TestHost.View.CommentView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:CaptiveAire.VPL.TestHost.View"
+             xmlns:behaviors="clr-namespace:CaptiveAire.VPL.Behaviors;assembly=CaptiveAire.VPL"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             mc:Ignorable="d" 
+             Style="{DynamicResource ElementStyle}"
+             d:DesignHeight="300" d:DesignWidth="300">
+
+   
+
+    <UserControl.RenderTransform>
+        <TranslateTransform X="{Binding Path=Location.X}" Y="{Binding Path=Location.Y}" />
+    </UserControl.RenderTransform>
+
+    <Grid>
+        <Rectangle MinHeight="60" MinWidth="100" Fill="LightYellow" RadiusY="5" RadiusX="5" IsHitTestVisible="True" Stroke="LightGray" StrokeThickness="1">
+            <i:Interaction.Behaviors>
+                <behaviors:ElementDraggableBehavior/>
+            </i:Interaction.Behaviors>
+        </Rectangle>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            
+            <TextBlock Text="Comment" Margin="4" IsHitTestVisible="False" />
+
+            <TextBox Grid.Row="1" VerticalScrollBarVisibility="Visible" AcceptsReturn="True" AcceptsTab="True" Text="{Binding Path=Comment}" Margin="10" />
+        </Grid>
+        
+    </Grid>
+</UserControl>

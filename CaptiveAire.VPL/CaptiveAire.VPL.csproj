@@ -1,0 +1,367 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{29C9FE31-EF8A-42B4-B1A1-347C19FE1397}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CaptiveAire.VPL</RootNamespace>
+    <AssemblyName>CaptiveAire.VPL</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Cas.Common.WPF, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Cas.Common.WPF.1.0.33\lib\net45\Cas.Common.WPF.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight, Version=5.3.0.19026, Culture=neutral, PublicKeyToken=e7570ab207bcb616, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvvmLightLibs.5.3.0.0\lib\net45\GalaSoft.MvvmLight.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight.Extras, Version=5.3.0.19032, Culture=neutral, PublicKeyToken=669f0b5e8f868abf, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvvmLightLibs.5.3.0.0\lib\net45\GalaSoft.MvvmLight.Extras.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight.Platform, Version=5.3.0.19032, Culture=neutral, PublicKeyToken=5f873c45e98af8a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvvmLightLibs.5.3.0.0\lib\net45\GalaSoft.MvvmLight.Platform.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvvmLightLibs.5.3.0.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Behaviors\BooleanOperatorDraggableBehavior.cs" />
+    <Compile Include="Behaviors\ElementDraggableBehavior.cs" />
+    <Compile Include="Behaviors\NumericOperatorDraggableBehavior.cs" />
+    <Compile Include="Behaviors\SelectableBehavior.cs" />
+    <Compile Include="Behaviors\SelectableMoveableBehavior.cs" />
+    <Compile Include="Behaviors\StatementDraggableBehavior.cs" />
+    <Compile Include="Behaviors\SimpleMoveableBehavior.cs" />
+    <Compile Include="Converters\CenterConverter.cs" />
+    <Compile Include="Extensions\ElementOwnerExtensions.cs" />
+    <Compile Include="Extensions\Extensions.cs" />
+    <Compile Include="Extensions\GetEntrancePointResult.cs" />
+    <Compile Include="Extensions\FrameworkElementExtensions.cs" />
+    <Compile Include="Extensions\ObjectExtensions.cs" />
+    <Compile Include="Extensions\PointExtensions.cs" />
+    <Compile Include="Extensions\ElementExtensions.cs" />
+    <Compile Include="Extensions\ResourceDictionaryExtensions.cs" />
+    <Compile Include="Factory\ElementFactory.cs" />
+    <Compile Include="Factory\ElementFactoryManager.cs" />
+    <Compile Include="Factory\FactoryCategoryNames.cs" />
+    <Compile Include="Interfaces\IArgument.cs" />
+    <Compile Include="Interfaces\IElementFactoryManager.cs" />
+    <Compile Include="Interfaces\IBlock.cs" />
+    <Compile Include="Interfaces\IBlocks.cs" />
+    <Compile Include="Interfaces\IBooleanParameter.cs" />
+    <Compile Include="Interfaces\IElementAction.cs" />
+    <Compile Include="Interfaces\IFunctionService.cs" />
+    <Compile Include="Interfaces\ITyped.cs" />
+    <Compile Include="Interfaces\IVariableReference.cs" />
+    <Compile Include="Interfaces\IVariableSetter.cs" />
+    <Compile Include="Interfaces\IVplPlugin.cs" />
+    <Compile Include="Interfaces\IVplService.cs" />
+    <Compile Include="Interfaces\ITool.cs" />
+    <Compile Include="Interfaces\IDeleteable.cs" />
+    <Compile Include="Interfaces\IElement.cs" />
+    <Compile Include="Interfaces\IElementCreationContext.cs" />
+    <Compile Include="Interfaces\IElementFactory.cs" />
+    <Compile Include="Interfaces\IElements.cs" />
+    <Compile Include="Interfaces\IFunction.cs" />
+    <Compile Include="Interfaces\IMoveable.cs" />
+    <Compile Include="Interfaces\INumericParameter.cs" />
+    <Compile Include="Interfaces\INumericVariable.cs" />
+    <Compile Include="Interfaces\IOperator.cs" />
+    <Compile Include="Interfaces\IParameter.cs" />
+    <Compile Include="Interfaces\IParameters.cs" />
+    <Compile Include="Interfaces\IEntityBase.cs" />
+    <Compile Include="Interfaces\ISelectable.cs" />
+    <Compile Include="Interfaces\ISelectionService.cs" />
+    <Compile Include="Interfaces\IStatement.cs" />
+    <Compile Include="Interfaces\IElementDropTarget.cs" />
+    <Compile Include="Interfaces\IElementOwner.cs" />
+    <Compile Include="Interfaces\IUndoProvider.cs" />
+    <Compile Include="Interfaces\IVariable.cs" />
+    <Compile Include="Interfaces\IVplServiceContext.cs" />
+    <Compile Include="Extensions\ISelectionServiceExtensions.cs" />
+    <Compile Include="Interfaces\IVplType.cs" />
+    <Compile Include="Metadata\ArgumentMetadata.cs" />
+    <Compile Include="Metadata\ElementMetadata.cs" />
+    <Compile Include="Metadata\FunctionMetadata.cs" />
+    <Compile Include="Metadata\ElementMetadataBase.cs" />
+    <Compile Include="Metadata\ParameterMetadata.cs" />
+    <Compile Include="Metadata\BlockMetadata.cs" />
+    <Compile Include="Metadata\VariableMetadata.cs" />
+    <Compile Include="Model\ElementBuilder.cs" />
+    <Compile Include="Model\ElementCreationContext.cs" />
+    <Compile Include="Model\EntrancePointNotFoundException.cs" />
+    <Compile Include="Model\Executor.cs" />
+    <Compile Include="Model\FunctionService.cs" />
+    <Compile Include="Model\HierarchicalNumber.cs" />
+    <Compile Include="Model\SystemElementIds.cs" />
+    <Compile Include="Model\GraphicsUtil.cs" />
+    <Compile Include="Model\IntersectionPoint.cs" />
+    <Compile Include="Model\Persistor.cs" />
+    <Compile Include="Model\SelectionService.cs" />
+    <Compile Include="Model\VplTypeId.cs" />
+    <Compile Include="Operators\CallFunctionStatement.cs" />
+    <Compile Include="Operators\CommonFunctionBehavior.cs" />
+    <Compile Include="Operators\ComparisonOperator.cs" />
+    <Compile Include="Operators\EvaluateFunctionOperator.cs" />
+    <Compile Include="Operators\NotOperator.cs" />
+    <Compile Include="Statements\CommentStatement.cs" />
+    <Compile Include="Statements\RepeatStatement.cs" />
+    <Compile Include="Statements\WhileStatement.cs" />
+    <Compile Include="ViewModel\ArgumentViewModel.cs" />
+    <Compile Include="ViewModel\FunctionSelectionDialogViewModel.cs" />
+    <Compile Include="ViewModel\OperatorViewModelBase.cs" />
+    <Compile Include="ViewModel\VariableGetterViewModel.cs" />
+    <Compile Include="ViewModel\VariableSetterViewModel.cs" />
+    <Compile Include="ViewModel\VariableViewModel.cs" />
+    <Compile Include="View\AnyValueView.xaml.cs">
+      <DependentUpon>AnyValueView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\BooleanValueView.xaml.cs">
+      <DependentUpon>BooleanValueView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\CallFunctionView.xaml.cs">
+      <DependentUpon>CallFunctionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\CommentView.xaml.cs">
+      <DependentUpon>CommentView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ElementResources.xaml.cs">
+      <DependentUpon>ElementResources.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\FunctionSelectionDialogView.xaml.cs">
+      <DependentUpon>FunctionSelectionDialogView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\RenameDialog.xaml.cs">
+      <DependentUpon>RenameDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\TextValueView.xaml.cs">
+      <DependentUpon>TextValueView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="VplPlugin.cs" />
+    <Compile Include="VplService.cs" />
+    <Compile Include="Model\VplServiceContext.cs" />
+    <Compile Include="Operators\BinaryMathOperator.cs" />
+    <Compile Include="Operators\BinaryLogicalOperator.cs" />
+    <Compile Include="Statements\IfElseStatement.cs" />
+    <Compile Include="Statements\WaitStatement.cs" />
+    <Compile Include="ViewModel\BlocksViewModel.cs" />
+    <Compile Include="ViewModel\CompoundStatementViewModel.cs" />
+    <Compile Include="ViewModel\ElementAction.cs" />
+    <Compile Include="ViewModel\FunctionEditorViewModel.cs" />
+    <Compile Include="ViewModel\FunctionViewModel.cs" />
+    <Compile Include="ViewModel\OperatorViewModel.cs" />
+    <Compile Include="ViewModel\ParametersViewModel.cs" />
+    <Compile Include="ViewModel\ParameterViewModel.cs" />
+    <Compile Include="ViewModel\StatementViewModelBase.cs" />
+    <Compile Include="ViewModel\ToolCategoryViewModel.cs" />
+    <Compile Include="ViewModel\ToolsViewModel.cs" />
+    <Compile Include="ViewModel\ToolViewModel.cs" />
+    <Compile Include="ViewModel\ViewModelLocator.cs" />
+    <Compile Include="ViewModel\BlockViewModel.cs" />
+    <Compile Include="ViewModel\ElementViewModel.cs" />
+    <Compile Include="ViewModel\StatementViewModel.cs" />
+    <Compile Include="View\OperatorView.xaml.cs">
+      <DependentUpon>OperatorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ParameterView.xaml.cs">
+      <DependentUpon>ParameterView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\CompoundStatementView.xaml.cs">
+      <DependentUpon>CompoundStatementView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\FunctionEditorDialog.xaml.cs">
+      <DependentUpon>FunctionEditorDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ParametersView.xaml.cs">
+      <DependentUpon>ParametersView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\StatementView.xaml.cs">
+      <DependentUpon>StatementView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ToolsView.xaml.cs">
+      <DependentUpon>ToolsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="VplType.cs" />
+    <Page Include="View\AnyValueView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\CallFunctionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\CommentView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\FunctionSelectionDialogView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\OperatorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ParameterView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\BooleanValueView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\CompoundStatementView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\FunctionEditorDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ParametersView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ElementResources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\RenameDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\StatementView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\TextValueView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ToolsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\WindowIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Delete.gif" />
+    <Resource Include="Images\InsertAbove.png" />
+    <Resource Include="Images\InsertBelow.png" />
+    <Resource Include="Images\MoveDown.png" />
+    <Resource Include="Images\MoveUp.png" />
+    <Resource Include="Images\move_to_bottom.png" />
+    <Resource Include="Images\move_to_top.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\method_16xLG.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Running.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Error_16x16_72.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\CopyToClipboard_16x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Cut_16x.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy /E /Y "C:\github\Embedded\VPL\CaptiveAire.VPL\bin\Debug" "C:\github\Embedded\StructDesigner\ThirdParty"</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

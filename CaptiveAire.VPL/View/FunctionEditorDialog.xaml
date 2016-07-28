@@ -1,0 +1,284 @@
+﻿<Window x:Class="CaptiveAire.VPL.View.FunctionEditorDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:converters="clr-namespace:Cas.Common.WPF.Converters;assembly=Cas.Common.WPF"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:behaviors="clr-namespace:Cas.Common.WPF.Behaviors;assembly=Cas.Common.WPF"
+        xmlns:viewModel="clr-namespace:CaptiveAire.VPL.ViewModel"
+        xmlns:view="clr-namespace:CaptiveAire.VPL.View"
+        xmlns:controls="clr-namespace:Cas.Common.WPF.Controls;assembly=Cas.Common.WPF"
+        xmlns:wpf="clr-namespace:Cas.Common.WPF;assembly=Cas.Common.WPF"
+        mc:Ignorable="d"
+        Background="LightGray"
+        x:ClassModifier="internal"
+        x:Name="Root"
+        d:DataContext="{d:DesignInstance viewModel:FunctionEditorViewModel, d:IsDesignTimeCreatable=False}"
+        Title="Function Editor" Height="800" Width="1200" Icon="/CaptiveAire.VPL;component/Images/WindowIcon.png">
+    
+    <Window.Resources>
+        <ResourceDictionary x:Name="MainResourceDictionary">
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ElementResources.xaml"/>
+                
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    
+    <i:Interaction.Behaviors>
+        <behaviors:CloseableBehavior/>
+    </i:Interaction.Behaviors>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <ToolBar>
+            <Button Command="{Binding Path=RunCommand}">Run</Button>
+            <Button Command="{Binding Path=StopCommand}">Stop</Button>
+        </ToolBar>
+
+        <TabControl Grid.Row="1">
+            <TabItem Header="Code" >
+                
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="200" />
+                        <ColumnDefinition Width="4"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="4"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <view:ToolsView DataContext="{Binding Path=Tools}"   />
+                        
+                        <GridSplitter Grid.Row="1" Background="LightGray" ResizeBehavior="PreviousAndNext" ResizeDirection="Rows" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+
+                        <Grid Grid.Row="2">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            
+                            <Rectangle Fill="LightGray"/>
+                            <TextBlock Grid.Row="0" Text="Variables" Margin="4" VerticalAlignment="Center"/>
+                            
+                            <ToolBar Grid.Row="1">
+                                <ComboBox ItemsSource="{Binding Path=Function.Context.Types}" DisplayMemberPath="Name" MinWidth="130" SelectedItem="{Binding Path=SelectedType}" />
+                                <Button Command="{Binding Path=AddVariableCommand}">Add</Button>
+                            </ToolBar>
+                            
+                            <ListBox Grid.Row="2" ItemsSource="{Binding Path=Function.Variables}" >
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            
+                                            <StackPanel.Resources>
+                                                <Style TargetType="Ellipse">
+                                                    <Setter Property="Fill" Value="CornflowerBlue"/>
+                                                    <Style.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter Property="Fill" Value="Red"/>
+                                                        </Trigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </StackPanel.Resources>
+                                            
+                                            <Grid Margin="2" IsHitTestVisible="True" Background="Transparent" x:Name="VariableGetterGrid" MouseLeftButtonDown="VariableGetterGrid_OnMouseLeftButtonDown" ToolTip="Drag to create a Variable Getter...">
+                                                <Ellipse Width="20" Height="20"/>
+                                                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" IsHitTestVisible="False">G</TextBlock>    
+                                            </Grid>
+                                            <Grid Margin="2" IsHitTestVisible="True" Background="Transparent" x:Name="VariableSetterGrid" MouseLeftButtonDown="VariableSetterGrid_OnMouseLeftButtonDown" ToolTip="Drag to create a Variable Setter...">
+                                                <Ellipse Width="20" Height="20" />
+                                                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White"  IsHitTestVisible="False">S</TextBlock>
+                                            </Grid>
+                                            <ContentControl Content="{Binding Path=Editor}" Margin="2"/>
+                                            <TextBlock VerticalAlignment="Center">
+                                                <TextBlock Text="{Binding Path=Name}"/><TextBlock Text=" ("/><TextBlock Text="{Binding Path=Type.Name}"/><TextBlock Text=")"/>
+                                            </TextBlock>
+                                        </StackPanel>
+                                        
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                                <ListBox.ItemContainerStyle>
+                                    <Style TargetType="ListBoxItem">
+                                        <Setter Property="ContextMenu">
+                                            <Setter.Value>
+                                                <ContextMenu>
+                                                    <MenuItem Header="Rename" Command="{Binding Path=RenameCommand}"/>
+                                                    <MenuItem Header="Delete" Command="{Binding Path=DeleteCommand}"/>
+                                                </ContextMenu>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </ListBox.ItemContainerStyle>
+                            </ListBox>
+                        </Grid>
+                    </Grid>
+                    
+                    
+                    <GridSplitter Grid.Column="1" ResizeBehavior="PreviousAndNext" Background="LightGray" HorizontalAlignment="Stretch"/>
+                    
+                    <ScrollViewer Grid.Column="2" Grid.Row="0" HorizontalScrollBarVisibility="Visible" Background="Gray">
+                        <Grid Background="Transparent" IsHitTestVisible="True" Width="{Binding Function.Width}" Height="{Binding Function.Height}" x:Name="DesignRoot" AllowDrop="True" Drop="DesignRoot_OnDrop" DragOver="DesignRoot_OnDragOver" DragEnter="DesignRoot_OnDragEnter" DragLeave="DesignRoot_OnDragLeave" >
+                            
+                            <Grid.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="Paste" Command="{Binding Path=PasteCommand}"/>
+                                </ContextMenu>
+                            </Grid.ContextMenu>
+
+                            <ItemsControl ItemsSource="{Binding Path=Function.Elements}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <Canvas IsItemsHost="True" Width="{Binding Function.Width}" Height="{Binding Function.Height}" Background="White"  />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+
+                            </ItemsControl>
+                        </Grid>
+                    </ScrollViewer>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Signature">
+                
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <GroupBox Header="Signature">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock VerticalAlignment="Center" Margin="2" Text="Name"/>
+                            <TextBox Grid.Row="0" Grid.Column="1" Margin="2" VerticalAlignment="Center" Text="{Binding Path=Function.Name}"/>
+                            
+                            <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Margin="2" Text="Return Type"/>
+                            <ComboBox Grid.Row="1" Grid.Column="1" Margin="2" VerticalAlignment="Center" ItemsSource="{Binding Path=Function.Context.Types}" DisplayMemberPath="Name" SelectedValuePath="Id" SelectedValue="{Binding Path=Function.ReturnTypeId}"/>
+                        </Grid>
+                    </GroupBox>
+                    
+                    <GroupBox Grid.Row="1" Header="Arguments">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <ToolBar Grid.Row="0" DataContext="{Binding Path=Function.Arguments}">
+                                <Button ToolTip="Insert a new item above the currently selected item" Command="{Binding Path=InsertAboveCommand}">
+                                    <controls:AutoGreyableImage Source="/CaptiveAire.VPL;component/Images/InsertAbove.png" Width="16"  />
+                                </Button>
+
+                                <Button ToolTip="Insert a new item below the currenlt selected item" Command="{Binding Path=InsertBelowCommand}">
+                                    <controls:AutoGreyableImage Source="/CaptiveAire.VPL;component/Images/InsertBelow.png" Width="16"  />
+                                </Button>
+
+                                <Separator/>
+
+                                <Button ToolTip="Move the selected item(s) down" Command="{Binding Path=MoveDownCommand}">
+                                    <controls:AutoGreyableImage Source="/CaptiveAire.VPL;component/Images/MoveDown.png" Width="16"  />
+                                </Button>
+                                <Button ToolTip="Move the selected item(s) up" Command="{Binding Path=MoveUpCommand}">
+                                    <controls:AutoGreyableImage Source="/CaptiveAire.VPL;component/Images/MoveUp.png" Width="16"  />
+                                </Button>
+
+
+                                <Button ToolTip="Move the selected item(s) to the bottom" Command="{Binding Path=MoveToBottomCommand}">
+                                    <controls:AutoGreyableImage Source="/CaptiveAire.VPL;component/Images/move_to_bottom.png" Width="16"  />
+                                </Button>
+                                <Button ToolTip="Move the selected item(s) to the top" Command="{Binding Path=MoveToTopCommand}">
+                                    <controls:AutoGreyableImage Source="/CaptiveAire.VPL;component/Images/move_to_top.png" Width="16"  />
+                                </Button>
+
+                                <Separator/>
+                                <Button ToolTip="Delete" Command="{Binding Path=DeleteCommand}">
+                                    <controls:AutoGreyableImage Source="/CaptiveAire.VPL;component/Images/Delete.gif" Width="16"  />
+                                </Button>
+                            </ToolBar>
+
+                            <DataGrid Grid.Row="1" AutoGenerateColumns="False" ItemsSource="{Binding Path=Function.Arguments}">
+                                
+                                <DataGrid.Resources>
+                                    <Style TargetType="ComboBox" x:Key="DataTypeColumnStyle">
+                                        <Setter Property="ItemsSource" Value="{Binding ElementName=Root, Path=DataContext.Function.Context.Types}"/>
+                                        <Setter Property="SelectedValuePath" Value="Id"/>
+                                        <Setter Property="DisplayMemberPath" Value="Name"/>
+                                        <Setter Property="SelectedValue" Value="{Binding Path=TypeId}"></Setter>
+                                    </Style>
+                                </DataGrid.Resources>
+                                
+                                <i:Interaction.Behaviors>
+                                    <behaviors:MultiSelectorSelectedItemsBehavior SelectedItems="{Binding Path=Function.Arguments.SelectedItems}"/>
+                                </i:Interaction.Behaviors>
+                                
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Name" Binding="{Binding Path=Name}" MinWidth="200"/>
+                                    <DataGridComboBoxColumn Header="Data Type" MinWidth="300" ElementStyle="{StaticResource DataTypeColumnStyle}" EditingElementStyle="{StaticResource DataTypeColumnStyle}" />
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Grid>
+                    </GroupBox>
+                </Grid>
+                
+                
+                
+                
+                <!-- Return Type -->
+                
+                <!-- Arguments -->
+                
+                <!-- Variables -->
+            </TabItem>
+        </TabControl>
+
+        
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            
+            <TextBlock VerticalAlignment="Center" Margin="4">
+                <TextBlock Text="Root Elements: "/>
+                <TextBlock Text="{Binding Path=Function.Elements.Count}"></TextBlock>
+            </TextBlock>
+            
+            <StackPanel Grid.Column="2" Orientation="Horizontal">
+                <StackPanel.Resources>
+                    <Style TargetType="Button">
+                        <Setter Property="Margin" Value="4"/>
+                        <Setter Property="MinWidth" Value="60"></Setter>
+                    </Style>
+                </StackPanel.Resources>
+                <Button Command="{Binding Path=OkCommand}">_OK</Button>
+                <Button Command="{Binding Path=CancelCommand}">_Cancel</Button>
+                <Button Command="{Binding Path=ApplyCommand}">_Apply</Button>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>
+
+
+    

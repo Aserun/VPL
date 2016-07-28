@@ -1,0 +1,68 @@
+﻿<UserControl x:Class="CaptiveAire.VPL.View.StatementView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:converters="clr-namespace:Cas.Common.WPF.Converters;assembly=Cas.Common.WPF"
+             xmlns:viewModel="clr-namespace:CaptiveAire.VPL.ViewModel"
+             xmlns:behaviors="clr-namespace:CaptiveAire.VPL.Behaviors"
+             xmlns:view="clr-namespace:CaptiveAire.VPL.View"
+             mc:Ignorable="d" 
+             
+             d:DataContext="{x:Static viewModel:ViewModelLocator.Statement}">
+
+    <UserControl.Foreground>
+        <SolidColorBrush Color="{Binding Path=ForegroundColor}" />
+    </UserControl.Foreground>
+
+    <UserControl.Resources>
+        <converters:CollapsedWhenFalseConverter x:Key="CollapsedWhenFalseConverter"/>
+    </UserControl.Resources>
+    
+    <Grid>
+        <StackPanel>
+
+            <Grid HorizontalAlignment="Left" IsHitTestVisible="True" Background="Transparent" ToolTip="{Binding Path=Error}">
+           
+                <i:Interaction.Behaviors>
+                    <behaviors:ElementDraggableBehavior/>
+                </i:Interaction.Behaviors>
+            
+                <Rectangle RadiusX="5" RadiusY="5" >
+                    <Rectangle.Style>
+                        <Style TargetType="Rectangle">
+                            <Setter Property="Fill">
+                                <Setter.Value>
+                                    <SolidColorBrush Color="{Binding Path=BackgroundColor}"/>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Path=HasError}" Value="True">
+                                    <Setter Property="Fill" Value="Red"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Rectangle.Style>
+                </Rectangle>
+                
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/CaptiveAire.VPL;component/Images/Running.png" Margin="4" Width="16" Visibility="{Binding Path=IsExecuting, Converter={StaticResource CollapsedWhenFalseConverter}}" />
+                    <ContentControl VerticalAlignment="Center" Content="{Binding Path=Label}" Margin="4" >
+                        <ContentControl.Foreground>
+                            <SolidColorBrush Color="{Binding Path=ForegroundColor}" />
+                        </ContentControl.Foreground>
+                    </ContentControl>
+                    <view:ParametersView DataContext="{Binding Path=Parameters}" VerticalAlignment="Center" Margin="2"/>
+                </StackPanel>
+
+                <Rectangle VerticalAlignment="Bottom" Height="4" Fill="Red" Visibility="{Binding Path=IsDraggingOver, Converter={StaticResource CollapsedWhenFalseConverter}}"/>
+            </Grid>
+        
+            <Rectangle Height="0.5"/>
+
+            <ContentControl Content="{Binding Path=Next}"  />
+        </StackPanel>
+    </Grid>
+</UserControl>
+
