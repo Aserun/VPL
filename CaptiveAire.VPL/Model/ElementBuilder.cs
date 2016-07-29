@@ -11,26 +11,32 @@ namespace CaptiveAire.VPL.Model
     /// <summary>
     /// Handles the creation of elements from metadata.
     /// </summary>
-    public class ElementBuilder
+    internal class ElementBuilder : IElementBuilder
     {
         private readonly IElementFactoryManager _factoryManager;
-        private readonly IElementOwner _owner;
-        
-        public ElementBuilder(IElementFactoryManager factoryManager, IElementOwner owner)
+        private readonly IVplServiceContext _context;
+
+        public ElementBuilder(IElementFactoryManager factoryManager, IVplServiceContext context)
         {
             if (factoryManager == null) throw new ArgumentNullException(nameof(factoryManager));
-            if (owner == null) throw new ArgumentNullException(nameof(owner));
+            if (context == null) throw new ArgumentNullException(nameof(context));
 
             _factoryManager = factoryManager;
-            _owner = owner;
+            _context = context;
         }
 
-        public IElement CreateElement(ElementMetadata elementMetadata)
+        public IElement CreateElement(IElementOwner owner, ElementMetadata elementMetadata)
         {
+            if (owner == null) throw new ArgumentNullException(nameof(owner));
+            if (elementMetadata == null) throw new ArgumentNullException(nameof(elementMetadata));
+
+            //Find the factory
             var factory = _factoryManager.GetFactory(elementMetadata.ElementTypeId);
 
-            var context = new ElementCreationContext(_owner, elementMetadata.Data);
+            //Create the context
+            var context = new ElementCreationContext(owner, elementMetadata.Data);
 
+            //Create the element
             var element = factory.Create(context);
 
             SetElementProperties(element, elementMetadata);
@@ -58,6 +64,9 @@ namespace CaptiveAire.VPL.Model
 
         private void SetElementProperties(IElement element, ElementMetadataBase elementMetadata)
         {
+            if (element == null) throw new ArgumentNullException(nameof(element));
+            if (elementMetadata == null) throw new ArgumentNullException(nameof(elementMetadata));
+
             //Parameters
             if (elementMetadata.Parameters != null)
             {
@@ -78,7 +87,7 @@ namespace CaptiveAire.VPL.Model
 
                         if (parameterMetadata.Operator != null)
                         {
-                            ((IElement)parameter).CommonDrop(CreateElement(parameterMetadata.Operator));
+                            ((IElement)parameter).CommonDrop(CreateElement(element.Owner, parameterMetadata.Operator));
                         }
                     }
                 }
@@ -87,31 +96,37 @@ namespace CaptiveAire.VPL.Model
             //Handle next
             if (elementMetadata.Next != null)
             {
-                var next = CreateElement(elementMetadata.Next);
+                var next = CreateElement(element.Owner, elementMetadata.Next);
 
                 element.CommonDrop(next);
             }
         }
 
-        public void AddToOwner(IEnumerable<ElementMetadata> rootElements)
+        public void AddToOwner(IElementOwner owner, IEnumerable<ElementMetadata> rootElements)
         {
+            if (rootElements == null) throw new ArgumentNullException(nameof(rootElements));
+            if (owner == null) throw new ArgumentNullException(nameof(owner));
+
             foreach (var elementMetadata in rootElements)
             {
-                var element = CreateElement(elementMetadata);
+                var element = CreateElement(owner, elementMetadata);
 
                 element.Location = elementMetadata.Location;
 
-                _owner.Add(element);
+                owner.Add(element);
             }
-        }
+        }       
 
         private void AddToOwner(IElementOwner owner,  IEnumerable<VariableMetadata> variableMetadatas)
         {
+            if (owner == null) throw new ArgumentNullException(nameof(owner));
+            if (variableMetadatas == null) throw new ArgumentNullException(nameof(variableMetadatas));
+
             foreach (var variableMetadata in variableMetadatas)
             {
                 var variableType = owner.GetVplType(variableMetadata.TypeId);
 
-                var variable = new VariableViewModel(owner, variableType, variableMetadata.Id)
+                var variable = new Variable(owner, variableType, variableMetadata.Id)
                 {
                     Name = variableMetadata.Name
                 };
@@ -122,9 +137,12 @@ namespace CaptiveAire.VPL.Model
 
         private void AddToOwner(IFunction owner, IEnumerable<ArgumentMetadata> argumentMetadatas)
         {
+            if (owner == null) throw new ArgumentNullException(nameof(owner));
+            if (argumentMetadatas == null) throw new ArgumentNullException(nameof(argumentMetadatas));
+
             foreach (var argumentMetadata in argumentMetadatas)
             {
-                var argument = new ArgumentViewModel(argumentMetadata);
+                var argument = new Argument(argumentMetadata);
 
                 owner.AddArgument(argument);
             }
@@ -132,6 +150,7 @@ namespace CaptiveAire.VPL.Model
 
         public void LoadFunction(IFunction function, FunctionMetadata functionMetadata)
         {
+            if (function == null) throw new ArgumentNullException(nameof(function));
             if (functionMetadata == null)
                 return;
 
@@ -149,7 +168,7 @@ namespace CaptiveAire.VPL.Model
             //Add elements
             if (functionMetadata.Elements != null)
             {
-                AddToOwner(functionMetadata.Elements);
+                AddToOwner(function, functionMetadata.Elements);
             }
 
             //Add arguments
@@ -159,6 +178,17 @@ namespace CaptiveAire.VPL.Model
             }
 
             function.MarkClean();
+        }
+
+        public IFunction LoadFunction(FunctionMetadata functionMetadata)
+        {
+            if (functionMetadata == null) throw new ArgumentNullException(nameof(functionMetadata));
+
+            var function = new Function(_context, functionMetadata.Id);
+
+            LoadFunction(function, functionMetadata);
+
+            return function;
         }
     }
 }

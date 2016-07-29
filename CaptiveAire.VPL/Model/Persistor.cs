@@ -90,7 +90,7 @@ namespace CaptiveAire.VPL.Model
             };
         }
 
-        public static FunctionMetadata ToMetadata(this FunctionViewModel function)
+        public static FunctionMetadata ToMetadata(this Function function)
         {
             return new FunctionMetadata()
             {

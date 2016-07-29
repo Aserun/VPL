@@ -4,7 +4,7 @@ using GalaSoft.MvvmLight;
 
 namespace CaptiveAire.VPL.ViewModel
 {
-    public class ToolViewModel<TTool> : ViewModelBase
+    internal class ToolViewModel<TTool> : ViewModelBase
         where TTool : ITool
     {
         private readonly TTool _tool;

@@ -1,0 +1,178 @@
+﻿using System;
+using System.Windows;
+using CaptiveAire.VPL.Extensions;
+using CaptiveAire.VPL.Interfaces;
+using CaptiveAire.VPL.Metadata;
+using CaptiveAire.VPL.Plugins.View;
+using CaptiveAire.VPL.Plugins.ViewModel;
+using CaptiveAire.VPL.View;
+using Cas.Common.WPF;
+using Cas.Common.WPF.Interfaces;
+using GalaSoft.MvvmLight;
+using Newtonsoft.Json;
+
+namespace CaptiveAire.VPL.Plugins.Functions
+{
+    internal class CommonFunctionBehavior : ViewModelBase
+    {
+        private readonly Parameters _parameters;
+        private readonly string _text;
+        private readonly IElementOwner _owner;
+        private readonly CallFunctionView _labelView;
+        private readonly CallFunctionData _model;
+        private FunctionMetadata _function;
+        private readonly IElementAction[] _actions;
+
+        internal CommonFunctionBehavior(IElementCreationContext context, Parameters parameters, string text)
+        {
+            if (context == null) throw new ArgumentNullException(nameof(context));
+            if (parameters == null) throw new ArgumentNullException(nameof(parameters));
+
+            _owner = context.Owner;
+            _parameters = parameters;
+            _text = text;           
+
+            _labelView = new CallFunctionView()
+            {
+                DataContext = this
+            };
+
+            if (string.IsNullOrWhiteSpace(context.Data))
+            {
+                _model = new CallFunctionData();
+            }
+            else
+            {
+                _model = JsonConvert.DeserializeObject<CallFunctionData>(context.Data);
+
+                var functionService = context.Owner.GetService<IFunctionService>();
+
+                if (functionService == null)
+                {
+                    MessageBox.Show("No function service was provided.");
+                    return;
+                }
+
+                //Get the function
+                SelectFunction(functionService.GetFunction(_model.FunctionId));
+            }
+
+            _actions = new IElementAction[]
+            {
+                new ElementAction("Select function...", SelectFunction)
+            };
+        }
+
+        public string GetData()
+        {
+            return JsonConvert.SerializeObject(_model);
+        }
+
+        public object Label
+        {
+            get { return _labelView; }
+        }
+
+        private void SelectFunction()
+        {
+            var functionService = _owner.GetService<IFunctionService>();
+
+            if (functionService == null)
+            {
+                var messageBoxService = new MessageBoxService();
+
+                messageBoxService.Show("No function service was provided.");
+
+                return;
+            }
+
+            var functions = functionService.GetFunctions();
+
+            var viewModel = new FunctionSelectionDialogViewModel(functions, _model.FunctionId);
+
+            var view = new FunctionSelectionDialogView()
+            {
+                DataContext = viewModel
+            };
+
+            if (view.ShowDialog() == true)
+            {
+                SelectFunction(viewModel.SelectedFunction);
+            }
+        }
+
+        private void SelectFunction(FunctionMetadata function)
+        {
+            //Ditch the parameters
+            _parameters.Clear();
+
+            Function = function;
+
+            if (function != null)
+            {
+                _model.FunctionId = function.Id;
+
+                if (function.Arguments != null)
+                {
+                    int parameterIndex = 0;
+
+                    foreach (var argument in function.Arguments)
+                    {
+                        _parameters.Add(new Parameter(_owner, parameterIndex.ToString(), _owner.GetVplType(argument.TypeId))
+                        {
+                            Prefix = argument.Name
+                        });
+
+                        parameterIndex++;
+                    }
+                }
+            }
+        }
+
+        private FunctionMetadata Function
+        {
+            get { return _function; }
+            set
+            {
+                _function = value;
+                RaisePropertyChanged();
+                RaisePropertyChanged(() => FunctionName);
+                RaisePropertyChanged(() => HasFunction);
+            }
+        }
+
+        public bool HasFunction
+        {
+            get { return Function != null; }
+        }
+
+        public IFunction GetFunctionOrThrow()
+        {
+            if (Function == null)
+                throw new InvalidOperationException("Unable to find function to call.");
+
+            //Load up this function
+            return _owner.Context.ElementBuilder.LoadFunction(Function);
+        }
+
+        public string FunctionName
+        {
+            get { return Function?.Name; }
+        }
+
+        public IElementAction[] Actions
+        {
+            get { return _actions; }
+        }
+
+        public string Text
+        {
+            get { return _text; }
+        }
+
+        private class CallFunctionData
+        {
+            public Guid FunctionId { get; set; }
+        }
+    }
+}

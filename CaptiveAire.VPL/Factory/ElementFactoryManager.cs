@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using CaptiveAire.VPL.Interfaces;
 using CaptiveAire.VPL.Model;
-using CaptiveAire.VPL.Operators;
-using CaptiveAire.VPL.Statements;
 using CaptiveAire.VPL.ViewModel;
 
 namespace CaptiveAire.VPL.Factory
@@ -33,49 +31,9 @@ namespace CaptiveAire.VPL.Factory
 
         private IEnumerable<IElementFactory> EnumerateFactories(IEnumerable<IElementFactory> extensionFactories)
         {
-            yield return new ElementFactory(SystemElementIds.Wait, FactoryCategoryNames.Control, "Wait", context => new WaitStatement(context.Owner), typeof(WaitStatement));
+            yield return new ElementFactory(SystemElementIds.VariableGetter, FactoryCategoryNames.Variable, "Get", context => new VariableGetter(context), typeof(VariableGetter), showInToolbox:false);
 
-            yield return new ElementFactory(SystemElementIds.IfElse, FactoryCategoryNames.Control, "If / Else", context => new IfElseStatement(context.Owner), typeof(IfElseStatement));
-
-            yield return new ElementFactory(SystemElementIds.BinaryLogicOperator, FactoryCategoryNames.Logic, "And", context => new BinaryLogicalOperator(context, BinaryLogicalOperator.BinaryLogicalOperatorType.And), typeof(BinaryLogicalOperator), VplTypeId.Boolean);
-
-            yield return new ElementFactory(SystemElementIds.BinaryLogicOperator, FactoryCategoryNames.Logic, "Or", context => new BinaryLogicalOperator(context, BinaryLogicalOperator.BinaryLogicalOperatorType.Or), typeof(BinaryLogicalOperator), VplTypeId.Boolean);
-
-            yield return new ElementFactory(SystemElementIds.NotOperator, FactoryCategoryNames.Logic, "Not", context => new NotOperator(context.Owner), typeof(NotOperator), VplTypeId.Boolean);
-            
-            yield return new ElementFactory(SystemElementIds.BinaryMathOperator, FactoryCategoryNames.Math, "+", context => new BinaryMathOperator(context, BinaryMathOperator.BinaryMathOperatorType.Addition), typeof (BinaryMathOperator), VplTypeId.Float);
-
-            yield return new ElementFactory(SystemElementIds.BinaryMathOperator, FactoryCategoryNames.Math, "-", context => new BinaryMathOperator(context, BinaryMathOperator.BinaryMathOperatorType.Subtraction), typeof(BinaryMathOperator), VplTypeId.Float);
-
-            yield return new ElementFactory(SystemElementIds.BinaryMathOperator, FactoryCategoryNames.Math, "*", context => new BinaryMathOperator(context, BinaryMathOperator.BinaryMathOperatorType.Multiplication), typeof(BinaryMathOperator), VplTypeId.Float);
-
-            yield return new ElementFactory(SystemElementIds.BinaryMathOperator, FactoryCategoryNames.Math, "/", context => new BinaryMathOperator(context, BinaryMathOperator.BinaryMathOperatorType.Division), typeof(BinaryMathOperator), VplTypeId.Float);
-
-            yield return new ElementFactory(SystemElementIds.VariableGetter, FactoryCategoryNames.Variable, "Get", context => new VariableGetterViewModel(context), typeof(VariableGetterViewModel), showInToolbox:false);
-
-            yield return new ElementFactory(SystemElementIds.VariableSetter, FactoryCategoryNames.Variable, "Set", context => new VariableSetterViewModel(context), typeof(VariableSetterViewModel), showInToolbox: false);
-
-            yield return new ElementFactory(SystemElementIds.Repeat, FactoryCategoryNames.Control, "Repeat", context => new RepeatStatement(context.Owner), typeof(RepeatStatement));
-
-            yield return new ElementFactory(SystemElementIds.While, FactoryCategoryNames.Control, "While", context => new WhileStatement(context.Owner), typeof(WhileStatement));
-
-            yield return new ElementFactory(SystemElementIds.CallFunction, FactoryCategoryNames.Control, "Call", context => new CallFunctionStatement(context), typeof(CallFunctionStatement));
-
-            yield return new ElementFactory(SystemElementIds.EvaluateFunction, FactoryCategoryNames.Control, "Evaluate", context => new EvaluateFunctionOperator(context), typeof(EvaluateFunctionOperator), VplTypeId.Any);
-
-            yield return new ElementFactory(SystemElementIds.ComparisonOperator, FactoryCategoryNames.Comparison, "<", context => new ComparisonOperator(context, ComparisonOperator.ComparisonOperatorType.LessThan), typeof(ComparisonOperator), VplTypeId.Boolean);
-
-            yield return new ElementFactory(SystemElementIds.ComparisonOperator, FactoryCategoryNames.Comparison, "<=", context => new ComparisonOperator(context, ComparisonOperator.ComparisonOperatorType.LessThanOrEqual), typeof(ComparisonOperator), VplTypeId.Boolean);
-
-            yield return new ElementFactory(SystemElementIds.ComparisonOperator, FactoryCategoryNames.Comparison, "=", context => new ComparisonOperator(context, ComparisonOperator.ComparisonOperatorType.Equal), typeof(ComparisonOperator), VplTypeId.Boolean);
-
-            yield return new ElementFactory(SystemElementIds.ComparisonOperator, FactoryCategoryNames.Comparison, "<>", context => new ComparisonOperator(context, ComparisonOperator.ComparisonOperatorType.NotEqual), typeof(ComparisonOperator), VplTypeId.Boolean);
-
-            yield return new ElementFactory(SystemElementIds.ComparisonOperator, FactoryCategoryNames.Comparison, ">", context => new ComparisonOperator(context, ComparisonOperator.ComparisonOperatorType.GreaterThan), typeof(ComparisonOperator), VplTypeId.Boolean);
-
-            yield return new ElementFactory(SystemElementIds.ComparisonOperator, FactoryCategoryNames.Comparison, ">=", context => new ComparisonOperator(context, ComparisonOperator.ComparisonOperatorType.GreaterThanOrEqual), typeof(ComparisonOperator), VplTypeId.Boolean);
-
-            yield return new ElementFactory(SystemElementIds.Comment, FactoryCategoryNames.Annotation, "Comment", context => new CommentStatement(context), typeof(CommentStatement));
+            yield return new ElementFactory(SystemElementIds.VariableSetter, FactoryCategoryNames.Variable, "Set", context => new VariableSetter(context), typeof(VariableSetter), showInToolbox: false);
 
             //See if we have any extension factories
             if (extensionFactories != null)

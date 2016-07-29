@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{32F430D3-D314-4504-BF69-3F87CED62035}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CaptiveAire.VPL.Interfaces</RootNamespace>
+    <AssemblyName>CaptiveAire.VPL.Interfaces</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Cas.Common.WPF, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Cas.Common.WPF.1.0.33\lib\net45\Cas.Common.WPF.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Expression.Blend.Sdk.1.0.2\lib\net45\System.Windows.Interactivity.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="IArgument.cs" />
+    <Compile Include="IBlock.cs" />
+    <Compile Include="IBlocks.cs" />
+    <Compile Include="IElement.cs" />
+    <Compile Include="IElementAction.cs" />
+    <Compile Include="IElementBuilder.cs" />
+    <Compile Include="IElementCreationContext.cs" />
+    <Compile Include="IElementDropTarget.cs" />
+    <Compile Include="IElementFactory.cs" />
+    <Compile Include="IElementFactoryManager.cs" />
+    <Compile Include="IElementOwner.cs" />
+    <Compile Include="IElements.cs" />
+    <Compile Include="IEntityBase.cs" />
+    <Compile Include="IFunction.cs" />
+    <Compile Include="IFunctionService.cs" />
+    <Compile Include="IMoveable.cs" />
+    <Compile Include="IOperator.cs" />
+    <Compile Include="IParameter.cs" />
+    <Compile Include="IParameters.cs" />
+    <Compile Include="ISelectable.cs" />
+    <Compile Include="ISelectionService.cs" />
+    <Compile Include="IStatement.cs" />
+    <Compile Include="ITool.cs" />
+    <Compile Include="ITyped.cs" />
+    <Compile Include="IUndoProvider.cs" />
+    <Compile Include="IVariable.cs" />
+    <Compile Include="IVariableReference.cs" />
+    <Compile Include="IVplPlugin.cs" />
+    <Compile Include="IVplService.cs" />
+    <Compile Include="IVplServiceContext.cs" />
+    <Compile Include="IVplType.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CaptiveAire.VPL.Metadata\CaptiveAire.VPL.Metadata.csproj">
+      <Project>{9101b145-9c98-4171-bdf8-af1042e2c5f9}</Project>
+      <Name>CaptiveAire.VPL.Metadata</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

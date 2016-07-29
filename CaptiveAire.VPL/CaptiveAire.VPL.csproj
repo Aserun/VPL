@@ -83,14 +83,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Behaviors\BooleanOperatorDraggableBehavior.cs" />
     <Compile Include="Behaviors\ElementDraggableBehavior.cs" />
-    <Compile Include="Behaviors\NumericOperatorDraggableBehavior.cs" />
-    <Compile Include="Behaviors\SelectableBehavior.cs" />
-    <Compile Include="Behaviors\SelectableMoveableBehavior.cs" />
-    <Compile Include="Behaviors\StatementDraggableBehavior.cs" />
-    <Compile Include="Behaviors\SimpleMoveableBehavior.cs" />
-    <Compile Include="Converters\CenterConverter.cs" />
     <Compile Include="Extensions\ElementOwnerExtensions.cs" />
     <Compile Include="Extensions\Extensions.cs" />
     <Compile Include="Extensions\GetEntrancePointResult.cs" />
@@ -102,49 +95,6 @@
     <Compile Include="Factory\ElementFactory.cs" />
     <Compile Include="Factory\ElementFactoryManager.cs" />
     <Compile Include="Factory\FactoryCategoryNames.cs" />
-    <Compile Include="Interfaces\IArgument.cs" />
-    <Compile Include="Interfaces\IElementFactoryManager.cs" />
-    <Compile Include="Interfaces\IBlock.cs" />
-    <Compile Include="Interfaces\IBlocks.cs" />
-    <Compile Include="Interfaces\IBooleanParameter.cs" />
-    <Compile Include="Interfaces\IElementAction.cs" />
-    <Compile Include="Interfaces\IFunctionService.cs" />
-    <Compile Include="Interfaces\ITyped.cs" />
-    <Compile Include="Interfaces\IVariableReference.cs" />
-    <Compile Include="Interfaces\IVariableSetter.cs" />
-    <Compile Include="Interfaces\IVplPlugin.cs" />
-    <Compile Include="Interfaces\IVplService.cs" />
-    <Compile Include="Interfaces\ITool.cs" />
-    <Compile Include="Interfaces\IDeleteable.cs" />
-    <Compile Include="Interfaces\IElement.cs" />
-    <Compile Include="Interfaces\IElementCreationContext.cs" />
-    <Compile Include="Interfaces\IElementFactory.cs" />
-    <Compile Include="Interfaces\IElements.cs" />
-    <Compile Include="Interfaces\IFunction.cs" />
-    <Compile Include="Interfaces\IMoveable.cs" />
-    <Compile Include="Interfaces\INumericParameter.cs" />
-    <Compile Include="Interfaces\INumericVariable.cs" />
-    <Compile Include="Interfaces\IOperator.cs" />
-    <Compile Include="Interfaces\IParameter.cs" />
-    <Compile Include="Interfaces\IParameters.cs" />
-    <Compile Include="Interfaces\IEntityBase.cs" />
-    <Compile Include="Interfaces\ISelectable.cs" />
-    <Compile Include="Interfaces\ISelectionService.cs" />
-    <Compile Include="Interfaces\IStatement.cs" />
-    <Compile Include="Interfaces\IElementDropTarget.cs" />
-    <Compile Include="Interfaces\IElementOwner.cs" />
-    <Compile Include="Interfaces\IUndoProvider.cs" />
-    <Compile Include="Interfaces\IVariable.cs" />
-    <Compile Include="Interfaces\IVplServiceContext.cs" />
-    <Compile Include="Extensions\ISelectionServiceExtensions.cs" />
-    <Compile Include="Interfaces\IVplType.cs" />
-    <Compile Include="Metadata\ArgumentMetadata.cs" />
-    <Compile Include="Metadata\ElementMetadata.cs" />
-    <Compile Include="Metadata\FunctionMetadata.cs" />
-    <Compile Include="Metadata\ElementMetadataBase.cs" />
-    <Compile Include="Metadata\ParameterMetadata.cs" />
-    <Compile Include="Metadata\BlockMetadata.cs" />
-    <Compile Include="Metadata\VariableMetadata.cs" />
     <Compile Include="Model\ElementBuilder.cs" />
     <Compile Include="Model\ElementCreationContext.cs" />
     <Compile Include="Model\EntrancePointNotFoundException.cs" />
@@ -153,41 +103,21 @@
     <Compile Include="Model\HierarchicalNumber.cs" />
     <Compile Include="Model\SystemElementIds.cs" />
     <Compile Include="Model\GraphicsUtil.cs" />
-    <Compile Include="Model\IntersectionPoint.cs" />
     <Compile Include="Model\Persistor.cs" />
-    <Compile Include="Model\SelectionService.cs" />
     <Compile Include="Model\VplTypeId.cs" />
-    <Compile Include="Operators\CallFunctionStatement.cs" />
-    <Compile Include="Operators\CommonFunctionBehavior.cs" />
-    <Compile Include="Operators\ComparisonOperator.cs" />
-    <Compile Include="Operators\EvaluateFunctionOperator.cs" />
-    <Compile Include="Operators\NotOperator.cs" />
-    <Compile Include="Statements\CommentStatement.cs" />
-    <Compile Include="Statements\RepeatStatement.cs" />
-    <Compile Include="Statements\WhileStatement.cs" />
-    <Compile Include="ViewModel\ArgumentViewModel.cs" />
-    <Compile Include="ViewModel\FunctionSelectionDialogViewModel.cs" />
-    <Compile Include="ViewModel\OperatorViewModelBase.cs" />
-    <Compile Include="ViewModel\VariableGetterViewModel.cs" />
-    <Compile Include="ViewModel\VariableSetterViewModel.cs" />
-    <Compile Include="ViewModel\VariableViewModel.cs" />
+    <Compile Include="ViewModel\Argument.cs" />
+    <Compile Include="OperatorBase.cs" />
+    <Compile Include="ViewModel\VariableGetter.cs" />
+    <Compile Include="ViewModel\VariableSetter.cs" />
+    <Compile Include="ViewModel\Variable.cs" />
     <Compile Include="View\AnyValueView.xaml.cs">
       <DependentUpon>AnyValueView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\BooleanValueView.xaml.cs">
       <DependentUpon>BooleanValueView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\CallFunctionView.xaml.cs">
-      <DependentUpon>CallFunctionView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\CommentView.xaml.cs">
-      <DependentUpon>CommentView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\ElementResources.xaml.cs">
       <DependentUpon>ElementResources.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\FunctionSelectionDialogView.xaml.cs">
-      <DependentUpon>FunctionSelectionDialogView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\RenameDialog.xaml.cs">
       <DependentUpon>RenameDialog.xaml</DependentUpon>
@@ -198,26 +128,22 @@
     <Compile Include="VplPlugin.cs" />
     <Compile Include="VplService.cs" />
     <Compile Include="Model\VplServiceContext.cs" />
-    <Compile Include="Operators\BinaryMathOperator.cs" />
-    <Compile Include="Operators\BinaryLogicalOperator.cs" />
-    <Compile Include="Statements\IfElseStatement.cs" />
-    <Compile Include="Statements\WaitStatement.cs" />
-    <Compile Include="ViewModel\BlocksViewModel.cs" />
-    <Compile Include="ViewModel\CompoundStatementViewModel.cs" />
-    <Compile Include="ViewModel\ElementAction.cs" />
+    <Compile Include="ViewModel\Blocks.cs" />
+    <Compile Include="CompoundStatement.cs" />
+    <Compile Include="ElementAction.cs" />
     <Compile Include="ViewModel\FunctionEditorViewModel.cs" />
-    <Compile Include="ViewModel\FunctionViewModel.cs" />
-    <Compile Include="ViewModel\OperatorViewModel.cs" />
-    <Compile Include="ViewModel\ParametersViewModel.cs" />
-    <Compile Include="ViewModel\ParameterViewModel.cs" />
-    <Compile Include="ViewModel\StatementViewModelBase.cs" />
+    <Compile Include="ViewModel\Function.cs" />
+    <Compile Include="Operator.cs" />
+    <Compile Include="Parameters.cs" />
+    <Compile Include="Parameter.cs" />
+    <Compile Include="StatementBase.cs" />
     <Compile Include="ViewModel\ToolCategoryViewModel.cs" />
     <Compile Include="ViewModel\ToolsViewModel.cs" />
     <Compile Include="ViewModel\ToolViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
-    <Compile Include="ViewModel\BlockViewModel.cs" />
-    <Compile Include="ViewModel\ElementViewModel.cs" />
-    <Compile Include="ViewModel\StatementViewModel.cs" />
+    <Compile Include="Block.cs" />
+    <Compile Include="Element.cs" />
+    <Compile Include="Statement.cs" />
     <Compile Include="View\OperatorView.xaml.cs">
       <DependentUpon>OperatorView.xaml</DependentUpon>
     </Compile>
@@ -241,18 +167,6 @@
     </Compile>
     <Compile Include="VplType.cs" />
     <Page Include="View\AnyValueView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\CallFunctionView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\CommentView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\FunctionSelectionDialogView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -353,9 +267,25 @@
   <ItemGroup>
     <Resource Include="Images\Cut_16x.png" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CaptiveAire.VPL.Interfaces\CaptiveAire.VPL.Interfaces.csproj">
+      <Project>{32f430d3-d314-4504-bf69-3f87ced62035}</Project>
+      <Name>CaptiveAire.VPL.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CaptiveAire.VPL.Metadata\CaptiveAire.VPL.Metadata.csproj">
+      <Project>{9101b145-9c98-4171-bdf8-af1042e2c5f9}</Project>
+      <Name>CaptiveAire.VPL.Metadata</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Interfaces\" />
+    <Folder Include="Operators\" />
+    <Folder Include="Statements\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy /E /Y "C:\github\Embedded\VPL\CaptiveAire.VPL\bin\Debug" "C:\github\Embedded\StructDesigner\ThirdParty"</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

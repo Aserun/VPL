@@ -145,6 +145,18 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CaptiveAire.VPL.Interfaces\CaptiveAire.VPL.Interfaces.csproj">
+      <Project>{32f430d3-d314-4504-bf69-3f87ced62035}</Project>
+      <Name>CaptiveAire.VPL.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CaptiveAire.VPL.Metadata\CaptiveAire.VPL.Metadata.csproj">
+      <Project>{9101b145-9c98-4171-bdf8-af1042e2c5f9}</Project>
+      <Name>CaptiveAire.VPL.Metadata</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CaptiveAire.VPL.Plugins\CaptiveAire.VPL.Plugins.csproj">
+      <Project>{a0e3f308-e242-405f-a289-d34771d0ae7c}</Project>
+      <Name>CaptiveAire.VPL.Plugins</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CaptiveAire.VPL\CaptiveAire.VPL.csproj">
       <Project>{29c9fe31-ef8a-42b4-b1a1-347c19fe1397}</Project>
       <Name>CaptiveAire.VPL</Name>

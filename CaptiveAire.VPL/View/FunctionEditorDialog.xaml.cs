@@ -17,7 +17,7 @@ namespace CaptiveAire.VPL.View
     {
         private IElementDropTarget _currentDropTarget;
 
-        public FunctionEditorDialog(IEnumerable<ResourceDictionary> customResources = null)
+        public FunctionEditorDialog(IEnumerable<ResourceDictionary> customResources)
         {
             InitializeComponent();
 
@@ -120,7 +120,7 @@ namespace CaptiveAire.VPL.View
             if (variable == null)
                 return;
 
-            var elementFactory = new ElementFactory(SystemElementIds.VariableGetter, FactoryCategoryNames.Variable, "Get", context => new VariableGetterViewModel(context.Owner, variable.Id), typeof(VariableGetterViewModel), variable.Type.Id);
+            var elementFactory = new ElementFactory(SystemElementIds.VariableGetter, FactoryCategoryNames.Variable, "Get", context => new VariableGetter(context.Owner, variable.Id), typeof(VariableGetter), variable.Type.Id);
 
             DragDrop.DoDragDrop(frameworkElement, elementFactory, DragDropEffects.Copy);
         }
@@ -134,7 +134,7 @@ namespace CaptiveAire.VPL.View
             if (variable == null)
                 return;
 
-            var elementFactory = new ElementFactory(SystemElementIds.VariableSetter, FactoryCategoryNames.Variable, "Set", context => new VariableSetterViewModel(context.Owner, variable.Id), typeof(VariableSetterViewModel), variable.Type.Id);
+            var elementFactory = new ElementFactory(SystemElementIds.VariableSetter, FactoryCategoryNames.Variable, "Set", context => new VariableSetter(context.Owner, variable.Id), typeof(VariableSetter), variable.Type.Id);
 
             DragDrop.DoDragDrop(frameworkElement, elementFactory, DragDropEffects.Copy);
         }

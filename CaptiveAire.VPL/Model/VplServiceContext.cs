@@ -18,6 +18,7 @@ namespace CaptiveAire.VPL.Model
         private readonly IVplType[] _types;
         private readonly IEnumerable<object> _services;
         private readonly IViewService _viewService;
+        private readonly IElementBuilder _elementBuilder;
 
         public VplServiceContext(IEnumerable<IVplPlugin> plugins = null)
         {
@@ -64,7 +65,8 @@ namespace CaptiveAire.VPL.Model
             _viewService = new ViewService();
 
             _viewService.Register<FunctionEditorViewModel, FunctionEditorDialog>(() => new FunctionEditorDialog(CustomResources));
-            _viewService.Register<FunctionSelectionDialogViewModel, FunctionSelectionDialogView>();
+
+            _elementBuilder = new ElementBuilder(_elementFactoryManager, this);
         }
 
         public IElementFactoryManager ElementFactoryManager
@@ -90,6 +92,11 @@ namespace CaptiveAire.VPL.Model
         public IViewService ViewService
         {
             get { return _viewService; }
+        }
+
+        public IElementBuilder ElementBuilder
+        {
+            get { return _elementBuilder; }
         }
     }
 }

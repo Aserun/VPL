@@ -19,19 +19,21 @@ namespace CaptiveAire.VPL.ViewModel
 {
     internal class FunctionEditorViewModel : ViewModelBase, ICloseableViewModel
     {
-        private readonly FunctionViewModel _function;
+        private readonly IVplServiceContext _context;
+        private readonly Function _function;
         private readonly Action<FunctionMetadata> _saveAction;
         private CancellationTokenSource _cts;
         private readonly ToolsViewModel<IElementFactory> _tools;
         private IVplType _selectedType;
         private readonly IMessageBoxService _messageBoxService = new MessageBoxService();
 
-        public FunctionEditorViewModel(IVplServiceContext context, FunctionViewModel function, Action<FunctionMetadata> saveAction)
+        public FunctionEditorViewModel(IVplServiceContext context, Function function, Action<FunctionMetadata> saveAction)
         {
             if (context == null) throw new ArgumentNullException(nameof(context));
             if (function == null) throw new ArgumentNullException(nameof(function));
             if (saveAction == null) throw new ArgumentNullException(nameof(saveAction));
 
+            _context = context;
             _function = function;
             _saveAction = saveAction;
 
@@ -69,9 +71,9 @@ namespace CaptiveAire.VPL.ViewModel
                 {
                     var element = JsonConvert.DeserializeObject<ElementMetadata>(json);
 
-                    var elementBuilder = new ElementBuilder(Function.Context.ElementFactoryManager, Function);
+                    var elementBuilder = new ElementBuilder(Function.Context.ElementFactoryManager, _context);
 
-                    elementBuilder.AddToOwner(new ElementMetadata[] { element });
+                    elementBuilder.AddToOwner(Function, new ElementMetadata[] { element });
                 }
             }
             catch (Exception ex)
@@ -97,7 +99,7 @@ namespace CaptiveAire.VPL.ViewModel
 
             if (dialog.ShowDialog() == true)
             {
-                var variable = new VariableViewModel(Function, SelectedType, Guid.NewGuid())
+                var variable = new Variable(Function, SelectedType, Guid.NewGuid())
                 {
                     Name = dialog.EditedName
                 };
@@ -237,7 +239,7 @@ namespace CaptiveAire.VPL.ViewModel
             return _cts != null;
         }
 
-        public FunctionViewModel Function
+        public Function Function
         {
             get { return _function; }
         }

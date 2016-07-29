@@ -1,208 +1,203 @@
 ﻿using System;
-using System.Linq;
 using System.Windows;
 using CaptiveAire.VPL.Extensions;
 using CaptiveAire.VPL.Factory;
 using CaptiveAire.VPL.Interfaces;
 using CaptiveAire.VPL.Model;
-using CaptiveAire.VPL.Operators;
-using CaptiveAire.VPL.Statements;
 
 namespace CaptiveAire.VPL.ViewModel
 {
     internal static class ViewModelLocator
     {
-        
+        //private static Function CreateEmptyFunction()
+        //{
+        //    var context = new VplServiceContext();
 
-        private static FunctionViewModel CreateEmptyFunction()
-        {
-            var context = new VplServiceContext();
+        //    return new Function(context, Guid.NewGuid());
+        //}
 
-            return new FunctionViewModel(context, Guid.NewGuid());
-        }
+        //private static Function CreateFunction(string name)
+        //{
+        //    var function = CreateEmptyFunction();
 
-        private static FunctionViewModel CreateFunction(string name)
-        {
-            var function = CreateEmptyFunction();
+        //    function.Name = name;
 
-            function.Name = name;
+        //    var waitStatement = new WaitStatement(function)
+        //    {
+        //        Location = new Point(100, 100)
+        //    };
 
-            var waitStatement = new WaitStatement(function)
-            {
-                Location = new Point(100, 100)
-            };
+        //    function.Elements.Add(waitStatement);
 
-            function.Elements.Add(waitStatement);
+        //    AddWait(function, new Point(20, 20));
+        //    AddWait(function, new Point(75, 75));
 
-            AddWait(function, new Point(20, 20));
-            AddWait(function, new Point(75, 75));
+        //    AddIfElse(function, new Point(400, 100));
 
-            AddIfElse(function, new Point(400, 100));
+        //    AddAnd(function, new Point(50, 50));
 
-            AddAnd(function, new Point(50, 50));
+        //    AddAdditionOperator(function, new Point(300, 300));
 
-            AddAdditionOperator(function, new Point(300, 300));
+        //    function.AddVariable(new Variable(function, function.GetBooleanType(), Guid.NewGuid())
+        //    {
+        //        Name = "Variable 1"
+        //    });
 
-            function.AddVariable(new VariableViewModel(function, function.GetBooleanType(), Guid.NewGuid())
-            {
-                Name = "Variable 1"
-            });
+        //    return function;
+        //}
 
-            return function;
-        }
+        //private static IfElseStatement AddIfElse(Function function, Point point)
+        //{
+        //    var compoundStatement = new IfElseStatement(function)
+        //    {
+        //        Location = new Point(400, 100)
+        //    };
 
-        private static IfElseStatement AddIfElse(FunctionViewModel function, Point point)
-        {
-            var compoundStatement = new IfElseStatement(function)
-            {
-                Location = new Point(400, 100)
-            };
+        //   function.Add(compoundStatement);
 
-           function.Add(compoundStatement);
+        //    return compoundStatement;
+        //}
 
-            return compoundStatement;
-        }
+        //private static WaitStatement AddWait(Function function, Point point)
+        //{
+        //    var wait = new WaitStatement(function)
+        //    {
+        //        Location = point
+        //    };
 
-        private static WaitStatement AddWait(FunctionViewModel function, Point point)
-        {
-            var wait = new WaitStatement(function)
-            {
-                Location = point
-            };
+        //    function.Elements.Add(wait);
 
-            function.Elements.Add(wait);
+        //    return wait;
+        //}
 
-            return wait;
-        }
+        //private static Operator AddAdditionOperator(Function function, Point location)
+        //{
+        //    var context = new ElementCreationContext(function, null);
 
-        private static OperatorViewModel AddAdditionOperator(FunctionViewModel function, Point location)
-        {
-            var context = new ElementCreationContext(function, null);
+        //    var op = new BinaryMathOperator(context, BinaryMathOperator.BinaryMathOperatorType.Addition)
+        //    {
+        //        Location = location
+        //    };
 
-            var op = new BinaryMathOperator(context, BinaryMathOperator.BinaryMathOperatorType.Addition)
-            {
-                Location = location
-            };
+        //    function.Add(op);
 
-            function.Add(op);
+        //    return op;
+        //}
 
-            return op;
-        }
+        //public static Statement Statement
+        //{
+        //    get
+        //    {
+        //        var function = CreateEmptyFunction();
 
-        public static StatementViewModel Statement
-        {
-            get
-            {
-                var function = CreateEmptyFunction();
+        //        return new WaitStatement(function);
+        //    }
+        //}
 
-                return new WaitStatement(function);
-            }
-        }
+        //public static IfElseStatement CompoundStatement
+        //{
+        //    get
+        //    {
+        //        var function = CreateEmptyFunction();
 
-        public static IfElseStatement CompoundStatement
-        {
-            get
-            {
-                var function = CreateEmptyFunction();
+        //        return AddIfElse(function, new Point());
+        //    }
+        //}
 
-                return AddIfElse(function, new Point());
-            }
-        }
+        //public static Parameter NumericParameter
+        //{
+        //    get
+        //    {
+        //        var function = CreateEmptyFunction();
 
-        public static ParameterViewModel NumericParameter
-        {
-            get
-            {
-                var function = CreateEmptyFunction();
+        //        return new Parameter(function, "seconds", function.GetVplType(VplTypeId.Float))
+        //        {
+        //            Prefix = "Wait",
+        //            Postfix = "Seconds"
+        //        };
+        //    }
+        //}
 
-                return new ParameterViewModel(function, "seconds", function.GetVplType(VplTypeId.Float))
-                {
-                    Prefix = "Wait",
-                    Postfix = "Seconds"
-                };
-            }
-        }
+        //public static Parameter BooleanParameter
+        //{
+        //    get
+        //    {
+        //        var function = CreateEmptyFunction();
 
-        public static ParameterViewModel BooleanParameter
-        {
-            get
-            {
-                var function = CreateEmptyFunction();
+        //        return new Parameter(function, "param", function.GetVplType(VplTypeId.Boolean))
+        //        {
+        //            Prefix = "Prefix",
+        //            Postfix = "Postfix"
+        //        };
+        //    }
+        //}
 
-                return new ParameterViewModel(function, "param", function.GetVplType(VplTypeId.Boolean))
-                {
-                    Prefix = "Prefix",
-                    Postfix = "Postfix"
-                };
-            }
-        }
+        //public static Parameters Parameters
+        //{
+        //    get
+        //    {
+        //        var function = CreateEmptyFunction();
 
-        public static ParametersViewModel Parameters
-        {
-            get
-            {
-                var function = CreateEmptyFunction();
+        //        return new Parameters()
+        //        {
+        //            new Parameter(function, "a", function.GetVplType(VplTypeId.Float))
+        //            {
+        //                Prefix = "Prefix",
+        //                Value = 42,
+        //                Postfix = "Postfix"
+        //            },
+        //            new Parameter(function, "b", function.GetVplType(VplTypeId.Float))
+        //            {
+        //                Prefix = "Prefix",
+        //                Value = 12,
+        //                Postfix = "Postfix"
+        //            }
+        //        };
+        //    }
+        //}
 
-                return new ParametersViewModel()
-                {
-                    new ParameterViewModel(function, "a", function.GetVplType(VplTypeId.Float))
-                    {
-                        Prefix = "Prefix",
-                        Value = 42,
-                        Postfix = "Postfix"
-                    },
-                    new ParameterViewModel(function, "b", function.GetVplType(VplTypeId.Float))
-                    {
-                        Prefix = "Prefix",
-                        Value = 12,
-                        Postfix = "Postfix"
-                    }
-                };
-            }
-        }
+        //private static Operator AddAnd(Function function, Point location)
+        //{
+        //    var context = new ElementCreationContext(function, null);
 
-        private static OperatorViewModel AddAnd(FunctionViewModel function, Point location)
-        {
-            var context = new ElementCreationContext(function, null);
+        //    var andOperator = new BinaryLogicalOperator(context, BinaryLogicalOperator.BinaryLogicalOperatorType.And)
+        //    {
+        //        Location = location
+        //    };
 
-            var andOperator = new BinaryLogicalOperator(context, BinaryLogicalOperator.BinaryLogicalOperatorType.And)
-            {
-                Location = location
-            };
+        //    function.Elements.Add(andOperator);
 
-            function.Elements.Add(andOperator);
+        //    return andOperator;
+        //}
 
-            return andOperator;
-        }
+        //public static Operator NumericOperator
+        //{
+        //    get
+        //    {
+        //        var function = CreateEmptyFunction();
 
-        public static OperatorViewModel NumericOperator
-        {
-            get
-            {
-                var function = CreateEmptyFunction();
+        //        return AddAdditionOperator(function, new Point(0, 0));
+        //    }
+        //}
 
-                return AddAdditionOperator(function, new Point(0, 0));
-            }
-        }
+        //public static Operator BooleanOperator
+        //{
+        //    get
+        //    {
+        //        var function = CreateEmptyFunction();
 
-        public static OperatorViewModel BooleanOperator
-        {
-            get
-            {
-                var function = CreateEmptyFunction();
+        //        return AddAnd(function, new Point(0, 0));
+        //    }
+        //}
 
-                return AddAnd(function, new Point(0, 0));
-            }
-        }
+        //public static ToolsViewModel<IElementFactory> Tools
+        //{
+        //    get
+        //    {
+        //        var factoryManager = new ElementFactoryManager();
 
-        public static ToolsViewModel<IElementFactory> Tools
-        {
-            get
-            {
-                var factoryManager = new ElementFactoryManager();
-
-                return new ToolsViewModel<IElementFactory>(factoryManager.Factories);
-            }
-        }
+        //        return new ToolsViewModel<IElementFactory>(factoryManager.Factories);
+        //    }
+        //}
     }
 }

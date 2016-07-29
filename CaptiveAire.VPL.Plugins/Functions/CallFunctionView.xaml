@@ -1,0 +1,28 @@
+﻿<UserControl x:Class="CaptiveAire.VPL.View.CallFunctionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:CaptiveAire.VPL.View"
+             xmlns:converters="clr-namespace:Cas.Common.WPF.Converters;assembly=Cas.Common.WPF"
+             xmlns:functions="clr-namespace:CaptiveAire.VPL.Plugins.Functions"
+             d:DataContext="{d:DesignInstance functions:CommonFunctionBehavior, d:IsDesignTimeCreatable=False}"
+             mc:Ignorable="d">
+    
+    <UserControl.Resources>
+        <converters:CollapsedWhenTrueConverter x:Key="CollapsedWhenTrueConverter"/>
+    </UserControl.Resources>
+    
+    <StackPanel Orientation="Horizontal">
+        <Image Source="/CaptiveAire.VPL;component/Images/method_16xLG.png" Width="16" Margin="1"/>
+        <TextBlock Text="{Binding Path=Text}" Margin="2" />
+        
+        <TextBlock Text="{Binding Path=FunctionName}" Margin="2" FontStyle="Italic" FontWeight="Bold" />
+        
+        <StackPanel Orientation="Horizontal" Visibility="{Binding Path=HasFunction, Converter={StaticResource CollapsedWhenTrueConverter}}">
+            <Image Source="/CaptiveAire.VPL;component/Images/Error_16x16_72.png" Width="16" VerticalAlignment="Center" Margin="1" />
+            <TextBlock Text="Select Function" FontStyle="Italic" Foreground="Red" VerticalAlignment="Center" Margin="2"/>
+        </StackPanel>
+        
+    </StackPanel>
+</UserControl>

@@ -5,7 +5,7 @@ using CaptiveAire.VPL.ViewModel;
 
 namespace CaptiveAire.VPL.TestHost.ViewModel
 {
-    public class CommentViewModel : ElementViewModel
+    public class CommentViewModel : Element
     {
         private string _comment;
 

@@ -5,6 +5,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d" >
     <Grid>
-        <TextBox Text="{Binding Path=Value, ValidatesOnExceptions=True}" TextAlignment="Right" VerticalAlignment="Center" MinWidth="30" x:Name="ValueTextBox" GotFocus="ValueTextBox_OnGotFocus" />     
+        <TextBox Text="{Binding Path=Value, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right" VerticalAlignment="Center" MinWidth="30" x:Name="ValueTextBox" GotFocus="ValueTextBox_OnGotFocus" />     
     </Grid>
 </UserControl>

@@ -3,7 +3,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:CaptiveAire.VPL.View"
                     xmlns:viewModel="clr-namespace:CaptiveAire.VPL.ViewModel"
-                    xmlns:controls="clr-namespace:Cas.Common.WPF.Controls;assembly=Cas.Common.WPF">
+                    xmlns:controls="clr-namespace:Cas.Common.WPF.Controls;assembly=Cas.Common.WPF"
+                    xmlns:vpl="clr-namespace:CaptiveAire.VPL">
     
     <Style TargetType="Control" x:Key="ActionsVisiblityStyle">
         <Setter Property="Visibility" Value="Visible"/>
@@ -81,19 +82,19 @@
     </Style>
     
     <!-- Elements -->
-    <DataTemplate DataType="{x:Type viewModel:StatementViewModel}">
+    <DataTemplate DataType="{x:Type vpl:Statement}">
         <local:StatementView Style="{StaticResource ElementStyle}" />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type viewModel:CompoundStatementViewModel}">
+    <DataTemplate DataType="{x:Type vpl:CompoundStatement}">
         <local:CompoundStatementView  Style="{StaticResource ElementStyle}"/>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type viewModel:OperatorViewModelBase}">
+    <DataTemplate DataType="{x:Type vpl:OperatorBase}">
         <local:OperatorView  Style="{StaticResource ElementStyle}"/>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type viewModel:ParameterViewModel}">
+    <DataTemplate DataType="{x:Type vpl:Parameter}">
         <local:ParameterView Margin="2" />
     </DataTemplate>
 

@@ -5,6 +5,7 @@ using CaptiveAire.VPL.Factory;
 using CaptiveAire.VPL.Interfaces;
 using CaptiveAire.VPL.Metadata;
 using CaptiveAire.VPL.Model;
+using CaptiveAire.VPL.Plugins;
 using CaptiveAire.VPL.TestHost.Model;
 using Cas.Common.WPF;
 using Cas.Common.WPF.Interfaces;
@@ -30,17 +31,24 @@ namespace CaptiveAire.VPL.TestHost.ViewModel
 
             var functionService = new FunctionService(GetFunctions, GetFunction);
 
+            var factories = new IElementFactory[]
+            {
+                commentFactory,
+            };
+
             //Create the plugin
             var plugin = new VplPlugin(
-                "Host", 
-                new IElementFactory[] {commentFactory}, 
-                new[] {customResources},
-                services: new []{functionService});
+                "Host",
+                factories,
+                new[] { customResources },
+                services: new[] { functionService });
 
-            VplService = new VplService(new IVplPlugin[]
-            {
-                plugin
-            });
+            var plugins = SystemPluginFactory.CreateAllPlugins()
+                .ToList();
+
+            plugins.Add(plugin);
+            
+            VplService = new VplService(plugins);
         }
 
         public static IEnumerable<FunctionMetadata> GetFunctions()

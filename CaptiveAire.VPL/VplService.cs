@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using CaptiveAire.VPL.Interfaces;
 using CaptiveAire.VPL.Metadata;
 using CaptiveAire.VPL.Model;
+using CaptiveAire.VPL.View;
 using CaptiveAire.VPL.ViewModel;
 
 namespace CaptiveAire.VPL
@@ -24,8 +25,13 @@ namespace CaptiveAire.VPL
             //Create the view model
             var editorViewModel = new FunctionEditorViewModel(_context, functionViewModel, saveAction);
 
+            var view = new FunctionEditorDialog(_context.CustomResources)
+            {
+                DataContext = editorViewModel
+            };
+
             //Show the dialog
-            _context.ViewService.ShowDialog(editorViewModel);
+            view.ShowDialog();
         }
 
         public IFunction CreateRuntimeFunction(FunctionMetadata metadata)
@@ -38,16 +44,16 @@ namespace CaptiveAire.VPL
             get { return _context.Types; }
         }
 
-        private FunctionViewModel CreateRuntimeFunctionInner(FunctionMetadata metadata)
+        private Function CreateRuntimeFunctionInner(FunctionMetadata metadata)
         {
             //Create the view model
-            var functionViewModel = new FunctionViewModel(_context, metadata.Id)
+            var functionViewModel = new Function(_context, metadata.Id)
             {
                 Name = metadata.Name
             };
 
             //Create the builder
-            var builder = new ElementBuilder(_context.ElementFactoryManager, functionViewModel);
+            var builder = new ElementBuilder(_context.ElementFactoryManager, _context);
 
             //Add the elements to the owner (function)
             builder.LoadFunction(functionViewModel, metadata);
