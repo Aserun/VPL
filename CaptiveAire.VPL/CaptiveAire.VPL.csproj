@@ -83,6 +83,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ArgumentMismatchException.cs" />
     <Compile Include="Behaviors\ElementDraggableBehavior.cs" />
     <Compile Include="Extensions\ElementOwnerExtensions.cs" />
     <Compile Include="Extensions\Extensions.cs" />
@@ -98,18 +99,19 @@
     <Compile Include="Model\ElementBuilder.cs" />
     <Compile Include="Model\ElementCreationContext.cs" />
     <Compile Include="Model\EntrancePointNotFoundException.cs" />
-    <Compile Include="Model\Executor.cs" />
+    <Compile Include="Model\StatementExecutor.cs" />
     <Compile Include="Model\FunctionService.cs" />
     <Compile Include="Model\HierarchicalNumber.cs" />
     <Compile Include="Model\SystemElementIds.cs" />
     <Compile Include="Model\GraphicsUtil.cs" />
     <Compile Include="Model\Persistor.cs" />
     <Compile Include="Model\VplTypeId.cs" />
-    <Compile Include="ViewModel\Argument.cs" />
+    <Compile Include="Argument.cs" />
     <Compile Include="OperatorBase.cs" />
-    <Compile Include="ViewModel\VariableGetter.cs" />
-    <Compile Include="ViewModel\VariableSetter.cs" />
-    <Compile Include="ViewModel\Variable.cs" />
+    <Compile Include="ArgumentVariable.cs" />
+    <Compile Include="VariableGetter.cs" />
+    <Compile Include="VariableSetter.cs" />
+    <Compile Include="Variable.cs" />
     <Compile Include="View\AnyValueView.xaml.cs">
       <DependentUpon>AnyValueView.xaml</DependentUpon>
     </Compile>
@@ -125,11 +127,11 @@
     <Compile Include="VplPlugin.cs" />
     <Compile Include="VplService.cs" />
     <Compile Include="Model\VplServiceContext.cs" />
-    <Compile Include="ViewModel\Blocks.cs" />
+    <Compile Include="Blocks.cs" />
     <Compile Include="CompoundStatement.cs" />
     <Compile Include="ElementAction.cs" />
     <Compile Include="ViewModel\FunctionEditorViewModel.cs" />
-    <Compile Include="ViewModel\Function.cs" />
+    <Compile Include="Function.cs" />
     <Compile Include="Operator.cs" />
     <Compile Include="Parameters.cs" />
     <Compile Include="Parameter.cs" />

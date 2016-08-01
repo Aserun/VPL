@@ -22,7 +22,7 @@ namespace CaptiveAire.VPL.TestHost.ViewModel
 
         static HostViewModelLocator()
         {
-            var customResources = new CustomResources();
+            var customResources = new View.CustomResources();
 
             customResources.InitializeComponent();
 

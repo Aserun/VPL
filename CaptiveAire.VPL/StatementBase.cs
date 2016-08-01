@@ -83,7 +83,7 @@ namespace CaptiveAire.VPL
             } 
         }
 
-        protected abstract Task ExecuteCoreAsync(CancellationToken token);
+        protected abstract Task ExecuteCoreAsync(CancellationToken cancellationToken);
 
         public async Task ExecuteAsync(CancellationToken token)
         {

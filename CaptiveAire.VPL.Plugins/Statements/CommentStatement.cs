@@ -49,7 +49,7 @@ namespace CaptiveAire.VPL.Plugins.Statements
             return Comment;
         }
 
-        protected override Task ExecuteCoreAsync(CancellationToken token)
+        protected override Task ExecuteCoreAsync(CancellationToken cancellationToken)
         {
             return Task.FromResult(0);
         }

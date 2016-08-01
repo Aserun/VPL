@@ -65,6 +65,7 @@
     <Compile Include="IElementOwner.cs" />
     <Compile Include="IElements.cs" />
     <Compile Include="IEntityBase.cs" />
+    <Compile Include="IExecutionContext.cs" />
     <Compile Include="IFunction.cs" />
     <Compile Include="IFunctionService.cs" />
     <Compile Include="IMoveable.cs" />

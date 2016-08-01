@@ -60,6 +60,12 @@ namespace CaptiveAire.VPL.Interfaces
         void AddArgument(IArgument argument);
 
         /// <summary>
+        /// Get the arguments.
+        /// </summary>
+        /// <returns></returns>
+        IEnumerable<IArgument> GetArguments();
+
+        /// <summary>
         /// Marks the scope as dirty.
         /// </summary>
         void MarkDirty();

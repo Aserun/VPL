@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using CaptiveAire.VPL.Interfaces;
 
-namespace CaptiveAire.VPL.ViewModel
+namespace CaptiveAire.VPL
 {
     internal class Blocks : ObservableCollection<IBlock>, IBlocks
     {

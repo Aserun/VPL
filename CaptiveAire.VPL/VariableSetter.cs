@@ -5,7 +5,7 @@ using CaptiveAire.VPL.Extensions;
 using CaptiveAire.VPL.Interfaces;
 using Newtonsoft.Json;
 
-namespace CaptiveAire.VPL.ViewModel
+namespace CaptiveAire.VPL
 {
     internal class VariableSetter : Statement, IVariableReference
     {
@@ -66,9 +66,9 @@ namespace CaptiveAire.VPL.ViewModel
             return JsonConvert.SerializeObject(data);
         }
 
-        protected override async Task ExecuteCoreAsync(CancellationToken token)
+        protected override async Task ExecuteCoreAsync(CancellationToken cancellationToken)
         {
-            var value = await _parameter.EvaluateAsync(token);
+            var value = await _parameter.EvaluateAsync(cancellationToken);
 
             _variable.Value = value;
         }

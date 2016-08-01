@@ -1,4 +1,4 @@
-﻿namespace CaptiveAire.VPL.Plugins.View
+﻿namespace CaptiveAire.VPL.Plugins.Functions
 {
     /// <summary>
     /// Interaction logic for FunctionSelectionDialogView.xaml

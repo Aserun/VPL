@@ -16,13 +16,8 @@ namespace CaptiveAire.VPL.Interfaces
 
         void SetValue(object value);
 
-        Task<object> EvaluateAsync(CancellationToken token);
+        Task<object> EvaluateAsync(CancellationToken cancellationToken);
 
         Visual Editor { get; }
     }
-
-    //public interface IParameter<TValue> : IParameter
-    //{
-    //    Task<TValue> EvaluateAsync(CancellationToken token);
-    //}
 }

@@ -55,7 +55,7 @@ namespace CaptiveAire.VPL
 
         public async Task ExecuteAsync(CancellationToken token)
         {
-            var executor = new Executor();
+            var executor = new StatementExecutor();
 
             await executor.ExecuteAsync(Next as IStatement, token);
         }

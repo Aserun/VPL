@@ -33,7 +33,6 @@ namespace CaptiveAire.VPL
         private object _label;
         private Color _backgroundColor;
         private Color _foregroundColor;
-        private Color _borderColor;
 
         protected Element(IElementOwner owner, Guid elementTypeId)
         {
@@ -48,7 +47,6 @@ namespace CaptiveAire.VPL
 
             BackgroundColor = Colors.Plum;
             ForegroundColor = Colors.Black;
-            BorderColor = Colors.DeepPink;
         }
 
         public ICommand DeleteCommand { get; private set; }
@@ -73,16 +71,6 @@ namespace CaptiveAire.VPL
             set
             {
                 _foregroundColor = value; 
-                RaisePropertyChanged();
-            }
-        }
-
-        public Color BorderColor
-        {
-            get { return _borderColor; }
-            set
-            {
-                _borderColor = value; 
                 RaisePropertyChanged();
             }
         }

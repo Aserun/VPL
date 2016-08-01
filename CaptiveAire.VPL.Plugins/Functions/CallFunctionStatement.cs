@@ -1,7 +1,5 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
-using CaptiveAire.VPL.Extensions;
 using CaptiveAire.VPL.Interfaces;
 using CaptiveAire.VPL.Model;
 
@@ -29,24 +27,18 @@ namespace CaptiveAire.VPL.Plugins.Functions
             return _behavior.GetData();
         }
 
-        protected override async Task ExecuteCoreAsync(CancellationToken token)
+        protected override async Task ExecuteCoreAsync(CancellationToken cancellationToken)
         {
-            token.ThrowIfCancellationRequested();
+            cancellationToken.ThrowIfCancellationRequested();
 
             //Create an instance of the function to be called
             var function = _behavior.GetFunctionOrThrow();
 
-            var result = function.GetEntrancePoint();
+            //Get the values from the parameters...
+            var parameters = await _behavior.GetParameterValuesAsync(cancellationToken);
 
-            if (result.Statement == null)
-            {
-                throw new InvalidOperationException(result.Error);
-            }
-            
-            //TODO: Pass in params
-            var executor = new Executor();
-
-            await executor.ExecuteAsync(result.Statement, token);
+            //Call the function
+            await function.ExecuteAsync(parameters, cancellationToken);
         }
     }
 }

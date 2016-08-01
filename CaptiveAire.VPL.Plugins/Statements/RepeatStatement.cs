@@ -23,15 +23,15 @@ namespace CaptiveAire.VPL.Plugins.Statements
             Blocks.Add(Block);
         }
 
-        protected override async Task ExecuteCoreAsync(CancellationToken token)
+        protected override async Task ExecuteCoreAsync(CancellationToken cancellationToken)
         {
-            double repeatCount = (double) await Condition.EvaluateAsync(token);
+            double repeatCount = (double) await Condition.EvaluateAsync(cancellationToken);
 
             for (double index = 0; index < repeatCount; index++)
             {
-                token.ThrowIfCancellationRequested();
+                cancellationToken.ThrowIfCancellationRequested();
 
-                await Block.ExecuteAsync(token);
+                await Block.ExecuteAsync(cancellationToken);
             }
         }
     }

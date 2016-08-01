@@ -217,9 +217,7 @@ namespace CaptiveAire.VPL.ViewModel
             {
                 _cts = new CancellationTokenSource();
 
-                var executor = new Executor();
-
-                await executor.ExecuteAsync(function, _cts.Token);
+                await function.ExecuteAsync(new object[] {}, _cts.Token);
 
                 _cts = null;
 

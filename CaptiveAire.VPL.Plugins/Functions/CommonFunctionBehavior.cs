@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using CaptiveAire.VPL.Extensions;
 using CaptiveAire.VPL.Interfaces;
@@ -61,6 +64,24 @@ namespace CaptiveAire.VPL.Plugins.Functions
             {
                 new ElementAction("Select function...", SelectFunction)
             };
+        }
+
+        public async Task<object[]> GetParameterValuesAsync(CancellationToken cancellationToken)
+        {
+            //Create a place to store the values we get from the parameters.
+            var values = new List<object>(_parameters.Count);
+
+            //Deal with each parameter
+            foreach (var parameter in (IParameters)_parameters)
+            {
+                //Evaluate the parameter
+                var value = await parameter.EvaluateAsync(cancellationToken);
+
+                //Add the value to the results
+                values.Add(value);
+            }
+
+            return values.ToArray();
         }
 
         public string GetData()

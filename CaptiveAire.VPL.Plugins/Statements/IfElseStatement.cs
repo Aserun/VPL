@@ -36,17 +36,17 @@ namespace CaptiveAire.VPL.Plugins.Statements
             //AddAction(new ElementAction("Add Clause", () => MessageBox.Show("Not Implemented"), () => true));
         }
 
-        protected override async Task ExecuteCoreAsync(CancellationToken token)
+        protected override async Task ExecuteCoreAsync(CancellationToken cancellationToken)
         {
-            var condition = (bool)await Condition.EvaluateAsync(token);
+            var condition = (bool)await Condition.EvaluateAsync(cancellationToken);
 
             if (condition)
             {
-                await IfBlock.ExecuteAsync(token);
+                await IfBlock.ExecuteAsync(cancellationToken);
             }
             else
             {
-                await ElseBlock.ExecuteAsync(token);
+                await ElseBlock.ExecuteAsync(cancellationToken);
             }
         }
     }

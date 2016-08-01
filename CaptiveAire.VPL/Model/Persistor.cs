@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using CaptiveAire.VPL.Interfaces;
 using CaptiveAire.VPL.Metadata;
@@ -10,6 +11,8 @@ namespace CaptiveAire.VPL.Model
     {
         public static ParameterMetadata ToMetadata(this IParameter parameter)
         {
+            if (parameter == null) throw new ArgumentNullException(nameof(parameter));
+
             var parameterMetadata = new ParameterMetadata()
             {
                 Value = parameter.GetValue(),
@@ -22,6 +25,8 @@ namespace CaptiveAire.VPL.Model
 
         public static ParameterMetadata[] ToMetadata(this IEnumerable<IParameter> parameters)
         {
+            if (parameters == null) throw new ArgumentNullException(nameof(parameters));
+
             return parameters
                 .Select(p => p.ToMetadata())
                 .ToArray();
@@ -29,6 +34,8 @@ namespace CaptiveAire.VPL.Model
 
         public static BlockMetadata ToMetadata(this IBlock block)
         {
+            if (block == null) throw new ArgumentNullException(nameof(block));
+
             var blockMetadata = new BlockMetadata()
             {
                 Id = block.Id,
@@ -42,6 +49,8 @@ namespace CaptiveAire.VPL.Model
 
         public static BlockMetadata[] ToMetadata(this IEnumerable<IBlock> blocks)
         {
+            if (blocks == null) throw new ArgumentNullException(nameof(blocks));
+
             return blocks
                 .Select(b => b.ToMetadata())
                 .ToArray();
@@ -73,8 +82,11 @@ namespace CaptiveAire.VPL.Model
 
         public static ArgumentMetadata ToMetadata(this IArgument argument)
         {
+            if (argument == null) throw new ArgumentNullException(nameof(argument));
+
             return new ArgumentMetadata()
             {
+                Id = argument.Id,
                 Name = argument.Name,
                 TypeId = argument.TypeId
             };
@@ -82,6 +94,8 @@ namespace CaptiveAire.VPL.Model
 
         public static VariableMetadata ToMetadata(this IVariable variable)
         {
+            if (variable == null) throw new ArgumentNullException(nameof(variable));
+
             return new VariableMetadata()
             {
                 Name = variable.Name,
@@ -92,6 +106,8 @@ namespace CaptiveAire.VPL.Model
 
         public static FunctionMetadata ToMetadata(this Function function)
         {
+            if (function == null) throw new ArgumentNullException(nameof(function));
+
             return new FunctionMetadata()
             {
                 Id = function.Id,
@@ -104,7 +120,5 @@ namespace CaptiveAire.VPL.Model
                 ReturnTypeId = function.ReturnTypeId
             };
         }
-
-      
     }
 }

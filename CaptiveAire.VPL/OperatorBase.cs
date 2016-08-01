@@ -7,15 +7,11 @@ namespace CaptiveAire.VPL
 {
     public abstract class OperatorBase : Element, IOperator
     {
-        
-
         protected OperatorBase(IElementOwner owner, Guid elementTypeId) 
             : base(owner, elementTypeId)
         {
         }
-
         
-
         public abstract IVplType Type { get; }
 
         public abstract Task<object> EvaluateAsync(CancellationToken token);

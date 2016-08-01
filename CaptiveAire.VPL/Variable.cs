@@ -5,14 +5,13 @@ using System.Windows.Input;
 using System.Windows.Media;
 using CaptiveAire.VPL.Extensions;
 using CaptiveAire.VPL.Interfaces;
-using CaptiveAire.VPL.View;
 using Cas.Common.WPF;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 
-namespace CaptiveAire.VPL.ViewModel
+namespace CaptiveAire.VPL
 {
-    internal class Variable : ViewModelBase, IVariable
+    public class Variable : ViewModelBase, IVariable
     {
         private string _name;
         private readonly IElementOwner _owner;
@@ -42,20 +41,19 @@ namespace CaptiveAire.VPL.ViewModel
         public ICommand RenameCommand { get; private set; }
         public ICommand DeleteCommand { get; private set; }
 
-        private void Rename()
+        protected virtual void Rename()
         {
             //TODO: DI this
             var textEditService = new TextEditService();
 
             textEditService.EditText(Name, "Name", "Rename Variable", t => Name = t, t => !string.IsNullOrWhiteSpace(t));
         }
-
-        private bool CanRename()
+        protected virtual bool CanRename()
         {
             return true;
         }
 
-        private void Delete()
+        protected virtual void Delete()
         {
             //Check to see if this variable is in use
             if (_owner.GetAllElements().OfType<IVariableReference>().Any(v => v.VariableId == Id))
@@ -68,7 +66,7 @@ namespace CaptiveAire.VPL.ViewModel
             }
         }
 
-        private bool CanDelete()
+        protected virtual bool CanDelete()
         {
             return true;
         }

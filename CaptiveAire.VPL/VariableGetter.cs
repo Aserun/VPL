@@ -5,7 +5,7 @@ using CaptiveAire.VPL.Extensions;
 using CaptiveAire.VPL.Interfaces;
 using Newtonsoft.Json;
 
-namespace CaptiveAire.VPL.ViewModel
+namespace CaptiveAire.VPL
 {
     internal class VariableGetter : OperatorBase, IVariableReference
     {

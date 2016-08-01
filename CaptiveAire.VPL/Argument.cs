@@ -1,9 +1,9 @@
-﻿using CaptiveAire.VPL.Metadata;
-using GalaSoft.MvvmLight;
-using System;
+﻿using System;
 using CaptiveAire.VPL.Interfaces;
+using CaptiveAire.VPL.Metadata;
+using GalaSoft.MvvmLight;
 
-namespace CaptiveAire.VPL.ViewModel
+namespace CaptiveAire.VPL
 {
     public class Argument : ViewModelBase, IArgument
     {
@@ -12,6 +12,11 @@ namespace CaptiveAire.VPL.ViewModel
         public Argument(ArgumentMetadata metadata)
         {
             _metadata = metadata;
+        }
+
+        public Guid Id
+        {
+            get { return _metadata.Id; }
         }
 
         public string Name

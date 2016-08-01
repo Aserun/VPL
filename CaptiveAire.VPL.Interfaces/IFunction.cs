@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace CaptiveAire.VPL.Interfaces
 {
@@ -14,5 +16,7 @@ namespace CaptiveAire.VPL.Interfaces
         double Height { get; set; }
 
         Guid? ReturnTypeId { get; set; }
+
+        Task<object> ExecuteAsync(object[] parameters, CancellationToken cancellationToken);
     }
 }

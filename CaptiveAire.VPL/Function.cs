@@ -2,15 +2,18 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using CaptiveAire.VPL.Extensions;
 using CaptiveAire.VPL.Interfaces;
 using CaptiveAire.VPL.Metadata;
 using CaptiveAire.VPL.Model;
 using Cas.Common.WPF;
 using GalaSoft.MvvmLight;
 
-namespace CaptiveAire.VPL.ViewModel
+namespace CaptiveAire.VPL
 {
     internal class Function : ViewModelBase, IFunction
     {
@@ -33,7 +36,13 @@ namespace CaptiveAire.VPL.ViewModel
             _functionId = functionId;
 
             _arguments = new OrderedListViewModel<IArgument>(
-                () => new Argument(new ArgumentMetadata()));
+                () => new Argument(new ArgumentMetadata()
+                {
+                    Id = Guid.NewGuid(),
+                }),
+                //TODO: Determine if the variable can be deleted.
+                deletedAction: a => MarkDirty(),
+                addedAction: a => MarkDirty());
         }
 
         public bool IsDirty
@@ -48,6 +57,11 @@ namespace CaptiveAire.VPL.ViewModel
                     CommandManager.InvalidateRequerySuggested();
                 }
             }
+        }
+
+        public IEnumerable<IArgument> GetArguments()
+        {
+            return _arguments.ToArray();
         }
 
         public void MarkDirty()
@@ -182,6 +196,58 @@ namespace CaptiveAire.VPL.ViewModel
             }
         }
 
+        public async Task<object> ExecuteAsync(object[] parameters, CancellationToken cancellationToken)
+        {
+            if (parameters == null) throw new ArgumentNullException(nameof(parameters));
+
+            cancellationToken.ThrowIfCancellationRequested();
+
+            //Make sure that the # of parameters match.
+            if (parameters.Length != Arguments.Count)
+            {
+                throw new ArgumentMismatchException($"The function '{Name}' contains {Arguments.Count} arguments but {parameters.Length} were specified.");
+            }
+
+            int argumentIndex = 0;
+
+            //Copy the parameter values to the variable values
+            foreach (var argument in Arguments)
+            {
+                //Look for the variable with the same id.
+                var variable = Variables.FirstOrDefault(v => v.Id == argument.Id);
+
+                //Check to make sure we found it.
+                if (variable == null)
+                {
+                    throw new ArgumentException($"Argument variable missing for argument '{argument.Name}' in function '{Name}'.");                   
+                }
+
+                //Copy the value
+                variable.Value = parameters[argumentIndex];
+
+                argumentIndex++;
+            }
+
+            //Look for the entrance point.
+            var entrancePoint = this.GetEntrancePoint();
+
+            //Check to see if if found an entrance point.
+            if (entrancePoint.Statement == null)
+            {
+                throw new EntrancePointNotFoundException($"Unable to find an entrance point in function '{Name}'.");
+            }
+
+            //Create the executor.
+            var executor = new StatementExecutor();
+
+            //Execute the function.
+            await executor.ExecuteAsync(entrancePoint.Statement, cancellationToken);
+
+            //TODO: deal with the return value.
+
+            return null;
+        }
+
         public IVplServiceContext Context
         {
             get { return _context; }
@@ -240,9 +306,22 @@ namespace CaptiveAire.VPL.ViewModel
         public void AddArgument(IArgument argument)
         {
             if (argument == null) throw new ArgumentNullException(nameof(argument));
+            if (argument.Id == Guid.Empty)
+                throw new ArgumentException($"The id of argument '{argument.Name}' was empty.");
             
+            //Add the argument
             _arguments.Add(argument);
 
+            //Create the variable for this argument.
+            var variable = new ArgumentVariable(this, this.GetVplType(argument.TypeId), argument)
+            {
+                Name = argument.Name
+            };
+
+            //Add the variable.
+            AddVariable(variable);
+
+            //I feel so dirty now.
             MarkDirty();
         }
     }

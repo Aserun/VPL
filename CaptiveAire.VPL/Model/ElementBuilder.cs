@@ -142,6 +142,11 @@ namespace CaptiveAire.VPL.Model
 
             foreach (var argumentMetadata in argumentMetadatas)
             {
+                if (argumentMetadata.Id == Guid.Empty)
+                {
+                    argumentMetadata.Id = Guid.NewGuid();
+                }
+
                 var argument = new Argument(argumentMetadata);
 
                 owner.AddArgument(argument);

@@ -9,24 +9,24 @@ namespace CaptiveAire.VPL.Model
     /// <summary>
     /// Handle the execution of a statement (and the chained statements after it).
     /// </summary>
-    public class Executor
+    public class StatementExecutor
     {
-        public async Task ExecuteAsync(IFunction function, CancellationToken token)
-        {
-            if (function == null) throw new ArgumentNullException(nameof(function));
+        //public async Task ExecuteAsync(IFunction function, CancellationToken token)
+        //{
+        //    if (function == null) throw new ArgumentNullException(nameof(function));
 
-            //Find the entrace point of this function.
-            var findEntrancePointResult = function.GetEntrancePoint();
+        //    //Find the entrace point of this function.
+        //    var findEntrancePointResult = function.GetEntrancePoint();
 
-            //Check to see if we have an entrance point
-            if (findEntrancePointResult.Statement == null)
-            {
-                throw new EntrancePointNotFoundException(findEntrancePointResult.Error);
-            }
+        //    //Check to see if we have an entrance point
+        //    if (findEntrancePointResult.Statement == null)
+        //    {
+        //        throw new EntrancePointNotFoundException(findEntrancePointResult.Error);
+        //    }
 
-            //Execute the statement
-            await ExecuteAsync(findEntrancePointResult.Statement, token);
-        }
+        //    //Execute the statement
+        //    await ExecuteAsync(findEntrancePointResult.Statement, token);
+        //}
 
         public async Task ExecuteAsync(IStatement statement, CancellationToken token)
         {

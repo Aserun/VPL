@@ -25,11 +25,11 @@ namespace CaptiveAire.VPL.Plugins.Statements
             SecondsParameter = secondsParameter;
         }
 
-        protected override async Task ExecuteCoreAsync(CancellationToken token)
+        protected override async Task ExecuteCoreAsync(CancellationToken cancellationToken)
         {
-            var seconds = (double)await SecondsParameter.EvaluateAsync(token);
+            var seconds = (double)await SecondsParameter.EvaluateAsync(cancellationToken);
 
-            await Task.Delay(TimeSpan.FromSeconds(seconds), token);
+            await Task.Delay(TimeSpan.FromSeconds(seconds), cancellationToken);
         }
     }
 }
