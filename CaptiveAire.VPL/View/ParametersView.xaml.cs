@@ -1,11 +1,9 @@
-﻿using System.Windows.Controls;
-
-namespace CaptiveAire.VPL.View
+﻿namespace CaptiveAire.VPL.View
 {
     /// <summary>
     /// Interaction logic for ParametersView.xaml
     /// </summary>
-    public partial class ParametersView : UserControl
+    internal partial class ParametersView
     {
         public ParametersView()
         {

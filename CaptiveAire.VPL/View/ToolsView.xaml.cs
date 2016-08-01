@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using CaptiveAire.VPL.Interfaces;
 using CaptiveAire.VPL.ViewModel;
@@ -9,7 +8,7 @@ namespace CaptiveAire.VPL.View
     /// <summary>
     /// Interaction logic for ToolsView.xaml
     /// </summary>
-    public partial class ToolsView : UserControl
+    internal partial class ToolsView
     {
         public ToolsView()
         {

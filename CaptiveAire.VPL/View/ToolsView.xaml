@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:viewModel="clr-namespace:CaptiveAire.VPL.ViewModel"
              mc:Ignorable="d" 
-             d:DataContext="{x:Static viewModel:ViewModelLocator.Tools}"
+             x:ClassModifier="internal"
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <Grid.RowDefinitions>

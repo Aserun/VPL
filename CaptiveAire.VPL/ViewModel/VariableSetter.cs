@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace CaptiveAire.VPL.ViewModel
 {
-    public class VariableSetter : Statement, IVariableReference
+    internal class VariableSetter : Statement, IVariableReference
     {
         private readonly IVariable _variable;
         private readonly Parameter _parameter;

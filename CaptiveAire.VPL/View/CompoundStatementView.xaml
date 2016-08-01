@@ -8,13 +8,10 @@
              xmlns:viewModel="clr-namespace:CaptiveAire.VPL.ViewModel"
              xmlns:behaviors="clr-namespace:CaptiveAire.VPL.Behaviors"
              xmlns:view="clr-namespace:CaptiveAire.VPL.View"
+             xmlns:vpl="clr-namespace:CaptiveAire.VPL"
              mc:Ignorable="d" 
-             d:DataContext="{x:Static viewModel:ViewModelLocator.CompoundStatement}">
+             d:DataContext="{d:DesignInstance vpl:CompoundStatement, d:IsDesignTimeCreatable=False}">
     
-    <!--<UserControl.RenderTransform>
-        <TranslateTransform X="{Binding Path=Location.X}" Y="{Binding Path=Location.Y}" />
-    </UserControl.RenderTransform>-->
-
     <UserControl.Resources>
         <converters:CollapsedWhenFalseConverter x:Key="CollapsedWhenFalseConverter"/>
     </UserControl.Resources>

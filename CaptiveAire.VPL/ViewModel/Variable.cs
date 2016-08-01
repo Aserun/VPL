@@ -44,15 +44,10 @@ namespace CaptiveAire.VPL.ViewModel
 
         private void Rename()
         {
-            var dialog = new RenameDialog(Name, "Variable")
-            {
-                Owner = WindowUtil.GetActiveWindow()
-            };
+            //TODO: DI this
+            var textEditService = new TextEditService();
 
-            if (dialog.ShowDialog() == true)
-            {
-                Name = dialog.EditedName;
-            }
+            textEditService.EditText(Name, "Name", "Rename Variable", t => Name = t, t => !string.IsNullOrWhiteSpace(t));
         }
 
         private bool CanRename()

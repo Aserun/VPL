@@ -74,8 +74,8 @@ namespace CaptiveAire.VPL.Plugins.Operators
             {
                 //If we can't find the specified service (which would be weird), just pick the first one.
                 _service = _services.FirstOrDefault(s => s.ComparisonType == value) ?? _services[0];
-
                 ParameterA.Postfix = " " + _service?.Text;
+                Owner.MarkDirty();
             }
         }
 

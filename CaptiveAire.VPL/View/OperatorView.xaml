@@ -7,9 +7,10 @@
              xmlns:viewModel="clr-namespace:CaptiveAire.VPL.ViewModel"
              xmlns:behaviors="clr-namespace:CaptiveAire.VPL.Behaviors"
              xmlns:view="clr-namespace:CaptiveAire.VPL.View"
+             xmlns:vpl="clr-namespace:CaptiveAire.VPL"
              mc:Ignorable="d" 
              Foreground="White"
-             d:DataContext="{x:Static viewModel:ViewModelLocator.BooleanOperator}">
+             d:DataContext="{d:DesignInstance vpl:Operator, d:IsDesignTimeCreatable=False}">
 
     <UserControl.RenderTransform>
         <TranslateTransform X="{Binding Path=Location.X}" Y="{Binding Path=Location.Y}" />

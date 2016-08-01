@@ -45,16 +45,22 @@ namespace CaptiveAire.VPL.TestHost.ViewModel
         {
             var name = Program.Functions.Select(f => f.Name).CreateUniqueName("Function {0}");
 
-            var dialog = new RenameDialog(name, "New Function")
-            {
-                Owner = WindowUtil.GetActiveWindow()
-            };
+            bool wasAccepted = false;
 
-            if (dialog.ShowDialog() == true)
+            var textEditService = new TextEditService();
+
+            textEditService.EditText(name, "New Function", "Name", t =>
+            {
+                name = t;
+                wasAccepted = true;
+            },
+            t => !string.IsNullOrWhiteSpace(t));
+
+            if (wasAccepted)
             {
                 var functionHeaderMetadata = new FunctionMetadata()
                 {
-                    Name = dialog.EditedName,
+                    Name = name,
                     Id = Guid.NewGuid(),
                     Elements = new ElementMetadata[] { },
                     Width = 1000,

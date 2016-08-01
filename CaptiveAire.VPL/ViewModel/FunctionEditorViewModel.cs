@@ -7,7 +7,6 @@ using CaptiveAire.VPL.Extensions;
 using CaptiveAire.VPL.Interfaces;
 using CaptiveAire.VPL.Metadata;
 using CaptiveAire.VPL.Model;
-using CaptiveAire.VPL.View;
 using Cas.Common.WPF;
 using Cas.Common.WPF.Behaviors;
 using Cas.Common.WPF.Interfaces;
@@ -22,20 +21,23 @@ namespace CaptiveAire.VPL.ViewModel
         private readonly IVplServiceContext _context;
         private readonly Function _function;
         private readonly Action<FunctionMetadata> _saveAction;
+        private readonly ITextEditService _textEditService;
         private CancellationTokenSource _cts;
         private readonly ToolsViewModel<IElementFactory> _tools;
         private IVplType _selectedType;
         private readonly IMessageBoxService _messageBoxService = new MessageBoxService();
 
-        public FunctionEditorViewModel(IVplServiceContext context, Function function, Action<FunctionMetadata> saveAction)
+        public FunctionEditorViewModel(IVplServiceContext context, Function function, Action<FunctionMetadata> saveAction, ITextEditService textEditService)
         {
             if (context == null) throw new ArgumentNullException(nameof(context));
             if (function == null) throw new ArgumentNullException(nameof(function));
             if (saveAction == null) throw new ArgumentNullException(nameof(saveAction));
+            if (textEditService == null) throw new ArgumentNullException(nameof(textEditService));
 
             _context = context;
             _function = function;
             _saveAction = saveAction;
+            _textEditService = textEditService;
 
             //Commands
             RunCommand = new RelayCommand(Run, CanRun);
@@ -91,17 +93,19 @@ namespace CaptiveAire.VPL.ViewModel
         {
             var name = Function.Variables.Select(v => v.Name).CreateUniqueName($"{SelectedType.Name} {{0}}");
 
-            var dialog = new RenameDialog(name, "Add Variable")
-            {
-                WindowStartupLocation = WindowStartupLocation.CenterScreen,
-                Owner = WindowUtil.GetActiveWindow()
-            };
+            bool wasAccepted = false;
 
-            if (dialog.ShowDialog() == true)
+            _textEditService.EditText(name, "Name", "Add Variable", t =>
+            {
+                name = t;
+                wasAccepted = true;
+            }, t => !string.IsNullOrWhiteSpace(t));
+
+            if (wasAccepted)
             {
                 var variable = new Variable(Function, SelectedType, Guid.NewGuid())
                 {
-                    Name = dialog.EditedName
+                    Name = name
                 };
 
                 Function.AddVariable(variable);

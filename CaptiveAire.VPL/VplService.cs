@@ -5,6 +5,7 @@ using CaptiveAire.VPL.Metadata;
 using CaptiveAire.VPL.Model;
 using CaptiveAire.VPL.View;
 using CaptiveAire.VPL.ViewModel;
+using Cas.Common.WPF;
 
 namespace CaptiveAire.VPL
 {
@@ -23,7 +24,7 @@ namespace CaptiveAire.VPL
             var functionViewModel = CreateRuntimeFunctionInner(metadata);
           
             //Create the view model
-            var editorViewModel = new FunctionEditorViewModel(_context, functionViewModel, saveAction);
+            var editorViewModel = new FunctionEditorViewModel(_context, functionViewModel, saveAction, new TextEditService());
 
             var view = new FunctionEditorDialog(_context.CustomResources)
             {

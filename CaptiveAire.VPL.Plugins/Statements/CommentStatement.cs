@@ -40,6 +40,7 @@ namespace CaptiveAire.VPL.Plugins.Statements
             {
                 _comment = value; 
                 RaisePropertyChanged();
+                Owner.MarkDirty();
             }
         }
 

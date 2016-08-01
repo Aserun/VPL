@@ -6,8 +6,10 @@
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:converters="clr-namespace:Cas.Common.WPF.Converters;assembly=Cas.Common.WPF"
              xmlns:viewModel="clr-namespace:CaptiveAire.VPL.ViewModel"
+             xmlns:vpl="clr-namespace:CaptiveAire.VPL"
              mc:Ignorable="d" 
-             d:DataContext="{x:Static viewModel:ViewModelLocator.BooleanParameter}">
+             x:ClassModifier="internal"
+             d:DataContext="{d:DesignInstance vpl:Parameter, d:IsDesignTimeCreatable=False}">
 
     <UserControl.Resources>
         <converters:CollapsedWhenFalseConverter x:Key="CollapsedWhenFalseConverter"/>

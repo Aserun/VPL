@@ -6,7 +6,7 @@
              xmlns:viewModel="clr-namespace:CaptiveAire.VPL.ViewModel"
              xmlns:view="clr-namespace:CaptiveAire.VPL.View"
              mc:Ignorable="d" 
-             
+             x:ClassModifier="internal"
              d:DesignHeight="300" d:DesignWidth="300">
     
     <UserControl.Resources>

@@ -76,7 +76,7 @@ namespace CaptiveAire.VPL.Plugins.Operators
             {
                 _operatorType = value; 
                 RaisePropertyChanged();
-
+                Owner.MarkDirty();
                 Service = _services[value];
             }
         }

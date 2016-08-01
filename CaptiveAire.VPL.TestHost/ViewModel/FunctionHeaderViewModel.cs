@@ -48,15 +48,9 @@ namespace CaptiveAire.VPL.TestHost.ViewModel
 
         private void Rename()
         {
-            var dialog = new RenameDialog(Name, "Function")
-            {
-                Owner = WindowUtil.GetActiveWindow()
-            };
+            var textEditService = new TextEditService();
 
-            if (dialog.ShowDialog() == true)
-            {
-                Name = dialog.EditedName;
-            }
+            textEditService.EditText(Name, "Function", "Rename Function", t => Name = t, t => !string.IsNullOrWhiteSpace(t));
         }
 
         private bool CanRename()

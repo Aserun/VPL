@@ -2,7 +2,7 @@
 
 namespace CaptiveAire.VPL.View
 {
-    public partial class ElementResources
+    internal partial class ElementResources
     {
         public ElementResources()
         {

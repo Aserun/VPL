@@ -8,9 +8,10 @@
              xmlns:viewModel="clr-namespace:CaptiveAire.VPL.ViewModel"
              xmlns:behaviors="clr-namespace:CaptiveAire.VPL.Behaviors"
              xmlns:view="clr-namespace:CaptiveAire.VPL.View"
+             xmlns:vpl="clr-namespace:CaptiveAire.VPL"
              mc:Ignorable="d" 
-             
-             d:DataContext="{x:Static viewModel:ViewModelLocator.Statement}">
+             x:ClassModifier="internal"
+             d:DataContext="{d:DesignInstance vpl:Statement, d:IsDesignTimeCreatable=False}">
 
     <UserControl.Foreground>
         <SolidColorBrush Color="{Binding Path=ForegroundColor}" />

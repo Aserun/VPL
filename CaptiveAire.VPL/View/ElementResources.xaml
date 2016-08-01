@@ -3,6 +3,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:CaptiveAire.VPL.View"
                     xmlns:viewModel="clr-namespace:CaptiveAire.VPL.ViewModel"
+                    x:ClassModifier="internal"
                     xmlns:controls="clr-namespace:Cas.Common.WPF.Controls;assembly=Cas.Common.WPF"
                     xmlns:vpl="clr-namespace:CaptiveAire.VPL">
     
