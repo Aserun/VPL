@@ -1,11 +1,12 @@
 ﻿using System;
+using System.ComponentModel;
 
 namespace CaptiveAire.VPL.Interfaces
 {
     /// <summary>
     /// An argument to a function.
     /// </summary>
-    public interface IArgument
+    public interface IArgument : INotifyPropertyChanged
     {
         /// <summary>
         /// The unique id of this argument. At runtime, a variable will be created with this id.

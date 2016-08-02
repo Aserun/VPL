@@ -1,0 +1,62 @@
+﻿<UserControl x:Class="CaptiveAire.VPL.View.VariableView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:CaptiveAire.VPL.View"
+             xmlns:vpl="clr-namespace:CaptiveAire.VPL"
+             xmlns:converters="clr-namespace:Cas.Common.WPF.Converters;assembly=Cas.Common.WPF"
+             mc:Ignorable="d" 
+             x:ClassModifier="internal"
+             HorizontalAlignment="Stretch"
+             d:DataContext="{d:DesignInstance vpl:Variable, d:IsDesignTimeCreatable=False}">
+    
+    <UserControl.Resources>
+        <converters:HiddenWhenTrueConverter x:Key="HiddenWhenTrueConverter"/>
+        <converters:HiddenWhenFalseConverter x:Key="HiddenWhenFalseConverter"/>
+    </UserControl.Resources>
+
+    <Grid>
+
+        <!-- System -->
+        <Rectangle Fill="#D4EBFE" Margin="1" RadiusY="4" Visibility="{Binding Path=Persist, Converter={StaticResource HiddenWhenTrueConverter}}"/>
+        
+        <!-- Normal -->
+        <Rectangle Fill="#F1F0F0" Margin="1" RadiusY="4" Visibility="{Binding Path=Persist, Converter={StaticResource HiddenWhenFalseConverter}}"/>
+    
+        <Grid Margin="4">
+            
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.Resources>
+                <Style TargetType="Ellipse">
+                    <Setter Property="Fill" Value="CornflowerBlue"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Fill" Value="Red"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Resources>
+
+            <Grid Grid.Column="0"  Margin="2" IsHitTestVisible="True" Background="Transparent" x:Name="VariableGetterGrid" MouseLeftButtonDown="VariableGetterGrid_OnMouseLeftButtonDown" ToolTip="Drag to create a Variable Getter...">
+                <Ellipse Width="20" Height="20"/>
+                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" IsHitTestVisible="False">G</TextBlock>
+            </Grid>
+            <Grid Grid.Column="1" Margin="2" IsHitTestVisible="True" Background="Transparent" x:Name="VariableSetterGrid" MouseLeftButtonDown="VariableSetterGrid_OnMouseLeftButtonDown" ToolTip="Drag to create a Variable Setter...">
+                <Ellipse Width="20" Height="20" />
+                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White"  IsHitTestVisible="False">S</TextBlock>
+            </Grid>
+            <ContentControl  Grid.Column="2" Content="{Binding Path=Editor}" Margin="2"/>
+            <TextBlock  Grid.Column="3" VerticalAlignment="Center">
+                <TextBlock Text="{Binding Path=Name}"/><TextBlock Text=" ("/><TextBlock Text="{Binding Path=Type.Name}"/><TextBlock Text=")"/>
+            </TextBlock>
+        </Grid>
+
+    </Grid>
+</UserControl>

@@ -40,6 +40,28 @@ namespace CaptiveAire.VPL
             return CreateRuntimeFunctionInner(metadata);
         }
 
+        public Guid? SelectVplType(Guid? selectedVplType = null)
+        {
+            //Create the view model
+            var viewModel = new SelectTypeDialogViewModel(_context.Types)
+            {
+                SelectedTypeId = selectedVplType
+            };
+
+            var view = new SelectTypeDialogView()
+            {
+                Owner = WindowUtil.GetActiveWindow(),
+                DataContext = viewModel
+            };
+
+            if (view.ShowDialog() == true)
+            {
+                return viewModel.SelectedTypeId;
+            }
+
+            return null;
+        }
+
         public IEnumerable<IVplType> Types
         {
             get { return _context.Types; }

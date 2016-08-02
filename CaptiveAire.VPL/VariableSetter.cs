@@ -18,7 +18,7 @@ namespace CaptiveAire.VPL
             if (variableId == Guid.Empty)
                 throw new ArgumentException("variableId was default value.", nameof(variableId));
 
-            _variable = owner.GetVariable(variableId);
+            _variable = owner.GetVariableOrThrow(variableId);
             _variable.NameChanged += VariableNameChanged;
             _parameter = AddParameter(owner, _variable);
         }
@@ -31,7 +31,7 @@ namespace CaptiveAire.VPL
 
             var data = JsonConvert.DeserializeObject<VariableSetterData>(context.Data);
 
-            _variable = context.Owner.GetVariable(data.VariableId);
+            _variable = context.Owner.GetVariableOrThrow(data.VariableId);
             _variable.NameChanged += VariableNameChanged;
             _parameter = AddParameter(context.Owner, _variable);
         }

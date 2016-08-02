@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using CaptiveAire.VPL.Interfaces;
 using CaptiveAire.VPL.Model;
@@ -34,7 +35,17 @@ namespace CaptiveAire.VPL.Extensions
 
         public static IVariable GetVariable(this IElementOwner owner, Guid variableId)
         {
-            return owner.Variables.First(v => v.Id  == variableId);
+            return owner.Variables.FirstOrDefault(v => v.Id == variableId);
+        }
+
+        public static IVariable GetVariableOrThrow(this IElementOwner owner, Guid variableId)
+        {
+            var variable = owner.GetVariable(variableId);
+
+            if (variable == null)
+                throw new KeyNotFoundException($"Unable to find variable with id '{variableId}'");
+
+            return variable;
         }
 
         /// <summary>

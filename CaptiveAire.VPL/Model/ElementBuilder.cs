@@ -147,7 +147,7 @@ namespace CaptiveAire.VPL.Model
                     argumentMetadata.Id = Guid.NewGuid();
                 }
 
-                var argument = new Argument(argumentMetadata);
+                var argument = new Argument(owner, argumentMetadata);
 
                 owner.AddArgument(argument);
             }
@@ -170,17 +170,27 @@ namespace CaptiveAire.VPL.Model
                 AddToOwner(function, functionMetadata.Variables);
             }
 
+            //Add arguments
+            if (functionMetadata.Arguments != null)
+            {
+                AddToOwner(function, functionMetadata.Arguments);
+            }
+
+            //Add return variable
+            if (functionMetadata.ReturnTypeId != null)
+            {
+                //Get the type for the return variable.
+                var type = function.GetVplType(functionMetadata.ReturnTypeId.Value);
+
+                //Add the return variable.
+                function.AddVariable(new ReturnValueVariable(function, type));
+            }
+
             //Add elements
             if (functionMetadata.Elements != null)
             {
                 AddToOwner(function, functionMetadata.Elements);
-            }
-
-            //Add arguments
-            if (functionMetadata.Arguments != null)
-            {
-                 AddToOwner(function, functionMetadata.Arguments);
-            }
+            }           
 
             function.MarkClean();
         }

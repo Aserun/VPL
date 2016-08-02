@@ -1,0 +1,42 @@
+﻿<Window x:Class="CaptiveAire.VPL.View.SelectTypeDialogView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewModel="clr-namespace:CaptiveAire.VPL.ViewModel"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:behaviors="clr-namespace:Cas.Common.WPF.Behaviors;assembly=Cas.Common.WPF"
+        mc:Ignorable="d"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterOwner"
+        SizeToContent="Height"
+        x:ClassModifier="internal"
+        d:DataContext="{d:DesignInstance viewModel:SelectTypeDialogViewModel, d:IsDesignTimeCreatable=False}"
+        Title="Select Type" Width="300" Icon="/CaptiveAire.VPL;component/Images/type_16xLG.png">
+    
+    <i:Interaction.Behaviors>
+        <behaviors:CloseableBehavior/>
+    </i:Interaction.Behaviors>
+    
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <ComboBox ItemsSource="{Binding Path=Types}" SelectedValuePath="Id" DisplayMemberPath="Name" SelectedValue="{Binding Path=SelectedTypeId}" Margin="4"/>
+
+        <StackPanel Grid.Row="1" HorizontalAlignment="Right" Orientation="Horizontal">
+            <StackPanel.Resources>
+                <Style TargetType="Button">
+                    <Setter Property="Margin" Value="4"/>
+                    <Setter Property="MinWidth" Value="60"></Setter>
+                </Style>
+            </StackPanel.Resources>
+
+            <Button Command="{Binding Path=OkCommand}" IsDefault="True">_OK</Button>
+            <Button IsCancel="True">_Cancel</Button>
+        </StackPanel>
+    </Grid>
+</Window>

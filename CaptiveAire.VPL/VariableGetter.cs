@@ -9,16 +9,44 @@ namespace CaptiveAire.VPL
 {
     internal class VariableGetter : OperatorBase, IVariableReference
     {
-        private readonly IVariable _variable;
+        private readonly Guid _id;
+        private readonly Lazy<IVariable> _variable;
+
+        private VariableGetter(IElementOwner owner) 
+            : base(owner, Model.SystemElementIds.VariableGetter)
+        {
+            _variable = new Lazy<IVariable>(GetVariable);
+        }
 
         public VariableGetter(IElementOwner owner, Guid variableId) 
-            : base(owner, Model.SystemElementIds.VariableGetter)
+            : this(owner)
         {
             if (variableId == Guid.Empty)
                 throw new ArgumentException("variableId was default value.", nameof(variableId));
 
-            _variable = owner.GetVariable(variableId);
-            _variable.NameChanged += VariableNameChanged;
+            _id = variableId;
+        }
+
+        public VariableGetter(IElementCreationContext context)
+          : this(context.Owner)
+        {
+            if (string.IsNullOrWhiteSpace(context.Data))
+                throw new ArgumentNullException($"Custom serialization data missing for {GetType().Name}");
+
+            var data = JsonConvert.DeserializeObject<VariableGetterData>(context.Data);
+
+            _id = data.VariableId;
+        }
+
+        private IVariable GetVariable()
+        {
+            // Get the variable
+            var variable = Owner.GetVariableOrThrow(_id);
+
+            //Listen to the name changed event.
+            variable.NameChanged += VariableNameChanged;
+
+            return variable;
         }
 
         private void VariableNameChanged(object sender, EventArgs e)
@@ -26,21 +54,9 @@ namespace CaptiveAire.VPL
             RaisePropertyChanged(() => Label);
         }
 
-        public VariableGetter(IElementCreationContext context) 
-            : base(context.Owner, Model.SystemElementIds.VariableGetter)
-        {
-            if (string.IsNullOrWhiteSpace(context.Data))
-                throw new ArgumentNullException($"Custom serialization data missing for {GetType().Name}");
-
-            var data = JsonConvert.DeserializeObject<VariableGetterData>(context.Data);
-
-            _variable = Owner.GetVariable(data.VariableId);
-            _variable.NameChanged += VariableNameChanged;
-        }
-
         public override object Label
         {
-            get { return $"Get [{_variable.Name}]" ; }
+            get { return $"Get [{_variable.Value.Name}]" ; }
             set {  }
         }
 
@@ -48,7 +64,7 @@ namespace CaptiveAire.VPL
         {
             var data = new VariableGetterData()
             {
-                VariableId = _variable.Id
+                VariableId = _id
             };
 
             return JsonConvert.SerializeObject(data);
@@ -56,12 +72,12 @@ namespace CaptiveAire.VPL
 
         public override IVplType Type
         {
-            get { return _variable.Type; }
+            get { return _variable.Value.Type; }
         }
 
         public override Task<object> EvaluateAsync(CancellationToken token)
         {
-            return Task.FromResult(_variable.Value);
+            return Task.FromResult(_variable.Value.Value);
         }
 
         private class VariableGetterData
@@ -71,7 +87,7 @@ namespace CaptiveAire.VPL
 
         public Guid VariableId
         {
-            get { return _variable.Id; }
+            get { return _id; }
         }
     }
 }

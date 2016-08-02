@@ -32,7 +32,7 @@ namespace CaptiveAire.VPL
             _id = id;
 
             RenameCommand = new RelayCommand(Rename, CanRename);
-            DeleteCommand = new RelayCommand(Delete, CanDelete);
+            DeleteCommand = new RelayCommand(() => Delete(), CanDelete);
 
             _editor = new Lazy<Visual>(type.CreateVisual);
             _value = type.DefaultValue;
@@ -53,25 +53,26 @@ namespace CaptiveAire.VPL
             return true;
         }
 
-        protected virtual void Delete()
+        public virtual bool Delete()
         {
             //Check to see if this variable is in use
             if (_owner.GetAllElements().OfType<IVariableReference>().Any(v => v.VariableId == Id))
             {
                 MessageBox.Show($"Variable '{Name}' is use.", "Unable to delete variable");
+                return false;
             }
-            else
-            {
-                _owner.RemoveVariable(this);
-            }
+            
+            //Remove the variable
+            _owner.RemoveVariable(this);
+            return true;
         }
 
-        protected virtual bool CanDelete()
+        public virtual bool CanDelete()
         {
             return true;
         }
 
-        public string Name
+        public virtual string Name
         {
             get { return _name; }
             set
@@ -105,6 +106,11 @@ namespace CaptiveAire.VPL
         public Guid Id
         {
             get { return _id; }
+        }
+
+        public virtual bool Persist
+        {
+            get { return true; }
         }
     }
 }

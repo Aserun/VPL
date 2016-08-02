@@ -7,6 +7,7 @@ using CaptiveAire.VPL.Extensions;
 using CaptiveAire.VPL.Interfaces;
 using CaptiveAire.VPL.Metadata;
 using CaptiveAire.VPL.Model;
+using CaptiveAire.VPL.View;
 using Cas.Common.WPF;
 using Cas.Common.WPF.Behaviors;
 using Cas.Common.WPF.Interfaces;
@@ -47,6 +48,8 @@ namespace CaptiveAire.VPL.ViewModel
             ApplyCommand = new RelayCommand(Apply, CanOk);
             AddVariableCommand = new RelayCommand(AddVariable, CanAddVariable);
             PasteCommand = new RelayCommand(Paste, CanPaste);
+            SelectReturnTypeCommand = new RelayCommand(SelectReturnType);
+            ClearReturnTypeCommand = new RelayCommand(() => ClearReturnType(), CanClearReturnType);
 
             //Create the toolbox
             _tools = new ToolsViewModel<IElementFactory>(context.ElementFactoryManager.Factories.Where(f => f.ShowInToolbox));
@@ -62,6 +65,65 @@ namespace CaptiveAire.VPL.ViewModel
         public ICommand ApplyCommand { get; private set; }
         public ICommand AddVariableCommand { get; private set; }
         public ICommand PasteCommand { get; private set; }
+        public ICommand SelectReturnTypeCommand { get; private set; }
+        public ICommand ClearReturnTypeCommand { get; private set; }
+
+        private void SelectReturnType()
+        {
+            //Create the view model
+            var viewModel = new SelectTypeDialogViewModel(_context.Types)
+            {
+                SelectedTypeId = Function.ReturnTypeId
+            };
+
+            var view = new SelectTypeDialogView()
+            {
+                Owner = WindowUtil.GetActiveWindow(),
+                DataContext = viewModel
+            };
+
+            if (view.ShowDialog() == true)
+            {
+                if (ClearReturnType())
+                {
+
+                    Function.ReturnTypeId = viewModel.SelectedTypeId;
+
+                    if (Function.ReturnTypeId != null)
+                    {
+                        //Get the type
+                        var type = Function.GetVplType(Function.ReturnTypeId.Value);
+
+                        //Add the return variable
+                        Function.AddVariable(new ReturnValueVariable(Function, type));
+                    }
+                }
+            }
+        }
+
+        private bool ClearReturnType()
+        {
+            //Check to see if the return variable is in use.
+            var variable = Function.GetVariable(ReturnValueVariable.ReturnVariableId);
+
+            if (variable == null)
+                return true;
+            
+            //Try to delete the variable
+            if (variable.Delete())
+            {
+                Function.ReturnTypeId = null;
+
+                return true;
+            }
+
+            return false;
+        }
+
+        private bool CanClearReturnType()
+        {
+            return _function.ReturnTypeId.HasValue;
+        }
 
         private void Paste()
         {

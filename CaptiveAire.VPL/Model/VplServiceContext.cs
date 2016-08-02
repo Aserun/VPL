@@ -40,7 +40,7 @@ namespace CaptiveAire.VPL.Model
                 new VplType(VplTypeId.Int, "Int", () => new TextValueView(), 0, typeof(int)),
                 new VplType(VplTypeId.Byte, "Byte", () => new TextValueView(), (byte)0, typeof(byte)),
                 new VplType(VplTypeId.UInt16, "UInt16", () => new TextValueView(), (ushort)0, typeof(ushort)),
-                new VplType(VplTypeId.UInt32, "UInt32)", () => new TextValueView(), (uint)0, typeof(uint)),
+                new VplType(VplTypeId.UInt32, "UInt32", () => new TextValueView(), (uint)0, typeof(uint)),
                 new VplType(VplTypeId.Single, "Single", () => new TextValueView(), (float)0, typeof(float)),
                 new VplType(VplTypeId.SByte, "Int8", () => new TextValueView(), (sbyte)0, typeof(sbyte)),
                 new VplType(VplTypeId.Int16, "Int16", () => new TextValueView(), (short)0, typeof(short))

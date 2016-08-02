@@ -31,7 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Cas.Common.WPF, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Cas.Common.WPF.1.0.34\lib\net45\Cas.Common.WPF.dll</HintPath>
+      <HintPath>..\packages\Cas.Common.WPF.1.0.35\lib\net45\Cas.Common.WPF.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="PresentationCore" />
@@ -55,6 +55,7 @@
     <Compile Include="IArgument.cs" />
     <Compile Include="IBlock.cs" />
     <Compile Include="IBlocks.cs" />
+    <Compile Include="IDeleteable.cs" />
     <Compile Include="IElement.cs" />
     <Compile Include="IElementAction.cs" />
     <Compile Include="IElementBuilder.cs" />

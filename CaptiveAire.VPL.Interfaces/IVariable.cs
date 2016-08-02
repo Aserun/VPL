@@ -3,7 +3,7 @@ using System.Dynamic;
 
 namespace CaptiveAire.VPL.Interfaces
 {
-    public interface IVariable
+    public interface IVariable : IDeleteable
     {
         /// <summary>
         /// To be raised when the name of the variable changes.
@@ -29,5 +29,11 @@ namespace CaptiveAire.VPL.Interfaces
         /// Gets or sets the value of the variable
         /// </summary>
         object Value { get; set; }
+        /// <summary>
+        /// 
+        /// Gets a flag indicating whether this variable should be persisted on its own.
+        /// (e.g. Arguments and Return variables are created automatically)
+        /// </summary>
+        bool Persist { get; }
     }
 }

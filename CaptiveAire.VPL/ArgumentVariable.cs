@@ -13,6 +13,16 @@ namespace CaptiveAire.VPL
             if (argument == null) throw new ArgumentNullException(nameof(argument));
 
             _argument = argument;
+
+            argument.PropertyChanged += Argument_PropertyChanged;
+        }
+
+        private void Argument_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(IArgument.Name))
+            {
+                RaisePropertyChanged(nameof(Name));
+            }
         }
 
         protected IArgument Argument
@@ -23,6 +33,20 @@ namespace CaptiveAire.VPL
         protected override bool CanRename()
         {
             return false;
+        }
+
+        public override string Name
+        {
+            get { return _argument.Name; }
+            set {  }
+        }
+
+        /// <summary>
+        /// Argument variables are created by their argument definitions.
+        /// </summary>
+        public override bool Persist
+        {
+            get { return false; }
         }
     }
 }

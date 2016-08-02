@@ -29,26 +29,18 @@ namespace CaptiveAire.VPL.Plugins.Functions
             return _behavior.GetData();
         }
 
-        public override Task<object> EvaluateAsync(CancellationToken token)
+        public override async Task<object> EvaluateAsync(CancellationToken token)
         {
             token.ThrowIfCancellationRequested();
 
             //Create an instance of the function to be called
             var function = _behavior.GetFunctionOrThrow();
 
-            var result = function.GetEntrancePoint();
+            //Get the parameters
+            var parameters = await _behavior.GetParameterValuesAsync(token);
 
-            if (result.Statement == null)
-            {
-                throw new InvalidOperationException(result.Error);
-            }
-
-            //TODO: Pass in params
-            //var executor = new Executor();
-
-            throw new NotImplementedException("function evaluation is not yet complete.");
-
-            //await executor.ExecuteAsync(result.Statement, token);
+            //Execute the function and return its value
+            return await function.ExecuteAsync(parameters, token);
         }
     }
 }

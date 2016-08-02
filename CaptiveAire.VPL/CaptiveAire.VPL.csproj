@@ -40,7 +40,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Cas.Common.WPF, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Cas.Common.WPF.1.0.34\lib\net45\Cas.Common.WPF.dll</HintPath>
+      <HintPath>..\packages\Cas.Common.WPF.1.0.35\lib\net45\Cas.Common.WPF.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="GalaSoft.MvvmLight, Version=5.3.0.19026, Culture=neutral, PublicKeyToken=e7570ab207bcb616, processorArchitecture=MSIL">
@@ -109,11 +109,18 @@
     <Compile Include="Argument.cs" />
     <Compile Include="OperatorBase.cs" />
     <Compile Include="ArgumentVariable.cs" />
+    <Compile Include="ReturnValueVariable.cs" />
     <Compile Include="VariableGetter.cs" />
     <Compile Include="VariableSetter.cs" />
     <Compile Include="Variable.cs" />
+    <Compile Include="ViewModel\ArgumentDialogViewModel.cs" />
+    <Compile Include="ViewModel\SelectTypeDialogViewModel.cs" />
+    <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Compile Include="View\AnyValueView.xaml.cs">
       <DependentUpon>AnyValueView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ArgumentDialogView.xaml.cs">
+      <DependentUpon>ArgumentDialogView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\BooleanValueView.xaml.cs">
       <DependentUpon>BooleanValueView.xaml</DependentUpon>
@@ -121,8 +128,14 @@
     <Compile Include="View\ElementResources.xaml.cs">
       <DependentUpon>ElementResources.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\SelectTypeDialogView.xaml.cs">
+      <DependentUpon>SelectTypeDialogView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\TextValueView.xaml.cs">
       <DependentUpon>TextValueView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\VariableView.xaml.cs">
+      <DependentUpon>VariableView.xaml</DependentUpon>
     </Compile>
     <Compile Include="VplPlugin.cs" />
     <Compile Include="VplService.cs" />
@@ -168,6 +181,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\ArgumentDialogView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\OperatorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -196,6 +213,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\SelectTypeDialogView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\StatementView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -205,6 +226,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\ToolsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\VariableView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -273,6 +298,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Interfaces\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Member_16xLG.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\type_16xLG.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

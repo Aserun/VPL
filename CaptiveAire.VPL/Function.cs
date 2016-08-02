@@ -10,6 +10,8 @@ using CaptiveAire.VPL.Extensions;
 using CaptiveAire.VPL.Interfaces;
 using CaptiveAire.VPL.Metadata;
 using CaptiveAire.VPL.Model;
+using CaptiveAire.VPL.View;
+using CaptiveAire.VPL.ViewModel;
 using Cas.Common.WPF;
 using GalaSoft.MvvmLight;
 
@@ -36,13 +38,87 @@ namespace CaptiveAire.VPL
             _functionId = functionId;
 
             _arguments = new OrderedListViewModel<IArgument>(
-                () => new Argument(new ArgumentMetadata()
-                {
-                    Id = Guid.NewGuid(),
-                }),
-                //TODO: Determine if the variable can be deleted.
-                deletedAction: a => MarkDirty(),
-                addedAction: a => MarkDirty());
+                CreateArgument,
+                deletedAction: DeleteArgument,
+                addedAction: ArgumentAdded);
+        }
+
+        /// <summary>
+        /// Returns a new argument if one was created, false otherwise.
+        /// </summary>
+        /// <returns></returns>
+        private IArgument CreateArgument()
+        {
+            var metadata = new ArgumentMetadata()
+            {
+                Id = Guid.NewGuid(),
+            };
+
+            //Create the view model
+            var viewModel = new ArgumentDialogViewModel(metadata, _context.Types);
+
+            //Create the dialog
+            var view = new ArgumentDialogView()
+            {
+                DataContext = viewModel,
+                Owner = WindowUtil.GetActiveWindow()
+            };
+
+            //Show the dialog
+            if (view.ShowDialog() == true)
+            {
+                //Create the argument
+                return new Argument(this, viewModel.ToMetadata());               
+            }
+
+            return null;
+        }
+
+        private void ArgumentAdded(IArgument argument)
+        {
+            if (argument == null)
+                return;
+
+            //Create the variable for this argument.
+            var variable = new ArgumentVariable(this, this.GetVplType(argument.TypeId), argument)
+            {
+                Name = argument.Name
+            };
+
+            //Add the variable.
+            AddVariable(variable);
+
+            //I feel so dirty now.
+            MarkDirty();
+        }
+
+        public void AddArgument(IArgument argument)
+        {
+            if (argument == null) throw new ArgumentNullException(nameof(argument));
+            if (argument.Id == Guid.Empty)
+                throw new ArgumentException($"The id of argument '{argument.Name}' was empty.");
+
+            //Add the argument
+            _arguments.Add(argument);
+
+            //I feel so dirty now.
+            MarkDirty();
+        }
+
+        private void DeleteArgument(IArgument argument)
+        {
+            if (argument == null) throw new ArgumentNullException(nameof(argument));
+
+            //Delete the corresponding variable
+            var variable = Variables.FirstOrDefault(v => v.Id == argument.Id);
+
+            if (variable != null && variable.CanDelete())
+            {
+                variable.Delete();
+            }
+
+            Arguments.Remove(argument);
+            MarkDirty();
         }
 
         public bool IsDirty
@@ -243,9 +319,11 @@ namespace CaptiveAire.VPL
             //Execute the function.
             await executor.ExecuteAsync(entrancePoint.Statement, cancellationToken);
 
-            //TODO: deal with the return value.
+            //Find the return variable
+            var returnVariable = Variables.FirstOrDefault(v => v.Id == ReturnValueVariable.ReturnVariableId);
 
-            return null;
+            //return the returnVariable value (or null)
+            return returnVariable?.Value;
         }
 
         public IVplServiceContext Context
@@ -303,26 +381,6 @@ namespace CaptiveAire.VPL
                 .ToArray();
         }
 
-        public void AddArgument(IArgument argument)
-        {
-            if (argument == null) throw new ArgumentNullException(nameof(argument));
-            if (argument.Id == Guid.Empty)
-                throw new ArgumentException($"The id of argument '{argument.Name}' was empty.");
-            
-            //Add the argument
-            _arguments.Add(argument);
-
-            //Create the variable for this argument.
-            var variable = new ArgumentVariable(this, this.GetVplType(argument.TypeId), argument)
-            {
-                Name = argument.Name
-            };
-
-            //Add the variable.
-            AddVariable(variable);
-
-            //I feel so dirty now.
-            MarkDirty();
-        }
+       
     }
 }

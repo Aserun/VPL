@@ -25,6 +25,12 @@ namespace CaptiveAire.VPL.Interfaces
         IFunction CreateRuntimeFunction(FunctionMetadata metadata);
 
         /// <summary>
+        /// Shows a dialog which allows the user to select a VPL type
+        /// </summary>
+        /// <returns></returns>
+        Guid? SelectVplType(Guid? selectedVplType = null);
+
+        /// <summary>
         /// Gets all of the types from the system and plugins.
         /// </summary>
         IEnumerable<IVplType> Types { get; }

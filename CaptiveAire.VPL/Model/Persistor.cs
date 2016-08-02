@@ -114,7 +114,7 @@ namespace CaptiveAire.VPL.Model
                 Name = function.Name,
                 Width = function.Width,
                 Height = function.Height,
-                Variables = function.Variables.Select(v => v.ToMetadata()).ToArray(),
+                Variables = function.Variables.Where(v => v.Persist).Select(v => v.ToMetadata()).ToArray(),
                 Elements = function.Elements.Select(e => e.ToMetadata()).ToArray(),
                 Arguments = function.Arguments.Select(a => a.ToMetadata()).ToArray(),
                 ReturnTypeId = function.ReturnTypeId
