@@ -56,7 +56,7 @@ namespace CaptiveAire.VPL.Plugins
             var factories = new IElementFactory[]
             {
                 new ElementFactory(SystemElementIds.Wait, CategoryNames.Control, "Wait", context => new WaitStatement(context.Owner), typeof(WaitStatement)),
-                new ElementFactory(SystemElementIds.IfElse, CategoryNames.Control, "If / Else", context => new IfElseStatement(context.Owner), typeof(IfElseStatement)),
+                new ElementFactory(SystemElementIds.IfElse, CategoryNames.Control, "If / Else", context => new IfElseStatement(context), typeof(IfElseStatement)),
                 new ElementFactory(SystemElementIds.Repeat, CategoryNames.Control, "Repeat", context => new RepeatStatement(context.Owner), typeof(RepeatStatement)),
                 new ElementFactory(SystemElementIds.While, CategoryNames.Control, "While", context => new WhileStatement(context.Owner), typeof(WhileStatement)),
             };

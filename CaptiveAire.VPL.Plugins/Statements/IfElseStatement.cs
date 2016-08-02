@@ -1,53 +1,109 @@
-﻿using System.Threading;
+﻿using System;
+using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using CaptiveAire.VPL.Extensions;
 using CaptiveAire.VPL.Interfaces;
 using CaptiveAire.VPL.Model;
+using Newtonsoft.Json;
 
 namespace CaptiveAire.VPL.Plugins.Statements
 {
     internal class IfElseStatement : CompoundStatement
     {
-        private readonly Parameter Condition;
-        private readonly Block IfBlock;
-        private readonly Block ElseBlock;
+        private readonly IfElseData _data;
 
-        public IfElseStatement(IElementOwner owner) 
-            : base(owner, Model.SystemElementIds.IfElse)
+        private const string ConditionId = "condition";
+
+        public IfElseStatement(IElementCreationContext context) 
+            : base(context.Owner, SystemElementIds.IfElse)
         {
-            Condition = new Parameter(owner, "condition", owner.GetVplType(VplTypeId.Boolean));
+            _data = new IfElseData();
 
-            IfBlock = new Block(owner, "0")
+            try
             {
-                Label = "If"
-            };
+                if (!string.IsNullOrWhiteSpace(context.Data))
+                {
+                    _data = JsonConvert.DeserializeObject<IfElseData>(context.Data);
+                }
 
-            IfBlock.Parameters.Add(Condition);
-
-            ElseBlock = new Block(owner, "1")
+                if (_data.NumberOfIfs == 0)
+                {
+                    _data.NumberOfIfs = 1;
+                }
+            }
+            catch (Exception ex)
             {
-                Label = "Else"
-            };
+                //TODO: Add this to the IElementCreationContext error/warning interface that we have yet to add.
+                Console.WriteLine(ex);
+            }
 
-            Blocks.Add(IfBlock);
-            Blocks.Add(ElseBlock);
+            for (var index = 0; index < _data.NumberOfIfs; index++)
+            {
+                var text = index == 0 ? "If" : "If Else";
+                var id = index == 0 ? "0" : $"If_{index}";
+
+                //Create the block
+                var block = new Block(context.Owner, id)
+                {
+                    Label = text
+                };
+
+                //Add the parameter
+                block.Parameters.Add(new Parameter(context.Owner, ConditionId, context.Owner.GetBooleanType()));
+
+                //Add the block to the list
+                Blocks.Add(block);
+            }
+
+            if (_data.IncludeElse)
+            {
+                var elseBlock = new Block(context.Owner, "1")
+                {
+                    Label = "Else"
+                };
+
+                Blocks.Add(elseBlock);
+            }
 
             //TODO: Add actions for adding / removing else clauses.
-            //AddAction(new ElementAction("Add Clause", () => MessageBox.Show("Not Implemented"), () => true));
+            //AddAction(new ElementAction("Add If Clause", () => , () => true));
         }
 
         protected override async Task ExecuteCoreAsync(CancellationToken cancellationToken)
         {
-            var condition = (bool)await Condition.EvaluateAsync(cancellationToken);
+            foreach (var block in Blocks)
+            {
+                //Get the parameter (if it's there)
+                var parameter = block.Parameters.FirstOrDefault();
 
-            if (condition)
-            {
-                await IfBlock.ExecuteAsync(cancellationToken);
+                if (parameter == null || (bool) await parameter.EvaluateAsync(cancellationToken))
+                {
+                    await block.ExecuteAsync(cancellationToken);
+
+                    return;
+                }
             }
-            else
+        }
+
+        public override string GetData()
+        {
+            var json = JsonConvert.SerializeObject(_data);
+
+            return json;
+        }
+
+        private class IfElseData
+        {
+            public IfElseData()
             {
-                await ElseBlock.ExecuteAsync(cancellationToken);
+                NumberOfIfs = 1;
+                IncludeElse = true;
             }
+
+            public int NumberOfIfs { get; set; }
+
+            public bool IncludeElse { get; set; }
         }
     }
 }
