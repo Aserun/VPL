@@ -14,12 +14,12 @@ namespace CaptiveAire.VPL.Plugins.Functions
         public CallFunctionStatement(IElementCreationContext context) 
             : base(context.Owner, PluginElementIds.CallFunction)
         {
-            _behavior = new CommonFunctionBehavior(context, Parameters, "Call");
+            _behavior = new CommonFunctionBehavior(context, Parameters, "Call", this);
 
             AddActions(_behavior.Actions);
 
-            BackgroundColor = Colors.Blue;
-            ForegroundColor = Colors.White;
+            BackgroundColor = Colors.Lavender;
+            ForegroundColor = Colors.Black;
         }
 
         public override object Label
@@ -48,16 +48,7 @@ namespace CaptiveAire.VPL.Plugins.Functions
 
         protected override IError[] CheckForErrorsCore()
         {
-            var errors = new List<IError>(1);
-
-            if (!_behavior.HasFunction)
-            {
-                errors.Add(new Error(this, "No function is selected.", ErrorLevel.Error));
-            }
-
-            HasError = errors.Any();
-
-            return errors.ToArray();
+            return _behavior.CheckForErrors();
         }
     }
 }

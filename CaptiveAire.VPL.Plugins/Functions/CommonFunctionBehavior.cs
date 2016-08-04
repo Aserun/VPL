@@ -7,9 +7,7 @@ using CaptiveAire.VPL.Extensions;
 using CaptiveAire.VPL.Interfaces;
 using CaptiveAire.VPL.Metadata;
 using CaptiveAire.VPL.Plugins.ViewModel;
-using CaptiveAire.VPL.View;
 using Cas.Common.WPF;
-using Cas.Common.WPF.Interfaces;
 using GalaSoft.MvvmLight;
 using Newtonsoft.Json;
 
@@ -19,21 +17,24 @@ namespace CaptiveAire.VPL.Plugins.Functions
     {
         private readonly Parameters _parameters;
         private readonly string _text;
+        private readonly IElement _parent;
         private readonly IElementOwner _owner;
         private readonly CallFunctionView _labelView;
         private readonly CallFunctionData _model;
         private FunctionMetadata _function;
         private readonly IElementAction[] _actions;
 
-        internal CommonFunctionBehavior(IElementCreationContext context, Parameters parameters, string text)
+        internal CommonFunctionBehavior(IElementCreationContext context, Parameters parameters, string text, IElement parent)
         {
             if (context == null) throw new ArgumentNullException(nameof(context));
             if (parameters == null) throw new ArgumentNullException(nameof(parameters));
-            
+            if (parent == null) throw new ArgumentNullException(nameof(parent));
+
 
             _owner = context.Owner;
             _parameters = parameters;
             _text = text;
+            _parent = parent;
 
             _labelView = new CallFunctionView()
             {
@@ -194,6 +195,18 @@ namespace CaptiveAire.VPL.Plugins.Functions
         private class CallFunctionData
         {
             public Guid FunctionId { get; set; }
-        }       
+        }
+
+        internal IError[] CheckForErrors()
+        {
+            var errors = new List<IError>(1);
+
+            if (!HasFunction)
+            {
+                errors.Add(new Error(_parent, "No function is selected.", ErrorLevel.Error));
+            }
+
+            return errors.ToArray();
+        }
     }
 }

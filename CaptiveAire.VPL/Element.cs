@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.Text;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -20,15 +22,16 @@ namespace CaptiveAire.VPL
         private readonly Parameters _parameters = new Parameters();
         private readonly IElementOwner _owner;
         private readonly Guid _elementTypeId;
-        private Point _location;
-        private Point _startLocation;
-        private bool _isDragging;
         private readonly IBlocks _blocks = new Blocks();
         private readonly ObservableCollection<IElementAction> _actions = new ObservableCollection<IElementAction>();
 
         private IElement _previous;
         private IElement _next;
-
+        private Point _location;
+        private Point _startLocation;
+        private bool _isDragging;
+        private bool _hasError;
+        private string _error;
         private object _label;
         private Color _backgroundColor;
         private Color _foregroundColor;
@@ -53,6 +56,26 @@ namespace CaptiveAire.VPL
         public ICommand CopyCommand { get; private set; }
 
         public ICommand CutCommand { get; private set; }
+
+        public bool HasError
+        {
+            get { return _hasError; }
+            private set
+            {
+                _hasError = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public string Error
+        {
+            get { return _error; }
+            private set
+            {
+                _error = value;
+                RaisePropertyChanged();
+            }
+        }
 
         public Color BackgroundColor
         {
@@ -256,6 +279,42 @@ namespace CaptiveAire.VPL
         public IEnumerable<IElementAction> Actions
         {
             get { return _actions; }
+        }
+
+        public virtual void ClearErrors()
+        {
+            HasError = false;
+            Error = null;
+        }
+
+        public void SetError(string message)
+        {
+            Error = message;
+            HasError = true;
+        }
+
+        public IError[] CheckForErrors()
+        {
+            var errors = CheckForErrorsCore();
+
+            if (errors.Any())
+            {
+                var message = new StringBuilder();
+
+                foreach (var error in errors)
+                {
+                    message.AppendLine($"[{error.Level}] - {error.Message}");
+                }
+
+                Error = message.ToString();
+            }
+
+            return errors;
+        }
+
+        protected virtual IError[] CheckForErrorsCore()
+        {
+            return new IError[] { };
         }
     }
 }

@@ -344,6 +344,10 @@ namespace CaptiveAire.VPL
             }
         }
 
+        public void SetError(string message)
+        {
+        }
+
         public IError[] CheckForErrors()
         {
             //Attempt to get the entrance point.
@@ -379,6 +383,11 @@ namespace CaptiveAire.VPL
             }
 
             return errors.ToArray();
+        }
+
+        public bool HasError
+        {
+            get { return false; }
         }
 
         public IVplServiceContext Context

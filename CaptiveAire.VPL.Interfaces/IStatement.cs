@@ -6,7 +6,7 @@ namespace CaptiveAire.VPL.Interfaces
     /// <summary>
     /// Represents an executable statement.
     /// </summary>
-    public interface IStatement : IElement, IErrorSource
+    public interface IStatement : IElement
     {
         /// <summary>
         /// Executs the statement.

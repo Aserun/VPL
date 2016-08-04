@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using CaptiveAire.VPL.Extensions;
@@ -12,8 +10,7 @@ namespace CaptiveAire.VPL
     {
         private bool _isDraggingOver;
         private bool _isExecuting;
-        private bool _hasError;
-        private string _error;
+        
 
         protected StatementBase(IElementOwner owner, Guid elementTypeId) 
             : base(owner, elementTypeId)
@@ -36,26 +33,6 @@ namespace CaptiveAire.VPL
             set
             {
                 _isDraggingOver = value;
-                RaisePropertyChanged();
-            }
-        }
-
-        public bool HasError
-        {
-            get { return _hasError; }
-            set
-            {
-                _hasError = value; 
-                RaisePropertyChanged();
-            }
-        }
-
-        public string Error
-        {
-            get { return _error; }
-            set
-            {
-                _error = value; 
                 RaisePropertyChanged();
             }
         }
@@ -94,16 +71,14 @@ namespace CaptiveAire.VPL
             try
             {
                 IsExecuting = true;
-                HasError = false;
-                Error = null;
+                ClearErrors();
 
                 await ExecuteCoreAsync(token);
             }
             catch(Exception ex)
             {
-                HasError = true;
-                Error = ex.ToString();
-                
+                SetError(ex.ToString());
+               
                 //blech. I just threw up.
                 throw;
             }
@@ -113,34 +88,6 @@ namespace CaptiveAire.VPL
             }
         }
 
-        public virtual void ClearErrors()
-        {
-            HasError = false;
-            Error = null;
-        }
-
-        public IError[] CheckForErrors()
-        {
-            var errors = CheckForErrorsCore();
-
-            if (errors.Any())
-            {
-                var message = new StringBuilder();
-
-                foreach (var error in errors)
-                {
-                    message.AppendLine($"[{error.Level}] - {error.Message}");
-                }
-
-                Error = message.ToString();
-            }
-
-            return errors;
-        }
-
-        protected virtual IError[] CheckForErrorsCore()
-        {
-            return new IError[] {};
-        }
+       
     }
 }

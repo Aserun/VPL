@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using System.Windows.Media;
 using CaptiveAire.VPL.Extensions;
 using CaptiveAire.VPL.Interfaces;
-using CaptiveAire.VPL.Model;
 
 namespace CaptiveAire.VPL.Plugins.Functions
 {
@@ -14,7 +13,7 @@ namespace CaptiveAire.VPL.Plugins.Functions
         public EvaluateFunctionOperator(IElementCreationContext context) 
             : base(context.Owner, PluginElementIds.EvaluateFunction, context.Owner.GetAnyType())
         {
-            _behavior = new CommonFunctionBehavior(context, Parameters, "Evaluate");
+            _behavior = new CommonFunctionBehavior(context, Parameters, "Evaluate", this);
 
             AddActions(_behavior.Actions);
 
@@ -44,6 +43,11 @@ namespace CaptiveAire.VPL.Plugins.Functions
 
             //Execute the function and return its value
             return await function.ExecuteAsync(parameters, token);
+        }
+
+        protected override IError[] CheckForErrorsCore()
+        {
+            return _behavior.CheckForErrors();
         }
     }
 }

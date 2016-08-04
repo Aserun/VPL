@@ -7,7 +7,7 @@ namespace CaptiveAire.VPL.Interfaces
     /// <summary>
     /// A programming element.
     /// </summary>
-    public interface IElement : IMoveable, IEntityBase
+    public interface IElement : IMoveable, IEntityBase, IErrorSource
     {
         /// <summary>
         /// Set to true when the element is being dragged.
