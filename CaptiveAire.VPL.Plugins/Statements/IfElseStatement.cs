@@ -9,6 +9,16 @@ using Newtonsoft.Json;
 
 namespace CaptiveAire.VPL.Plugins.Statements
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <remarks>
+    /// For backwards compatibility, the If / Else blocks use the following ids:
+    /// - If            : "0"
+    /// - Else If       : "If_1"
+    /// - Else If       : "If_2"
+    /// - Else          : "1"
+    /// </remarks>
     internal class IfElseStatement : CompoundStatement
     {
         private readonly IfElseData _data;
@@ -40,34 +50,88 @@ namespace CaptiveAire.VPL.Plugins.Statements
 
             for (var index = 0; index < _data.NumberOfIfs; index++)
             {
-                var text = index == 0 ? "If" : "If Else";
-                var id = index == 0 ? "0" : $"If_{index}";
-
-                //Create the block
-                var block = new Block(context.Owner, id)
-                {
-                    Label = text
-                };
-
-                //Add the parameter
-                block.Parameters.Add(new Parameter(context.Owner, ConditionId, context.Owner.GetBooleanType()));
-
-                //Add the block to the list
-                Blocks.Add(block);
+                AddIfClause(index);
             }
 
             if (_data.IncludeElse)
             {
-                var elseBlock = new Block(context.Owner, "1")
-                {
-                    Label = "Else"
-                };
-
-                Blocks.Add(elseBlock);
+               AddElse();
             }
 
-            //TODO: Add actions for adding / removing else clauses.
-            //AddAction(new ElementAction("Add If Clause", () => , () => true));
+            //Add actions for adding / removing else clauses.
+            this.AddAction("Add 'Else If'", AddIfClause);
+            this.AddAction("Remove last 'Else If'", RemoveLastIf, CanRemoveLastIf);
+            this.AddAction("Add 'Else'", AddElse, CanAddElse);
+            this.AddAction("Remove 'Else'", RemoveElse, CanRemoveElse);
+        }
+
+        private void AddIfClause(int index)
+        {
+            var text = index == 0 ? "If" : "Else If";
+            var id = index == 0 ? "0" : $"If_{index}";
+
+            //Create the block
+            var block = new Block(Owner, id)
+            {
+                Label = text
+            };
+
+            //Add the parameter
+            block.Parameters.Add(new Parameter(Owner, ConditionId, Owner.GetBooleanType()));
+
+            //Add the block to the list
+            Blocks.Insert(index, block);
+        }
+
+        private void AddIfClause()
+        {
+            AddIfClause(_data.NumberOfIfs);
+
+            _data.NumberOfIfs++;
+        }
+
+        private void RemoveLastIf()
+        {
+            if (!CanRemoveLastIf())
+                return;
+
+            Blocks.RemoveAt(_data.NumberOfIfs - 1);
+
+            _data.NumberOfIfs--;
+        }
+
+        private bool CanRemoveLastIf()
+        {
+            return _data.NumberOfIfs > 1;
+        }
+
+        private void AddElse()
+        {
+            var elseBlock = new Block(Owner, "1")
+            {
+                Label = "Else"
+            };
+
+            Blocks.Add(elseBlock);
+
+            _data.IncludeElse = true;
+        }
+
+        private bool CanAddElse()
+        {
+            return !_data.IncludeElse;
+        }
+
+        private void RemoveElse()
+        {
+            Blocks.RemoveAt(Blocks.Count - 1);
+
+            _data.IncludeElse = false;
+        }
+
+        private bool CanRemoveElse()
+        {
+            return _data.IncludeElse;
         }
 
         protected override async Task ExecuteCoreAsync(CancellationToken cancellationToken)

@@ -99,5 +99,25 @@ namespace CaptiveAire.VPL.Extensions
             //Remove the dropped item from the design surface.
             target.Owner.Remove(dropped);
         }
+
+        /// <summary>
+        /// Shortcut for adding an element action.
+        /// </summary>
+        /// <param name="element"></param>
+        /// <param name="name"></param>
+        /// <param name="execute"></param>
+        /// <param name="canExecute"></param>
+        /// <returns></returns>
+        public static IElementAction AddAction(this Element element, string name, Action execute, Func<bool> canExecute = null)
+        {
+            if (element == null) throw new ArgumentNullException(nameof(element));
+            if (execute == null) throw new ArgumentNullException(nameof(execute));
+
+            var action = new ElementAction(name, execute, canExecute);
+
+            element.AddAction(action);
+
+            return action;
+        }
     }
 }

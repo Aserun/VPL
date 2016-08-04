@@ -233,7 +233,7 @@ namespace CaptiveAire.VPL
             get { return _blocks; }
         }
 
-        protected void AddAction(IElementAction action)
+        public void AddAction(IElementAction action)
         {
             if (action == null) throw new ArgumentNullException(nameof(action));
 

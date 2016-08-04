@@ -43,7 +43,7 @@ namespace CaptiveAire.VPL.Interfaces
         /// <summary>
         /// Gets the actions associated with this element.
         /// </summary>
-        IEnumerable<IElementAction> Actions { get; } 
+        IEnumerable<IElementAction> Actions { get; }
 
         /// <summary>
         /// Gets or sets the previous element.

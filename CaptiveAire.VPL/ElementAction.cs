@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Input;
 using CaptiveAire.VPL.Interfaces;
 
 namespace CaptiveAire.VPL
@@ -37,6 +38,10 @@ namespace CaptiveAire.VPL
             _execute();
         }
 
-        public event EventHandler CanExecuteChanged;
+        public event EventHandler CanExecuteChanged
+        {
+            add { CommandManager.RequerySuggested += value; }
+            remove { CommandManager.RequerySuggested -= value; }
+        }
     }
 }
