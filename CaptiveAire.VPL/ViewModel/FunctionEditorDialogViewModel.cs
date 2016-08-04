@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Windows;
 using System.Windows.Input;
@@ -29,6 +28,7 @@ namespace CaptiveAire.VPL.ViewModel
         private IVplType _selectedType;
         private readonly IMessageBoxService _messageBoxService = new MessageBoxService();
         private ErrorViewModel[] _errors;
+        private double _scale = 1;
 
         public FunctionEditorDialogViewModel(IVplServiceContext context, Function function, Action<FunctionMetadata> saveAction, ITextEditService textEditService)
         {
@@ -53,6 +53,7 @@ namespace CaptiveAire.VPL.ViewModel
             SelectReturnTypeCommand = new RelayCommand(SelectReturnType);
             ClearReturnTypeCommand = new RelayCommand(() => ClearReturnType(), CanClearReturnType);
             CheckForErrorsCommand = new RelayCommand(CheckForErrors);
+            ResetZoomCommand = new RelayCommand(ResetZoom);
 
             //Create the toolbox
             _tools = new ToolsViewModel<IElementFactory>(context.ElementFactoryManager.Factories.Where(f => f.ShowInToolbox));
@@ -71,6 +72,7 @@ namespace CaptiveAire.VPL.ViewModel
         public ICommand SelectReturnTypeCommand { get; private set; }
         public ICommand ClearReturnTypeCommand { get; private set; }
         public ICommand CheckForErrorsCommand { get; private set; }
+        public ICommand ResetZoomCommand { get; private set; }
 
         private void CheckForErrors()
         {
@@ -87,6 +89,33 @@ namespace CaptiveAire.VPL.ViewModel
                 Errors = errors
                     .Select(e => new ErrorViewModel(e))
                     .ToArray();
+            }
+        }
+
+        
+
+        protected void ResetZoom()
+        {
+            Scale = 1.0;
+        }
+
+        public double ScaleMin
+        {
+            get { return 0.1; }
+        }
+
+        public double ScaleMax
+        {
+            get { return 2.0; }
+        }
+
+        public double Scale
+        {
+            get { return _scale; }
+            set
+            {
+                _scale = value; 
+                RaisePropertyChanged();
             }
         }
 
@@ -323,7 +352,7 @@ namespace CaptiveAire.VPL.ViewModel
             {
                 _cts = null;
 
-                _messageBoxService.Show(ex.Message);
+                _messageBoxService.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Exclamation);
             }
         }
 

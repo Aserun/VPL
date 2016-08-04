@@ -10,6 +10,7 @@
         xmlns:view="clr-namespace:CaptiveAire.VPL.View"
         xmlns:controls="clr-namespace:Cas.Common.WPF.Controls;assembly=Cas.Common.WPF"
         xmlns:wpf="clr-namespace:Cas.Common.WPF;assembly=Cas.Common.WPF"
+        xmlns:converters1="clr-namespace:CaptiveAire.VPL.Converters"
         mc:Ignorable="d"
         Background="LightGray"
         x:ClassModifier="internal"
@@ -29,6 +30,7 @@
                         <Setter Property="HorizontalAlignment" Value="Left"/>
                         <Setter Property="FontWeight" Value="Bold"/>
                     </Style>
+                    <converters1:PercentageConverter x:Key="PercentageConverter"/>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
@@ -68,13 +70,13 @@
                     <TextBlock>Check</TextBlock>
                 </StackPanel>
             </Button>
-            <Button Command="{Binding Path=RunCommand}">
+            <Button Command="{Binding Path=RunCommand}" ToolTip="Run this function.">
                 <StackPanel Orientation="Horizontal">
                     <controls:AutoGreyableImage Width="16" Source="/CaptiveAire.VPL;component/Images/arrow_run_16xLG.png" />    
                     <TextBlock>Run</TextBlock>
                 </StackPanel>
             </Button>
-            <Button Command="{Binding Path=StopCommand}">
+            <Button Command="{Binding Path=StopCommand}" ToolTip="Cancel execution.">
                 <StackPanel Orientation="Horizontal">
                     <controls:AutoGreyableImage Width="16" Source="/CaptiveAire.VPL;component/Images/Stop_16x.png" />
                     <TextBlock>Stop</TextBlock>
@@ -166,26 +168,59 @@
                             <RowDefinition Height="200"/>
                         </Grid.RowDefinitions>
 
-                        <ScrollViewer Grid.Row="0" HorizontalScrollBarVisibility="Visible" Background="Gray">
-                            <Grid Background="Transparent" IsHitTestVisible="True" Width="{Binding Function.Width}" Height="{Binding Function.Height}" x:Name="DesignRoot" AllowDrop="True" Drop="DesignRoot_OnDrop" DragOver="DesignRoot_OnDragOver" DragEnter="DesignRoot_OnDragEnter" DragLeave="DesignRoot_OnDragLeave" >
+                        <Grid PreviewMouseWheel="ScaleOnPreviewMouseWheel">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            
+                            <ScrollViewer Grid.Row="0" HorizontalScrollBarVisibility="Visible" Background="Gray">
+                                <Grid Background="Transparent" IsHitTestVisible="True" Width="{Binding Function.Width}" Height="{Binding Function.Height}" x:Name="DesignRoot" AllowDrop="True" Drop="DesignRoot_OnDrop" DragOver="DesignRoot_OnDragOver" DragEnter="DesignRoot_OnDragEnter" DragLeave="DesignRoot_OnDragLeave" >
+                                    <Grid.LayoutTransform>
+                                        <ScaleTransform ScaleX="{Binding Path=Scale}" ScaleY="{Binding Path=Scale}"/>
+                                    </Grid.LayoutTransform>
 
-                                <Grid.ContextMenu>
-                                    <ContextMenu>
-                                        <MenuItem Header="Paste" Command="{Binding Path=PasteCommand}"/>
-                                    </ContextMenu>
-                                </Grid.ContextMenu>
+                                    <Grid.ContextMenu>
+                                        <ContextMenu>
+                                            <MenuItem Header="Paste" Command="{Binding Path=PasteCommand}"/>
+                                        </ContextMenu>
+                                    </Grid.ContextMenu>
 
-                                <ItemsControl ItemsSource="{Binding Path=Function.Elements}">
-                                    <ItemsControl.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <Canvas IsItemsHost="True" Width="{Binding Function.Width}" Height="{Binding Function.Height}" Background="White"  />
-                                        </ItemsPanelTemplate>
-                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl ItemsSource="{Binding Path=Function.Elements}">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <Canvas IsItemsHost="True" Width="{Binding Function.Width}" Height="{Binding Function.Height}" Background="White"  />
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
 
-                                </ItemsControl>
+                                    </ItemsControl>
+                                </Grid>
+                            </ScrollViewer>
+
+                            <Grid Grid.Row="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="200" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <Slider Grid.Column="1" Margin="2" MinWidth="200" ToolTip="Zoom" Value="{Binding Path=Scale}" Minimum="{Binding Path=ScaleMin}" Maximum="{Binding Path=ScaleMax}" x:Name="ZoomSlider" IsMoveToPointEnabled="False" >
+
+
+                                </Slider>
+
+                                <TextBlock Grid.Column="2" VerticalAlignment="Center" Margin="2" ToolTip="Double Click to reset zoom.">
+                                    <TextBlock.InputBindings>
+                                        <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding Path=ResetZoomCommand}"/>
+                                    </TextBlock.InputBindings>
+                                    <TextBlock Text="{Binding Path=Scale, StringFormat=0, Converter={StaticResource PercentageConverter}}"/>    
+                                    <TextBlock Text="%"/>                   
+                                </TextBlock>
                             </Grid>
-                        </ScrollViewer>
+
                         
+                        </Grid>
+
                         <GridSplitter Background="DarkGray" Grid.Row="1" ResizeBehavior="PreviousAndNext" ResizeDirection="Rows" HorizontalAlignment="Stretch"/>
                         
                         <Grid Grid.Row="2">
@@ -354,14 +389,14 @@
                     </Style>
                 </StackPanel.Resources>
                 
-                <Button Command="{Binding Path=SaveCommand}">
+                <Button Command="{Binding Path=SaveCommand}" ToolTip="Save the function.">
                     <StackPanel Orientation="Horizontal">
                         <controls:AutoGreyableImage Source="/CaptiveAire.VPL;component/Images/save_16xLG.png" />
                         <TextBlock>Save</TextBlock>
                     </StackPanel>
                 </Button>
                 
-                <Button Command="{Binding Path=CloseCommand}">
+                <Button Command="{Binding Path=CloseCommand}" ToolTip="Close this window.">
                     <StackPanel Orientation="Horizontal">
                         <controls:AutoGreyableImage Source="/CaptiveAire.VPL;component/Images/Close_16x.png" />
                         <TextBlock>Close</TextBlock>

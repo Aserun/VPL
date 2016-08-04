@@ -18,7 +18,7 @@ namespace CaptiveAire.VPL
             _context = new VplServiceContext(plugins);
         }
 
-        public void EditFunction(FunctionMetadata metadata, Action<FunctionMetadata> saveAction)
+        public void EditFunction(FunctionMetadata metadata, Action<FunctionMetadata> saveAction, bool modal)
         {
             //Create the view model
             var functionViewModel = CreateRuntimeFunctionInner(metadata);
@@ -26,13 +26,22 @@ namespace CaptiveAire.VPL
             //Create the view model
             var editorViewModel = new FunctionEditorDialogViewModel(_context, functionViewModel, saveAction, new TextEditService());
 
+            //Create the view
             var view = new FunctionEditorDialog(_context.CustomResources)
             {
+                Owner = WindowUtil.GetActiveWindow(),
                 DataContext = editorViewModel
             };
 
             //Show the dialog
-            view.ShowDialog();
+            if (modal)
+            {
+                view.ShowDialog();
+            }
+            else
+            {
+                view.Show();
+            }
         }
 
         public IFunction CreateRuntimeFunction(FunctionMetadata metadata)

@@ -2,9 +2,8 @@
 using System.Threading.Tasks;
 using CaptiveAire.VPL.Extensions;
 using CaptiveAire.VPL.Interfaces;
-using CaptiveAire.VPL.Model;
 
-namespace CaptiveAire.VPL.Plugins.Operators
+namespace CaptiveAire.VPL.Plugins.Logical
 {
     internal class NotOperator : Operator
     {

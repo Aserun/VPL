@@ -4,10 +4,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using CaptiveAire.VPL.Extensions;
 using CaptiveAire.VPL.Interfaces;
-using CaptiveAire.VPL.Model;
 using Newtonsoft.Json;
 
-namespace CaptiveAire.VPL.Plugins.Statements
+namespace CaptiveAire.VPL.Plugins.Control
 {
     /// <summary>
     /// 

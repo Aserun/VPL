@@ -3,9 +3,11 @@ using CaptiveAire.VPL.Factory;
 using CaptiveAire.VPL.Interfaces;
 using CaptiveAire.VPL.Model;
 using CaptiveAire.VPL.Plugins.Annotations;
+using CaptiveAire.VPL.Plugins.Comparison;
+using CaptiveAire.VPL.Plugins.Control;
 using CaptiveAire.VPL.Plugins.Functions;
-using CaptiveAire.VPL.Plugins.Operators;
-using CaptiveAire.VPL.Plugins.Statements;
+using CaptiveAire.VPL.Plugins.Logical;
+using CaptiveAire.VPL.Plugins.Math;
 
 namespace CaptiveAire.VPL.Plugins
 {
@@ -57,10 +59,10 @@ namespace CaptiveAire.VPL.Plugins
         {
             var factories = new IElementFactory[]
             {
-                new ElementFactory(PluginElementIds.Wait, CategoryNames.Control, "Wait", context => new WaitStatement(context.Owner), typeof(WaitStatement)),
-                new ElementFactory(PluginElementIds.IfElse, CategoryNames.Control, "If / Else", context => new IfElseStatement(context), typeof(IfElseStatement)),
-                new ElementFactory(PluginElementIds.Repeat, CategoryNames.Control, "Repeat", context => new RepeatStatement(context.Owner), typeof(RepeatStatement)),
-                new ElementFactory(PluginElementIds.While, CategoryNames.Control, "While", context => new WhileStatement(context.Owner), typeof(WhileStatement)),
+                new ElementFactory(PluginElementIds.Wait, CategoryNames.Control, "Wait", context => new WaitStatement(context.Owner), typeof(WaitStatement), description:"Pauses execution for the specified number of seconds."),
+                new ElementFactory(PluginElementIds.IfElse, CategoryNames.Control, "If / Else", context => new IfElseStatement(context), typeof(IfElseStatement), description: "Conditionally executes code."),
+                new ElementFactory(PluginElementIds.Repeat, CategoryNames.Control, "Repeat", context => new RepeatStatement(context.Owner), typeof(RepeatStatement), description: "Repeats a block of code a given number of times."),
+                new ElementFactory(PluginElementIds.While, CategoryNames.Control, "While", context => new WhileStatement(context.Owner), typeof(WhileStatement), description: "Repeats a block of code while the specified condition is true."),
             };
 
             return new VplPlugin("Comparison", factories);

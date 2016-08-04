@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using CaptiveAire.VPL.Extensions;
 using CaptiveAire.VPL.Interfaces;
 
-namespace CaptiveAire.VPL.Plugins.Statements
+namespace CaptiveAire.VPL.Plugins.Control
 {
     public class WhileStatement : CompoundStatement
     {

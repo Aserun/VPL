@@ -82,17 +82,17 @@
       <DependentUpon>CallFunctionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Functions\EvaluateFunctionOperator.cs" />
-    <Compile Include="Operators\BinaryLogicalOperator.cs" />
-    <Compile Include="Operators\BinaryMathOperator.cs" />
-    <Compile Include="Operators\ComparisonOperator.cs" />
-    <Compile Include="Operators\NotOperator.cs" />
+    <Compile Include="Logical\BinaryLogicalOperator.cs" />
+    <Compile Include="Math\BinaryMathOperator.cs" />
+    <Compile Include="Comparison\ComparisonOperator.cs" />
+    <Compile Include="Logical\NotOperator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Functions\CommonFunctionBehavior.cs" />
     <Compile Include="Annotations\CommentStatement.cs" />
-    <Compile Include="Statements\IfElseStatement.cs" />
-    <Compile Include="Statements\RepeatStatement.cs" />
-    <Compile Include="Statements\WaitStatement.cs" />
-    <Compile Include="Statements\WhileStatement.cs" />
+    <Compile Include="Control\IfElseStatement.cs" />
+    <Compile Include="Control\RepeatStatement.cs" />
+    <Compile Include="Control\WaitStatement.cs" />
+    <Compile Include="Control\WhileStatement.cs" />
     <Compile Include="PluginElementIds.cs" />
     <Compile Include="SystemPluginFactory.cs" />
     <Compile Include="ViewModel\FunctionSelectionDialogViewModel.cs" />

@@ -5,10 +5,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using CaptiveAire.VPL.Extensions;
 using CaptiveAire.VPL.Interfaces;
-using CaptiveAire.VPL.Model;
 using Newtonsoft.Json;
 
-namespace CaptiveAire.VPL.Plugins.Operators
+namespace CaptiveAire.VPL.Plugins.Logical
 {
     internal class BinaryLogicalOperator : Operator
     {

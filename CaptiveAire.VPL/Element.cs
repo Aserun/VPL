@@ -295,18 +295,20 @@ namespace CaptiveAire.VPL
 
         public IError[] CheckForErrors()
         {
+            //Check for errors.s
             var errors = CheckForErrorsCore();
 
             if (errors.Any())
             {
-                var message = new StringBuilder();
+                //Format the errors
+                var formattedErrors = errors
+                    .Select(e => $"[{e.Level}] - {e.Message}");
 
-                foreach (var error in errors)
-                {
-                    message.AppendLine($"[{error.Level}] - {error.Message}");
-                }
+                //Put all of these errors in one string.
+                var message = string.Join(Environment.NewLine, formattedErrors);
 
-                Error = message.ToString();
+                //Set the error
+                SetError(message);
             }
 
             return errors;

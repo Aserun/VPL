@@ -111,5 +111,29 @@ namespace CaptiveAire.VPL.View
             CurrentDropTarget = null;
         }
 
+        private void ScaleOnPreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if (Keyboard.Modifiers == ModifierKeys.Control)
+            {
+                this.PerformViewModelAction<FunctionEditorDialogViewModel>(vm =>
+                {
+                    double scaledDelta = e.Delta / 1200.0;
+
+                    double newScale = vm.Scale + scaledDelta;
+
+                    if (newScale < vm.ScaleMin)
+                    {
+                        newScale = vm.ScaleMin;
+                    }
+
+                    if (newScale > vm.ScaleMax)
+                    {
+                        newScale = vm.ScaleMax;
+                    }
+
+                    vm.Scale = newScale;
+                });
+            }
+        }
     }
 }

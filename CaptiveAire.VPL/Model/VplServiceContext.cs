@@ -4,9 +4,6 @@ using System.Windows;
 using CaptiveAire.VPL.Factory;
 using CaptiveAire.VPL.Interfaces;
 using CaptiveAire.VPL.View;
-using CaptiveAire.VPL.ViewModel;
-using Cas.Common.WPF;
-using Cas.Common.WPF.Interfaces;
 
 namespace CaptiveAire.VPL.Model
 {
@@ -16,7 +13,6 @@ namespace CaptiveAire.VPL.Model
         private readonly IElementFactoryManager _elementFactoryManager;
         private readonly IVplType[] _types;
         private readonly IEnumerable<object> _services;
-        private readonly IViewService _viewService;
         private readonly IElementBuilder _elementBuilder;
 
         public VplServiceContext(IEnumerable<IVplPlugin> plugins = null)
@@ -61,10 +57,6 @@ namespace CaptiveAire.VPL.Model
                 .SelectMany(p => p.Services)
                 .ToArray();
 
-            _viewService = new ViewService();
-
-            _viewService.Register<FunctionEditorDialogViewModel, FunctionEditorDialog>(() => new FunctionEditorDialog(CustomResources));
-
             _elementBuilder = new ElementBuilder(_elementFactoryManager, this);
         }
 
@@ -86,11 +78,6 @@ namespace CaptiveAire.VPL.Model
         public IEnumerable<IVplType> Types
         {
             get { return _types; }
-        }
-
-        public IViewService ViewService
-        {
-            get { return _viewService; }
         }
 
         public IElementBuilder ElementBuilder

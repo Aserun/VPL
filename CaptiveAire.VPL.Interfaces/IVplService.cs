@@ -14,8 +14,9 @@ namespace CaptiveAire.VPL.Interfaces
         /// </summary>
         /// <param name="metadata"></param>
         /// <param name="saveAction"></param>
+        /// <param name="modal"></param>
         /// <returns></returns>
-        void EditFunction(FunctionMetadata metadata, Action<FunctionMetadata> saveAction);
+        void EditFunction(FunctionMetadata metadata, Action<FunctionMetadata> saveAction, bool modal = true);
 
         /// <summary>
         /// Creates a function that can be executed.
