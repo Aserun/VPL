@@ -8,7 +8,6 @@ using CaptiveAire.VPL.Extensions;
 using CaptiveAire.VPL.Interfaces;
 using CaptiveAire.VPL.Metadata;
 using CaptiveAire.VPL.Model;
-using CaptiveAire.VPL.ViewModel;
 using Cas.Common.WPF;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;

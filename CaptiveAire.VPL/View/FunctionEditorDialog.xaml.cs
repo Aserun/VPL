@@ -54,7 +54,7 @@ namespace CaptiveAire.VPL.View
 
         private void HandleDrag(DragEventArgs e, bool drop)
         {
-            this.PerformViewModelAction<FunctionEditorViewModel>(editor =>
+            this.PerformViewModelAction<FunctionEditorDialogViewModel>(editor =>
             {
                 var factory = e.Data.GetData(typeof (ElementFactory)) as IElementFactory;
 

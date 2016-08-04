@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using CaptiveAire.VPL.Extensions;
@@ -109,6 +111,36 @@ namespace CaptiveAire.VPL
             {
                 IsExecuting = false;
             }
+        }
+
+        public virtual void ClearErrors()
+        {
+            HasError = false;
+            Error = null;
+        }
+
+        public IError[] CheckForErrors()
+        {
+            var errors = CheckForErrorsCore();
+
+            if (errors.Any())
+            {
+                var message = new StringBuilder();
+
+                foreach (var error in errors)
+                {
+                    message.AppendLine($"[{error.Level}] - {error.Message}");
+                }
+
+                Error = message.ToString();
+            }
+
+            return errors;
+        }
+
+        protected virtual IError[] CheckForErrorsCore()
+        {
+            return new IError[] {};
         }
     }
 }

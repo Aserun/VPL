@@ -20,7 +20,7 @@ namespace CaptiveAire.VPL.Plugins.Operators
         private BinaryLogicalOperatorService _service;
 
         public BinaryLogicalOperator(IElementCreationContext context, BinaryLogicalOperatorType defaultType) 
-            : base(context.Owner, SystemElementIds.BinaryLogicOperator, context.Owner.GetBooleanType())
+            : base(context.Owner, PluginElementIds.BinaryLogicOperator, context.Owner.GetBooleanType())
         {
             ParameterA = new Parameter(context.Owner, "a", context.Owner.GetBooleanType());
             ParameterB = new Parameter(context.Owner, "b", context.Owner.GetBooleanType());

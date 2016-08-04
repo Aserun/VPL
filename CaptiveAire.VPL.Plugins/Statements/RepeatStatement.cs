@@ -10,7 +10,7 @@ namespace CaptiveAire.VPL.Plugins.Statements
         private readonly Parameter Condition;
         private readonly Block Block;
 
-        public RepeatStatement(IElementOwner owner) : base(owner, Model.SystemElementIds.Repeat)
+        public RepeatStatement(IElementOwner owner) : base(owner, PluginElementIds.Repeat)
         {
             Condition = new Parameter(owner, "condition", owner.GetFloatType());
 

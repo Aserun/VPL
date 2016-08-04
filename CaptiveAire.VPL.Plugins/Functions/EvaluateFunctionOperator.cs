@@ -1,6 +1,6 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Media;
 using CaptiveAire.VPL.Extensions;
 using CaptiveAire.VPL.Interfaces;
 using CaptiveAire.VPL.Model;
@@ -12,11 +12,14 @@ namespace CaptiveAire.VPL.Plugins.Functions
         private readonly CommonFunctionBehavior _behavior;
 
         public EvaluateFunctionOperator(IElementCreationContext context) 
-            : base(context.Owner, SystemElementIds.EvaluateFunction, context.Owner.GetAnyType())
+            : base(context.Owner, PluginElementIds.EvaluateFunction, context.Owner.GetAnyType())
         {
             _behavior = new CommonFunctionBehavior(context, Parameters, "Evaluate");
 
             AddActions(_behavior.Actions);
+
+            ForegroundColor = Colors.MediumSeaGreen;
+            ForegroundColor = Colors.Black;
         }
 
         public override object Label

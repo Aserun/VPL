@@ -2,11 +2,9 @@
 using System.Threading.Tasks;
 using System.Windows.Media;
 using CaptiveAire.VPL.Interfaces;
-using CaptiveAire.VPL.Model;
-using CaptiveAire.VPL.View;
-using CommentView = CaptiveAire.VPL.Plugins.View.CommentView;
+using CommentView = CaptiveAire.VPL.Plugins.Annotations.CommentView;
 
-namespace CaptiveAire.VPL.Plugins.Statements
+namespace CaptiveAire.VPL.Plugins.Annotations
 {
     internal class CommentStatement : Statement
     {
@@ -14,7 +12,7 @@ namespace CaptiveAire.VPL.Plugins.Statements
         private readonly CommentView _commentView;
 
         public CommentStatement(IElementCreationContext context) 
-            : base(context.Owner, SystemElementIds.Comment)
+            : base(context.Owner, PluginElementIds.Comment)
         {
             Comment = context.Data;
 

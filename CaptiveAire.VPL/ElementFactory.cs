@@ -1,7 +1,7 @@
 ﻿using System;
 using CaptiveAire.VPL.Interfaces;
 
-namespace CaptiveAire.VPL.Factory
+namespace CaptiveAire.VPL
 {
     public class ElementFactory : IElementFactory
     {
@@ -12,8 +12,17 @@ namespace CaptiveAire.VPL.Factory
         private readonly Type _elementType;
         private readonly Guid? _returnType;
         private readonly bool _showInToolbox;
+        private readonly string _description;
 
-        public ElementFactory(Guid elementTypeId, string category, string name, Func<IElementCreationContext, IElement> factory, Type elementType, Guid? returnType = null, bool showInToolbox = true)
+        public ElementFactory(
+            Guid elementTypeId, 
+            string category, 
+            string name, 
+            Func<IElementCreationContext, IElement> factory, 
+            Type elementType, 
+            Guid? returnType = null, 
+            bool showInToolbox = true, 
+            string description = null)
         {
             if (factory == null) throw new ArgumentNullException(nameof(factory));
             _elementTypeId = elementTypeId;
@@ -23,6 +32,7 @@ namespace CaptiveAire.VPL.Factory
             _elementType = elementType;
             _returnType = returnType;
             _showInToolbox = showInToolbox;
+            _description = description;
         }
 
         public Guid ElementTypeId
@@ -53,6 +63,11 @@ namespace CaptiveAire.VPL.Factory
         public bool ShowInToolbox
         {
             get { return _showInToolbox; }
+        }
+
+        public string Description
+        {
+            get { return _description; }
         }
 
         public IElement Create(IElementCreationContext context)

@@ -42,6 +42,32 @@ namespace CaptiveAire.VPL.Extensions
         }
 
         /// <summary>
+        /// Performs an action on all of the elements in a hierarchy. This includes compound components.
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="action"></param>
+        public static void ForAll(this IElement start, Action<IElement> action)
+        {
+            if (start == null) throw new ArgumentNullException(nameof(start));
+
+            var current = start;
+
+            while (current != null)
+            {
+                action(current);
+
+                //Do the same for each block
+                foreach (var block in current.Blocks)
+                {
+                    ForAll(block, action);
+                }
+
+                current = current.GetNext();
+            }
+
+        }
+
+        /// <summary>
         /// 
         /// </summary>
         /// <param name="element"></param>

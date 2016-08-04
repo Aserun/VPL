@@ -85,6 +85,7 @@
   <ItemGroup>
     <Compile Include="ArgumentMismatchException.cs" />
     <Compile Include="Behaviors\ElementDraggableBehavior.cs" />
+    <Compile Include="Error.cs" />
     <Compile Include="Extensions\ElementOwnerExtensions.cs" />
     <Compile Include="Extensions\Extensions.cs" />
     <Compile Include="Extensions\GetEntrancePointResult.cs" />
@@ -93,19 +94,19 @@
     <Compile Include="Extensions\PointExtensions.cs" />
     <Compile Include="Extensions\ElementExtensions.cs" />
     <Compile Include="Extensions\ResourceDictionaryExtensions.cs" />
-    <Compile Include="Factory\ElementFactory.cs" />
+    <Compile Include="ElementFactory.cs" />
     <Compile Include="Factory\ElementFactoryManager.cs" />
     <Compile Include="Factory\FactoryCategoryNames.cs" />
     <Compile Include="Model\ElementBuilder.cs" />
     <Compile Include="Model\ElementCreationContext.cs" />
-    <Compile Include="Model\EntrancePointNotFoundException.cs" />
+    <Compile Include="EntrancePointNotFoundException.cs" />
     <Compile Include="Model\StatementExecutor.cs" />
     <Compile Include="Model\FunctionService.cs" />
     <Compile Include="Model\HierarchicalNumber.cs" />
-    <Compile Include="Model\SystemElementIds.cs" />
     <Compile Include="Model\GraphicsUtil.cs" />
     <Compile Include="Model\Persistor.cs" />
-    <Compile Include="Model\VplTypeId.cs" />
+    <Compile Include="Model\SystemElementIds.cs" />
+    <Compile Include="VplTypeId.cs" />
     <Compile Include="Argument.cs" />
     <Compile Include="OperatorBase.cs" />
     <Compile Include="ArgumentVariable.cs" />
@@ -114,6 +115,7 @@
     <Compile Include="VariableSetter.cs" />
     <Compile Include="Variable.cs" />
     <Compile Include="ViewModel\ArgumentDialogViewModel.cs" />
+    <Compile Include="ViewModel\ErrorViewModel.cs" />
     <Compile Include="ViewModel\SelectTypeDialogViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Compile Include="View\AnyValueView.xaml.cs">
@@ -143,7 +145,7 @@
     <Compile Include="Blocks.cs" />
     <Compile Include="CompoundStatement.cs" />
     <Compile Include="ElementAction.cs" />
-    <Compile Include="ViewModel\FunctionEditorViewModel.cs" />
+    <Compile Include="ViewModel\FunctionEditorDialogViewModel.cs" />
     <Compile Include="Function.cs" />
     <Compile Include="Operator.cs" />
     <Compile Include="Parameters.cs" />
@@ -296,14 +298,27 @@
       <Name>CaptiveAire.VPL.Metadata</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Interfaces\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Resource Include="Images\Member_16xLG.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\type_16xLG.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\arrow_run_16xLG.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Stop_16x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\CheckForErrors_16x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Close_16x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\save_16xLG.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

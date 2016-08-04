@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using CaptiveAire.VPL.Interfaces;
 using CaptiveAire.VPL.Metadata;
-using CaptiveAire.VPL.ViewModel;
 
 namespace CaptiveAire.VPL.Model
 {

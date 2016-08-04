@@ -4,16 +4,17 @@ using System.Threading.Tasks;
 using CaptiveAire.VPL.Extensions;
 using CaptiveAire.VPL.Interfaces;
 using CaptiveAire.VPL.Model;
+using System.Collections.Generic;
 
 namespace CaptiveAire.VPL
 {
-    public class Block : Element, IElementDropTarget, IStatement, IBlock
+    public class Block : Element, IElementDropTarget, IBlock
     {
         private readonly string _id;
         private bool _isDraggingOver;
 
         public Block(IElementOwner owner, string id) 
-            : base(owner, Model.SystemElementIds.Block)
+            : base(owner, SystemElementIds.Block)
         {
             _id = id;
         }
@@ -58,6 +59,27 @@ namespace CaptiveAire.VPL
             var executor = new StatementExecutor();
 
             await executor.ExecuteAsync(Next as IStatement, token);
+        }
+
+        public string Name
+        {
+            get { return "Block"; }
+        }
+
+        public void ClearErrors()
+        {
+        }
+
+        public IError[] CheckForErrors()
+        {
+            var errors = new List<IError>(1);
+
+            if (Next == null)
+            {
+                errors.Add(new Error(this, "Block has no statements.", ErrorLevel.Warning));
+            }
+
+            return errors.ToArray();
         }
 
         public string Id

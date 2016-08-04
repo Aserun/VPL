@@ -3,7 +3,7 @@ using CaptiveAire.VPL.Interfaces;
 
 namespace CaptiveAire.VPL.Extensions
 {
-    public class GetEntrancePointResult
+    internal class GetEntrancePointResult
     {
         private readonly string _error;
         private readonly IStatement _statement;

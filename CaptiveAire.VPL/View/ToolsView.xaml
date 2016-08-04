@@ -32,6 +32,12 @@
 
 
                             <ItemsControl Grid.Row="1" ItemsSource="{Binding Path=Tools}"  HorizontalAlignment="Stretch">
+                                
+                                <ItemsControl.ItemContainerStyle>
+                                    <Style TargetType="ContentPresenter">
+                                        <Setter Property="ToolTip" Value="{Binding Path=Tool.Description}"/>
+                                    </Style>
+                                </ItemsControl.ItemContainerStyle>
 
                                 <ItemsControl.ItemTemplate>
 

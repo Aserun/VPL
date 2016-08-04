@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace CaptiveAire.VPL.Model
+namespace CaptiveAire.VPL
 {
     public class EntrancePointNotFoundException : Exception
     {

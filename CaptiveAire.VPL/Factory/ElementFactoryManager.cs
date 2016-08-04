@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using CaptiveAire.VPL.Interfaces;
 using CaptiveAire.VPL.Model;
-using CaptiveAire.VPL.ViewModel;
 
 namespace CaptiveAire.VPL.Factory
 {
-    public class ElementFactoryManager : IElementFactoryManager
+    internal class ElementFactoryManager : IElementFactoryManager
     {
         private readonly IDictionary<Guid, IElementFactory> _uniqueFactories = new Dictionary<Guid, IElementFactory>();
         private readonly List<IElementFactory> _factories;

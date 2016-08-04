@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Windows;
 using System.Windows.Input;
@@ -17,7 +18,7 @@ using Newtonsoft.Json;
 
 namespace CaptiveAire.VPL.ViewModel
 {
-    internal class FunctionEditorViewModel : ViewModelBase, ICloseableViewModel
+    internal class FunctionEditorDialogViewModel : ViewModelBase, ICloseableViewModel
     {
         private readonly IVplServiceContext _context;
         private readonly Function _function;
@@ -27,8 +28,9 @@ namespace CaptiveAire.VPL.ViewModel
         private readonly ToolsViewModel<IElementFactory> _tools;
         private IVplType _selectedType;
         private readonly IMessageBoxService _messageBoxService = new MessageBoxService();
+        private ErrorViewModel[] _errors;
 
-        public FunctionEditorViewModel(IVplServiceContext context, Function function, Action<FunctionMetadata> saveAction, ITextEditService textEditService)
+        public FunctionEditorDialogViewModel(IVplServiceContext context, Function function, Action<FunctionMetadata> saveAction, ITextEditService textEditService)
         {
             if (context == null) throw new ArgumentNullException(nameof(context));
             if (function == null) throw new ArgumentNullException(nameof(function));
@@ -44,12 +46,13 @@ namespace CaptiveAire.VPL.ViewModel
             RunCommand = new RelayCommand(Run, CanRun);
             StopCommand = new RelayCommand(Stop, CanStop);
             OkCommand = new RelayCommand(Ok, CanOk);
-            CancelCommand = new RelayCommand(Cancel, CanCancel);
-            ApplyCommand = new RelayCommand(Apply, CanOk);
+            CloseCommand = new RelayCommand(Cancel, CanCancel);
+            SaveCommand = new RelayCommand(Apply, CanOk);
             AddVariableCommand = new RelayCommand(AddVariable, CanAddVariable);
             PasteCommand = new RelayCommand(Paste, CanPaste);
             SelectReturnTypeCommand = new RelayCommand(SelectReturnType);
             ClearReturnTypeCommand = new RelayCommand(() => ClearReturnType(), CanClearReturnType);
+            CheckForErrorsCommand = new RelayCommand(CheckForErrors);
 
             //Create the toolbox
             _tools = new ToolsViewModel<IElementFactory>(context.ElementFactoryManager.Factories.Where(f => f.ShowInToolbox));
@@ -61,12 +64,31 @@ namespace CaptiveAire.VPL.ViewModel
         public ICommand RunCommand { get; private set; }
         public ICommand StopCommand { get; private set; }
         public ICommand OkCommand { get; private set; }
-        public ICommand CancelCommand { get; private set; }
-        public ICommand ApplyCommand { get; private set; }
+        public ICommand CloseCommand { get; private set; }
+        public ICommand SaveCommand { get; private set; }
         public ICommand AddVariableCommand { get; private set; }
         public ICommand PasteCommand { get; private set; }
         public ICommand SelectReturnTypeCommand { get; private set; }
         public ICommand ClearReturnTypeCommand { get; private set; }
+        public ICommand CheckForErrorsCommand { get; private set; }
+
+        private void CheckForErrors()
+        {
+            Errors = null;
+
+            var errors = Function.CheckForErrors();
+
+            if (errors.Length == 0)
+            {
+                _messageBoxService.Show("No errors or warnings found.");
+            }
+            else
+            {
+                Errors = errors
+                    .Select(e => new ErrorViewModel(e))
+                    .ToArray();
+            }
+        }
 
         private void SelectReturnType()
         {
@@ -118,6 +140,16 @@ namespace CaptiveAire.VPL.ViewModel
             }
 
             return false;
+        }
+
+        public ErrorViewModel[] Errors
+        {
+            get { return _errors; }
+            private set
+            {
+                _errors = value; 
+                RaisePropertyChanged();
+            }
         }
 
         private bool CanClearReturnType()
@@ -277,13 +309,15 @@ namespace CaptiveAire.VPL.ViewModel
         {
             try
             {
+                Errors = null;
+
                 _cts = new CancellationTokenSource();
 
                 await function.ExecuteAsync(new object[] {}, _cts.Token);
 
                 _cts = null;
 
-                MessageBox.Show("Done");
+                _messageBoxService.Show("Done");
             }
             catch (Exception ex)
             {

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using CaptiveAire.VPL.Factory;
@@ -64,7 +63,7 @@ namespace CaptiveAire.VPL.Model
 
             _viewService = new ViewService();
 
-            _viewService.Register<FunctionEditorViewModel, FunctionEditorDialog>(() => new FunctionEditorDialog(CustomResources));
+            _viewService.Register<FunctionEditorDialogViewModel, FunctionEditorDialog>(() => new FunctionEditorDialog(CustomResources));
 
             _elementBuilder = new ElementBuilder(_elementFactoryManager, this);
         }

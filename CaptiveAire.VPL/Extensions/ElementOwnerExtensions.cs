@@ -61,7 +61,7 @@ namespace CaptiveAire.VPL.Extensions
                 .FirstOrDefault();
         }
 
-        public static GetEntrancePointResult GetEntrancePoint(this IElementOwner owner)
+        internal static GetEntrancePointResult GetEntrancePoint(this IElementOwner owner)
         {
             var rootStatements = owner.GetRootElements()
                 .OfType<IStatement>()

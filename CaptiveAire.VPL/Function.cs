@@ -310,8 +310,16 @@ namespace CaptiveAire.VPL
             //Check to see if if found an entrance point.
             if (entrancePoint.Statement == null)
             {
-                throw new EntrancePointNotFoundException($"Unable to find an entrance point in function '{Name}'.");
+                throw new EntrancePointNotFoundException($"Unable to find an entrance point in function '{Name}': {entrancePoint.Error}");
             }
+
+            //Clear all of the errors
+            entrancePoint.Statement.ForAll(e =>
+            {
+                var errorSource = e as IErrorSource;
+
+                errorSource?.ClearErrors();
+            });
 
             //Create the executor.
             var executor = new StatementExecutor();
@@ -324,6 +332,53 @@ namespace CaptiveAire.VPL
 
             //return the returnVariable value (or null)
             return returnVariable?.Value;
+        }
+
+        public void ClearErrors()
+        {
+            //Do this for all of the root element chains.
+            foreach (var rootElement in Elements)
+            {
+                //Clear anything that implments IErrorSource.
+                rootElement.ForAll(e => (e as IErrorSource)?.ClearErrors());
+            }
+        }
+
+        public IError[] CheckForErrors()
+        {
+            //Attempt to get the entrance point.
+            var entrancePoint = this.GetEntrancePoint();
+
+            //Create a place to put the errors
+            var errors = new List<IError>();
+
+            //Check to find out if we found an executable statement.
+            if (entrancePoint.Statement == null)
+            {
+                //Add the error.
+                errors.Add(new Error(this, $"Unable to find an entrance point in function '{Name}': {entrancePoint.Error}", ErrorLevel.Error));
+            }
+            else
+            {
+                //Now check through the statements for errors:
+                entrancePoint.Statement.ForAll(e =>
+                {
+                    //Check to see if it's an error source.
+                    var errorSource = e as IErrorSource;
+
+                    //Check for errors
+                    var childErrors = errorSource?.CheckForErrors();
+
+                    //Check to see if there were any errors.
+                    if (childErrors != null && childErrors.Length > 0)
+                    {
+                        //Add the errors to the list.
+                        errors.AddRange(childErrors);
+                    }
+                });
+            }
+
+            return errors.ToArray();
         }
 
         public IVplServiceContext Context

@@ -52,6 +52,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ErrorLevel.cs" />
     <Compile Include="IArgument.cs" />
     <Compile Include="IBlock.cs" />
     <Compile Include="IBlocks.cs" />
@@ -66,6 +67,8 @@
     <Compile Include="IElementOwner.cs" />
     <Compile Include="IElements.cs" />
     <Compile Include="IEntityBase.cs" />
+    <Compile Include="IError.cs" />
+    <Compile Include="IErrorSource.cs" />
     <Compile Include="IExecutionContext.cs" />
     <Compile Include="IFunction.cs" />
     <Compile Include="IFunctionService.cs" />

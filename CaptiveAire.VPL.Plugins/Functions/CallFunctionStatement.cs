@@ -1,7 +1,9 @@
-﻿using System.Threading;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Media;
 using CaptiveAire.VPL.Interfaces;
-using CaptiveAire.VPL.Model;
 
 namespace CaptiveAire.VPL.Plugins.Functions
 {
@@ -10,11 +12,14 @@ namespace CaptiveAire.VPL.Plugins.Functions
         private readonly CommonFunctionBehavior _behavior;
 
         public CallFunctionStatement(IElementCreationContext context) 
-            : base(context.Owner, SystemElementIds.CallFunction)
+            : base(context.Owner, PluginElementIds.CallFunction)
         {
             _behavior = new CommonFunctionBehavior(context, Parameters, "Call");
 
             AddActions(_behavior.Actions);
+
+            BackgroundColor = Colors.Blue;
+            ForegroundColor = Colors.White;
         }
 
         public override object Label
@@ -39,6 +44,20 @@ namespace CaptiveAire.VPL.Plugins.Functions
 
             //Call the function
             await function.ExecuteAsync(parameters, cancellationToken);
+        }
+
+        protected override IError[] CheckForErrorsCore()
+        {
+            var errors = new List<IError>(1);
+
+            if (!_behavior.HasFunction)
+            {
+                errors.Add(new Error(this, "No function is selected.", ErrorLevel.Error));
+            }
+
+            HasError = errors.Any();
+
+            return errors.ToArray();
         }
     }
 }

@@ -26,7 +26,7 @@ namespace CaptiveAire.VPL.Plugins.Statements
         private const string ConditionId = "condition";
 
         public IfElseStatement(IElementCreationContext context) 
-            : base(context.Owner, SystemElementIds.IfElse)
+            : base(context.Owner, PluginElementIds.IfElse)
         {
             _data = new IfElseData();
 

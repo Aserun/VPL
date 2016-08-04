@@ -11,7 +11,7 @@ namespace CaptiveAire.VPL.Plugins.Operators
         private readonly Parameter ParameterA;
 
         public NotOperator(IElementOwner owner) 
-            : base(owner, Model.SystemElementIds.NotOperator, owner.GetBooleanType())
+            : base(owner, PluginElementIds.NotOperator, owner.GetBooleanType())
         {
             ParameterA = new Parameter(owner, "a", owner.GetVplType(VplTypeId.Boolean))
             {

@@ -1,0 +1,11 @@
+﻿<ResourceDictionary x:Class="CaptiveAire.VPL.Plugins.Annotations.AnnotationResources" 
+                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    x:ClassModifier="internal"
+                    xmlns:annotations="clr-namespace:CaptiveAire.VPL.Plugins.Annotations">
+    
+    <DataTemplate DataType="{x:Type annotations:Annotation}">
+        <annotations:AnnotationView/>
+    </DataTemplate>
+    
+</ResourceDictionary>

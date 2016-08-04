@@ -14,14 +14,22 @@
         Background="LightGray"
         x:ClassModifier="internal"
         x:Name="Root"
-        d:DataContext="{x:Static viewModel:ViewModelLocator.FunctionEditor}"
+        d:DataContext="{x:Static viewModel:ViewModelLocator.FunctionEditorDialog}"
         Title="Function Editor" Height="800" Width="1200" Icon="/CaptiveAire.VPL;component/Images/WindowIcon.png">
     
     <Window.Resources>
         <ResourceDictionary x:Name="MainResourceDictionary">
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="ElementResources.xaml"/>
-                
+                <ResourceDictionary>
+                    <Style TargetType="TextBlock" x:Key="HeaderTextBlock">
+                        <Setter Property="Margin" Value="4"/>
+                        <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="VerticalAlignment" Value="Center"/>
+                        <Setter Property="HorizontalAlignment" Value="Left"/>
+                        <Setter Property="FontWeight" Value="Bold"/>
+                    </Style>
+                </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
@@ -37,10 +45,42 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <ToolBar>
-            <Button Command="{Binding Path=RunCommand}">Run</Button>
-            <Button Command="{Binding Path=StopCommand}">Stop</Button>
-        </ToolBar>
+        <StackPanel Orientation="Horizontal">
+            <StackPanel.Resources>
+                <Style TargetType="controls:AutoGreyableImage">
+                    <Setter Property="Margin" Value="2"/>
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                </Style>
+                <Style TargetType="TextBlock">
+                    <Setter Property="Margin" Value="2"/>
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                </Style>
+                <Style TargetType="Button">
+                    <Setter Property="Margin" Value="2"/>
+                    <Setter Property="MinWidth" Value="60"/>
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                </Style>
+            </StackPanel.Resources>
+
+            <Button Command="{Binding Path=CheckForErrorsCommand}" ToolTip="Check the function for errors.">
+                <StackPanel Orientation="Horizontal">
+                    <controls:AutoGreyableImage Width="16" Source="/CaptiveAire.VPL;component/Images/CheckForErrors_16x.png" />
+                    <TextBlock>Check</TextBlock>
+                </StackPanel>
+            </Button>
+            <Button Command="{Binding Path=RunCommand}">
+                <StackPanel Orientation="Horizontal">
+                    <controls:AutoGreyableImage Width="16" Source="/CaptiveAire.VPL;component/Images/arrow_run_16xLG.png" />    
+                    <TextBlock>Run</TextBlock>
+                </StackPanel>
+            </Button>
+            <Button Command="{Binding Path=StopCommand}">
+                <StackPanel Orientation="Horizontal">
+                    <controls:AutoGreyableImage Width="16" Source="/CaptiveAire.VPL;component/Images/Stop_16x.png" />
+                    <TextBlock>Stop</TextBlock>
+                </StackPanel>
+            </Button>
+        </StackPanel>
 
         <TabControl Grid.Row="1">
             <TabItem Header="Code" >
@@ -66,7 +106,7 @@
                             </Grid.RowDefinitions>
                             
                             <Rectangle Fill="CornflowerBlue"/>
-                            <TextBlock Grid.Row="0" Text="Elements" Margin="4" VerticalAlignment="Center" Foreground="White" FontWeight="Bold"/>
+                            <TextBlock Grid.Row="0" Style="{StaticResource HeaderTextBlock}" Text="Elements" />
                             <view:ToolsView Grid.Row="1" DataContext="{Binding Path=Tools}"   />
                         </Grid>
 
@@ -84,7 +124,7 @@
                             </Grid.RowDefinitions>
                             
                             <Rectangle Fill="CornflowerBlue"/>
-                            <TextBlock Grid.Row="0" Text="Variables" Margin="4" VerticalAlignment="Center" Foreground="White" FontWeight="Bold"/>
+                            <TextBlock Grid.Row="0" Text="Variables" Style="{StaticResource HeaderTextBlock}"/>
                             
                             <ToolBar Grid.Row="1">
                                 <ComboBox ItemsSource="{Binding Path=Function.Context.Types}" DisplayMemberPath="Name" MinWidth="130" SelectedItem="{Binding Path=SelectedType}" />
@@ -118,26 +158,65 @@
                     
                     
                     <GridSplitter Grid.Column="1" ResizeBehavior="PreviousAndNext" Background="LightGray" HorizontalAlignment="Stretch"/>
-                   
-                    <ScrollViewer Grid.Column="2" Grid.Row="0" HorizontalScrollBarVisibility="Visible" Background="Gray">
-                        <Grid Background="Transparent" IsHitTestVisible="True" Width="{Binding Function.Width}" Height="{Binding Function.Height}" x:Name="DesignRoot" AllowDrop="True" Drop="DesignRoot_OnDrop" DragOver="DesignRoot_OnDragOver" DragEnter="DesignRoot_OnDragEnter" DragLeave="DesignRoot_OnDragLeave" >
-                            
-                            <Grid.ContextMenu>
-                                <ContextMenu>
-                                    <MenuItem Header="Paste" Command="{Binding Path=PasteCommand}"/>
-                                </ContextMenu>
-                            </Grid.ContextMenu>
 
-                            <ItemsControl ItemsSource="{Binding Path=Function.Elements}">
-                                <ItemsControl.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <Canvas IsItemsHost="True" Width="{Binding Function.Width}" Height="{Binding Function.Height}" Background="White"  />
-                                    </ItemsPanelTemplate>
-                                </ItemsControl.ItemsPanel>
+                    <Grid Grid.Column="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="4"/>
+                            <RowDefinition Height="200"/>
+                        </Grid.RowDefinitions>
 
-                            </ItemsControl>
+                        <ScrollViewer Grid.Row="0" HorizontalScrollBarVisibility="Visible" Background="Gray">
+                            <Grid Background="Transparent" IsHitTestVisible="True" Width="{Binding Function.Width}" Height="{Binding Function.Height}" x:Name="DesignRoot" AllowDrop="True" Drop="DesignRoot_OnDrop" DragOver="DesignRoot_OnDragOver" DragEnter="DesignRoot_OnDragEnter" DragLeave="DesignRoot_OnDragLeave" >
+
+                                <Grid.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="Paste" Command="{Binding Path=PasteCommand}"/>
+                                    </ContextMenu>
+                                </Grid.ContextMenu>
+
+                                <ItemsControl ItemsSource="{Binding Path=Function.Elements}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <Canvas IsItemsHost="True" Width="{Binding Function.Width}" Height="{Binding Function.Height}" Background="White"  />
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+
+                                </ItemsControl>
+                            </Grid>
+                        </ScrollViewer>
+                        
+                        <GridSplitter Background="DarkGray" Grid.Row="1" ResizeBehavior="PreviousAndNext" ResizeDirection="Rows" HorizontalAlignment="Stretch"/>
+                        
+                        <Grid Grid.Row="2">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
                         </Grid>
-                    </ScrollViewer>
+                        
+                        <Grid Grid.Row="3">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>    
+                            
+                            <Rectangle Grid.Row="0" Fill="CornflowerBlue"/>
+                            <TextBlock Grid.Row="0" Style="{StaticResource HeaderTextBlock}">Errors</TextBlock>
+                            
+                            <DataGrid Grid.Row="1" ItemsSource="{Binding Path=Errors}" AutoGenerateColumns="False">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Level" Binding="{Binding Path=Level}" MinWidth="100" />
+                                    <DataGridTextColumn Header="Message" Binding="{Binding Path=Message}" MinWidth="800"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                            
+                        </Grid>
+                        
+
+                    </Grid>
+
+                        
                 </Grid>
             </TabItem>
             <TabItem Header="Signature">
@@ -263,12 +342,32 @@
                 <StackPanel.Resources>
                     <Style TargetType="Button">
                         <Setter Property="Margin" Value="4"/>
-                        <Setter Property="MinWidth" Value="60"></Setter>
+                        <Setter Property="MinWidth" Value="80"></Setter>
+                    </Style>
+                    <Style TargetType="controls:AutoGreyableImage">
+                        <Setter Property="VerticalAlignment" Value="Center"/>
+                        <Setter Property="Margin" Value="2"></Setter>
+                    </Style>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="VerticalAlignment" Value="Center"/>
+                        <Setter Property="Margin" Value="2"></Setter>
                     </Style>
                 </StackPanel.Resources>
-                <Button Command="{Binding Path=OkCommand}">_OK</Button>
-                <Button Command="{Binding Path=CancelCommand}">_Cancel</Button>
-                <Button Command="{Binding Path=ApplyCommand}">_Apply</Button>
+                
+                <Button Command="{Binding Path=SaveCommand}">
+                    <StackPanel Orientation="Horizontal">
+                        <controls:AutoGreyableImage Source="/CaptiveAire.VPL;component/Images/save_16xLG.png" />
+                        <TextBlock>Save</TextBlock>
+                    </StackPanel>
+                </Button>
+                
+                <Button Command="{Binding Path=CloseCommand}">
+                    <StackPanel Orientation="Horizontal">
+                        <controls:AutoGreyableImage Source="/CaptiveAire.VPL;component/Images/Close_16x.png" />
+                        <TextBlock>Close</TextBlock>
+                    </StackPanel>
+                </Button>
+
             </StackPanel>
         </Grid>
     </Grid>

@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace CaptiveAire.VPL.Interfaces
 {
-    public interface IFunction : IElementOwner
+    public interface IFunction : IElementOwner, IErrorSource
     {
         Guid Id { get; }
 

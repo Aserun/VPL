@@ -6,7 +6,6 @@ using System.Windows;
 using CaptiveAire.VPL.Extensions;
 using CaptiveAire.VPL.Interfaces;
 using CaptiveAire.VPL.Metadata;
-using CaptiveAire.VPL.Plugins.View;
 using CaptiveAire.VPL.Plugins.ViewModel;
 using CaptiveAire.VPL.View;
 using Cas.Common.WPF;
@@ -30,10 +29,11 @@ namespace CaptiveAire.VPL.Plugins.Functions
         {
             if (context == null) throw new ArgumentNullException(nameof(context));
             if (parameters == null) throw new ArgumentNullException(nameof(parameters));
+            
 
             _owner = context.Owner;
             _parameters = parameters;
-            _text = text;           
+            _text = text;
 
             _labelView = new CallFunctionView()
             {
@@ -194,6 +194,6 @@ namespace CaptiveAire.VPL.Plugins.Functions
         private class CallFunctionData
         {
             public Guid FunctionId { get; set; }
-        }
+        }       
     }
 }

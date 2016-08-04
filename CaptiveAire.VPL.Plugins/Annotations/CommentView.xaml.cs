@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace CaptiveAire.VPL.Plugins.View
+namespace CaptiveAire.VPL.Plugins.Annotations
 {
     /// <summary>
     /// Interaction logic for CommentView.xaml

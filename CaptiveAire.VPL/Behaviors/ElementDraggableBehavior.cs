@@ -4,7 +4,6 @@ using System.Windows.Input;
 using CaptiveAire.VPL.Extensions;
 using CaptiveAire.VPL.Interfaces;
 using CaptiveAire.VPL.Model;
-using CaptiveAire.VPL.ViewModel;
 using Cas.Common.WPF.Behaviors;
 
 namespace CaptiveAire.VPL.Behaviors

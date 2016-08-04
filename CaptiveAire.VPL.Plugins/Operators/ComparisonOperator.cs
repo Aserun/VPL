@@ -18,7 +18,7 @@ namespace CaptiveAire.VPL.Plugins.Operators
         private ComparisonOperatorService _service;
 
         public ComparisonOperator(IElementCreationContext context, ComparisonOperatorType comparisonType) 
-            : base(context.Owner, SystemElementIds.ComparisonOperator, context.Owner.GetBooleanType())
+            : base(context.Owner, PluginElementIds.ComparisonOperator, context.Owner.GetBooleanType())
         {
             ParameterA = new Parameter(context.Owner, "a", context.Owner.GetFloatType());
             ParameterB = new Parameter(context.Owner, "b", context.Owner.GetFloatType());

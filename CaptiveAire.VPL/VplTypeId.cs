@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CaptiveAire.VPL.Model
+namespace CaptiveAire.VPL
 {
     public static class VplTypeId
     {

@@ -11,7 +11,7 @@ namespace CaptiveAire.VPL.Plugins.Statements
         private readonly Block Block;
 
         public WhileStatement(IElementOwner owner) 
-            : base(owner, Model.SystemElementIds.While)
+            : base(owner, PluginElementIds.While)
         {
             Condition = new Parameter(owner, "condition", owner.GetBooleanType());
 

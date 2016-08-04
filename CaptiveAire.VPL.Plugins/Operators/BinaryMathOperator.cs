@@ -19,7 +19,7 @@ namespace CaptiveAire.VPL.Plugins.Operators
         private readonly IDictionary<BinaryMathOperatorType, BinaryMathOperatorService> _services;
 
         public BinaryMathOperator(IElementCreationContext context, BinaryMathOperatorType defaultOperatorType) 
-            : base(context.Owner, SystemElementIds.BinaryMathOperator, context.Owner.GetFloatType())
+            : base(context.Owner, PluginElementIds.BinaryMathOperator, context.Owner.GetFloatType())
         {
             var services = new []
            {

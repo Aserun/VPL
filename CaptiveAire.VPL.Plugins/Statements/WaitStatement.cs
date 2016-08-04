@@ -11,7 +11,7 @@ namespace CaptiveAire.VPL.Plugins.Statements
         private readonly IParameter SecondsParameter;
 
         public WaitStatement(IElementOwner owner) 
-            : base(owner, Model.SystemElementIds.Wait)
+            : base(owner, PluginElementIds.Wait)
         {
             var secondsParameter = new Parameter(owner, "seconds", owner.GetFloatType())
             {
