@@ -72,6 +72,8 @@ namespace CaptiveAire.VPL.Plugins.Control
             //Create the block
             var block = Owner.CreateBlock(id, text);
 
+            block.IsEnabled = IsEnabled;
+
             //Add the parameter
             block.Parameters.Add(Owner.CreateParameter(ConditionId, Owner.GetBooleanType()));
 
@@ -104,6 +106,8 @@ namespace CaptiveAire.VPL.Plugins.Control
         private void AddElse()
         {
             var elseBlock = Owner.CreateBlock("1", "Else");
+
+            elseBlock.IsEnabled = IsEnabled;
 
             Blocks.Add(elseBlock);
 

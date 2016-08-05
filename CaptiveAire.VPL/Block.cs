@@ -11,6 +11,7 @@ namespace CaptiveAire.VPL
     {
         private readonly string _id;
         private bool _isDraggingOver;
+        private bool _isEnabled = true;
 
         public Block(IElementCreationContext context, string id) 
             : base(context)
@@ -60,6 +61,16 @@ namespace CaptiveAire.VPL
             await executor.ExecuteAsync(Next as IStatement, token);
         }
 
+        public bool IsEnabled
+        {
+            get { return _isEnabled; }
+            set
+            {
+                _isEnabled = value; 
+                RaisePropertyChanged();
+            }
+        }
+
         public string Name
         {
             get { return "Block"; }
@@ -69,5 +80,7 @@ namespace CaptiveAire.VPL
         {
             get { return _id; }
         }
+
+
     }
 }

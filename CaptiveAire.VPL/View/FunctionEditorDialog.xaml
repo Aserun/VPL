@@ -21,6 +21,7 @@
     <Window.InputBindings>
         <KeyBinding Key="F5" Command="{Binding Path=RunCommand}"/>
         <KeyBinding Key="Pause" Command="{Binding Path=StopCommand}"/>
+        <KeyBinding Key="S" Modifiers="Control" Command="{Binding Path=SaveCommand}"/>
     </Window.InputBindings>
     
     <Window.Resources>
@@ -352,15 +353,7 @@
                         </Grid>
                     </GroupBox>
                 </Grid>
-                
-                
-                
-                
-                <!-- Return Type -->
-                
-                <!-- Arguments -->
-                
-                <!-- Variables -->
+                               
             </TabItem>
         </TabControl>
 
@@ -393,15 +386,15 @@
                         <Setter Property="Margin" Value="2"></Setter>
                     </Style>
                 </StackPanel.Resources>
-                
-                <Button Command="{Binding Path=SaveCommand}" ToolTip="Save the function.">
+
+                <Button Command="{Binding Path=SaveCommand}" ToolTip="Save the function (Ctrl + S)">
                     <StackPanel Orientation="Horizontal">
                         <controls:AutoGreyableImage Source="/CaptiveAire.VPL;component/Images/save_16xLG.png" />
                         <TextBlock>Save</TextBlock>
                     </StackPanel>
                 </Button>
                 
-                <Button Command="{Binding Path=CloseCommand}" ToolTip="Close this window.">
+                <Button Command="{Binding Path=CloseCommand}" ToolTip="Close this window">
                     <StackPanel Orientation="Horizontal">
                         <controls:AutoGreyableImage Source="/CaptiveAire.VPL;component/Images/Close_16x.png" />
                         <TextBlock>Close</TextBlock>

@@ -24,8 +24,18 @@
     <Grid>
         <StackPanel>
 
-            <Grid HorizontalAlignment="Left" IsHitTestVisible="True" Background="Transparent" ToolTip="{Binding Path=Error}">
-           
+            <Grid HorizontalAlignment="Left" IsHitTestVisible="True" Background="Transparent" ToolTip="{Binding Path=Error}" x:Name="ContentGrid">
+                <Grid.Style>
+                    <Style TargetType="Grid">
+                        <Setter Property="Opacity" Value="1"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=IsEnabled}" Value="False">
+                                <Setter Property="Opacity" Value="0.5"></Setter>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Style>
+          
                 <i:Interaction.Behaviors>
                     <behaviors:ElementDraggableBehavior/>
                 </i:Interaction.Behaviors>
@@ -42,7 +52,11 @@
                                 <DataTrigger Binding="{Binding Path=HasError}" Value="True">
                                     <Setter Property="Fill" Value="Red"/>
                                 </DataTrigger>
+                                <DataTrigger Binding="{Binding Path=IsEnabled}" Value="False">
+                                    <Setter Property="Fill" Value="LightGray"/>
+                                </DataTrigger>
                             </Style.Triggers>
+                            
                         </Style>
                     </Rectangle.Style>
                 </Rectangle>

@@ -5,7 +5,10 @@
                     xmlns:viewModel="clr-namespace:CaptiveAire.VPL.ViewModel"
                     x:ClassModifier="internal"
                     xmlns:controls="clr-namespace:Cas.Common.WPF.Controls;assembly=Cas.Common.WPF"
-                    xmlns:vpl="clr-namespace:CaptiveAire.VPL">
+                    xmlns:vpl="clr-namespace:CaptiveAire.VPL"
+                    xmlns:converters="clr-namespace:CaptiveAire.VPL.Converters">
+
+    <converters:CollapsedIfNotStatementConverter x:Key="CollapsedIfNotStatementConverter"/>
     
     <Style TargetType="Control" x:Key="ActionsVisiblityStyle">
         <Setter Property="Visibility" Value="Visible"/>
@@ -27,6 +30,8 @@
         <Setter Property="ContextMenu">
             <Setter.Value>
                 <ContextMenu>
+                    
+                    <!-- Show these for all elements -->
                     <MenuItem Header="Cut" Command="{Binding Path=CutCommand}">
                         <MenuItem.Icon>
                             <controls:AutoGreyableImage Source="/CaptiveAire.VPL;component/Images/Cut_16x.png" />
@@ -43,10 +48,13 @@
                         </MenuItem.Icon>
                     </MenuItem>
 
-                    <Separator Style="{StaticResource ActionsVisiblityStyle}" />
+                    <!-- Only show these if the data context implements IStatement -->
+                    <Separator  Visibility="{Binding Converter={StaticResource CollapsedIfNotStatementConverter}}" />
+                    <MenuItem Header="Is Enabled?" IsCheckable="True" IsChecked="{Binding Path=IsEnabled}" Visibility="{Binding Converter={StaticResource CollapsedIfNotStatementConverter}}" ToolTip="Disable a statement to prevent it from executing. Subsequent statements will still execute."/>
 
+                    <!-- Only show these if we have actions -->
+                    <Separator Style="{StaticResource ActionsVisiblityStyle}" />
                     <MenuItem Header="Actions" ItemsSource="{Binding Path=Actions}"  Style="{StaticResource ActionsVisiblityStyle}">
-                        
                         <MenuItem.ItemContainerStyle>
                             <Style TargetType="{x:Type MenuItem}">
                                 <Setter Property="Header" Value="{Binding Path=Name}"/>

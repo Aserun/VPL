@@ -14,12 +14,23 @@ namespace CaptiveAire.VPL
     {
         private bool _isDraggingOver;
         private bool _isExecuting;
+        private bool _isEnabled = true;
 
         protected Statement(IElementCreationContext context) 
             : base(context)
         {
             BackgroundColor = Colors.CornflowerBlue;
             ForegroundColor = Colors.White;
+        }
+
+        public virtual bool IsEnabled
+        {
+            get { return _isEnabled; }
+            set
+            {
+                _isEnabled = value; 
+                RaisePropertyChanged();
+            }
         }
 
         public void Drop(IStatement dropped)
@@ -81,19 +92,23 @@ namespace CaptiveAire.VPL
         /// <returns></returns>
         public async Task ExecuteAsync(CancellationToken token)
         {
-            //Check to see if we should still be running.
-            token.ThrowIfCancellationRequested();
-
             try
             {
-                //We're executing
-                IsExecuting = true;
+                //Check to see if we should still be running.
+                token.ThrowIfCancellationRequested();
 
-                //Clear the errors (we shouldn't have to do this, but let's be paranoid)
-                ClearErrors();
+                //Check to see if we're enabled.
+                if (IsEnabled)
+                {
+                    //We're executing
+                    IsExecuting = true;
 
-                //Execute
-                await ExecuteCoreAsync(token);
+                    //Clear the errors (we shouldn't have to do this, but let's be paranoid)
+                    ClearErrors();
+
+                    //Execute
+                    await ExecuteCoreAsync(token);
+                }
             }
             catch(Exception ex)
             {

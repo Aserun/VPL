@@ -15,6 +15,15 @@
     
     <UserControl.Resources>
         <converters:CollapsedWhenFalseConverter x:Key="CollapsedWhenFalseConverter"/>
+
+        <Style TargetType="Rectangle" x:Key="BackgroundRectangle">
+            <Setter Property="Fill" Value="Goldenrod"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=IsEnabled}" Value="False">
+                    <Setter Property="Fill" Value="LightGray"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
     </UserControl.Resources>
 
     <StackPanel>
@@ -42,16 +51,27 @@
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto" MinHeight="4"/>
                             </Grid.RowDefinitions>
+                            
+                            <Grid.Style>
+                                <Style TargetType="Grid">
+                                    <Setter Property="Opacity" Value="1"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Path=IsEnabled}" Value="False">
+                                            <Setter Property="Opacity" Value="0.5"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Grid.Style>
 
-                            <Rectangle Grid.Row="0" Grid.Column="0" Fill="Goldenrod" Grid.ColumnSpan="2" RadiusX="5" RadiusY="5" IsHitTestVisible="True" />
+                            <Rectangle Grid.Row="0" Grid.Column="0" Style="{StaticResource BackgroundRectangle}" Grid.ColumnSpan="2" RadiusX="5" RadiusY="5" IsHitTestVisible="True" />
 
                             <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal">
                                 <TextBlock Text="{Binding Path=Label}" Margin="4" VerticalAlignment="Center" />
                                 <view:ParametersView DataContext="{Binding Path=.Parameters}" VerticalAlignment="Center" Margin="2"/>
                             </StackPanel>
-                            
 
-                            <Rectangle Grid.Row="1" Grid.Column="0"  Fill="Goldenrod" Margin="5,0,2,0"  />
+
+                            <Rectangle Grid.Row="1" Grid.Column="0"  Style="{StaticResource BackgroundRectangle}" Margin="5,0,2,0"  />
 
                             <ContentControl Grid.Row="1" Grid.Column="1" Margin="0,1,0,1" Content="{Binding Path=Next}" />
                             <Rectangle Fill="Red" Height="4" Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" Visibility="{Binding Path=IsDraggingOver, Converter={StaticResource CollapsedWhenFalseConverter}}"/>
@@ -68,7 +88,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" MinHeight="20"></RowDefinition>
             </Grid.RowDefinitions>
-            <Rectangle Grid.Row="0" Grid.Column="0" Fill="Goldenrod" Grid.ColumnSpan="2"  RadiusX="5" RadiusY="5" />
+            <Rectangle Grid.Row="0" Grid.Column="0" Style="{StaticResource BackgroundRectangle}" Grid.ColumnSpan="2"  RadiusX="5" RadiusY="5" />
             <Rectangle Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Bottom" Height="4" Fill="Red" Visibility="{Binding Path=IsDraggingOver, Converter={StaticResource CollapsedWhenFalseConverter}}"></Rectangle>
         </Grid>
         <Rectangle Height="0.5"/>

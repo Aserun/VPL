@@ -14,5 +14,10 @@ namespace CaptiveAire.VPL.Interfaces
         /// <param name="token"></param>
         /// <returns></returns>
         Task ExecuteAsync(CancellationToken token);
+
+        /// <summary>
+        /// Gets or sets a value indicating whether this item is enabled or not.
+        /// </summary>
+        bool IsEnabled { get; set; }
     }
 }
