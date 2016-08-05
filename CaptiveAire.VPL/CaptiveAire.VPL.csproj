@@ -25,6 +25,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\CaptiveAire.VPL.XML</DocumentationFile>
+    <NoWarn>1591</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -34,6 +36,8 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\CaptiveAire.VPL.XML</DocumentationFile>
+    <NoWarn>1591</NoWarn>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject />
@@ -88,24 +92,21 @@
     <Compile Include="Converters\PercentageConverter.cs" />
     <Compile Include="Error.cs" />
     <Compile Include="Extensions\ElementOwnerExtensions.cs" />
-    <Compile Include="Extensions\Extensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\GetEntrancePointResult.cs" />
     <Compile Include="Extensions\FrameworkElementExtensions.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="Extensions\PointExtensions.cs" />
     <Compile Include="Extensions\ElementExtensions.cs" />
-    <Compile Include="Extensions\ResourceDictionaryExtensions.cs" />
     <Compile Include="ElementFactory.cs" />
-    <Compile Include="Extensions\VplServiceExtensions.cs" />
     <Compile Include="Factory\ElementFactoryManager.cs" />
     <Compile Include="Factory\FactoryCategoryNames.cs" />
     <Compile Include="Model\ElementBuilder.cs" />
     <Compile Include="Model\ElementCreationContext.cs" />
     <Compile Include="EntrancePointNotFoundException.cs" />
     <Compile Include="Model\StatementExecutor.cs" />
-    <Compile Include="Model\FunctionService.cs" />
-    <Compile Include="Model\HierarchicalNumber.cs" />
-    <Compile Include="Model\GraphicsUtil.cs" />
+    <Compile Include="FunctionService.cs" />
+    <Compile Include="Extensions\DependencyObjectExtensions.cs" />
     <Compile Include="Model\Persistor.cs" />
     <Compile Include="Model\SystemElementIds.cs" />
     <Compile Include="VplTypeId.cs" />

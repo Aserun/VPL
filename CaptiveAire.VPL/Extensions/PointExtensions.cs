@@ -2,7 +2,7 @@
 
 namespace CaptiveAire.VPL.Extensions
 {
-    public static class PointExtensions
+    internal static class PointExtensions
     {
         public static Vector ToVector(this Point point)
         {

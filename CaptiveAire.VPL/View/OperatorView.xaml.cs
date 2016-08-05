@@ -5,7 +5,7 @@ namespace CaptiveAire.VPL.View
     /// <summary>
     /// Interaction logic for BooleanOperatorView.xaml
     /// </summary>
-    public partial class OperatorView
+    internal partial class OperatorView
     {
         public OperatorView()
         {

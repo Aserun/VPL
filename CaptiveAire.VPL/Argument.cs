@@ -6,7 +6,7 @@ using GalaSoft.MvvmLight;
 
 namespace CaptiveAire.VPL
 {
-    public class Argument : ViewModelBase, IArgument
+    internal class Argument : ViewModelBase, IArgument
     {
         private readonly IElementOwner _owner;
         private readonly ArgumentMetadata _metadata;

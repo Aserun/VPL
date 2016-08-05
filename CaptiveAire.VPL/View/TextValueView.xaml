@@ -3,8 +3,15 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:behaviors="clr-namespace:Cas.Common.WPF.Behaviors;assembly=Cas.Common.WPF"
+             x:ClassModifier="internal"
              mc:Ignorable="d" >
     <Grid>
-        <TextBox Text="{Binding Path=Value, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right" VerticalAlignment="Center" MinWidth="30" x:Name="ValueTextBox" GotFocus="ValueTextBox_OnGotFocus" />     
+        <TextBox Text="{Binding Path=Value, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right" VerticalAlignment="Center" MinWidth="30" x:Name="ValueTextBox"  >
+            <i:Interaction.Behaviors>
+                <behaviors:SelectAllOnFocusBehavior/>
+            </i:Interaction.Behaviors>
+        </TextBox>
     </Grid>
 </UserControl>

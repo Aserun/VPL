@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using CaptiveAire.VPL.Factory;
 using CaptiveAire.VPL.Interfaces;
 using CaptiveAire.VPL.Metadata;
-using CaptiveAire.VPL.Model;
 using CaptiveAire.VPL.Plugins;
 using CaptiveAire.VPL.TestHost.Model;
 using Cas.Common.WPF;
@@ -43,11 +41,18 @@ namespace CaptiveAire.VPL.TestHost.ViewModel
                 new[] { customResources },
                 services: new[] { functionService });
 
+            var plugin1 = new VplPlugin("Alert",
+                new IElementFactory[]
+                {
+                    new ElementFactory(new Guid("FBB6804C-B90C-4A88-B28B-8B733C1A9F0D"), "Interaction", "Alert", context => new Alert(context), typeof(Alert)), 
+                });
+
             var plugins = SystemPluginFactory.CreateAllPlugins()
                 .ToList();
 
             plugins.Add(plugin);
-            
+            plugins.Add(plugin1);
+
             VplService = new VplService(plugins);
         }
 

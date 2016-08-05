@@ -9,6 +9,7 @@
              xmlns:behaviors="clr-namespace:CaptiveAire.VPL.Behaviors"
              xmlns:view="clr-namespace:CaptiveAire.VPL.View"
              xmlns:vpl="clr-namespace:CaptiveAire.VPL"
+             x:ClassModifier="internal"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance vpl:CompoundStatement, d:IsDesignTimeCreatable=False}">
     

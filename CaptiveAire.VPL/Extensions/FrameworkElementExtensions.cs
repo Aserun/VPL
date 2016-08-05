@@ -7,7 +7,7 @@ using CaptiveAire.VPL.Interfaces;
 
 namespace CaptiveAire.VPL.Extensions
 {
-    public static class FrameworkElementExtensions
+    internal static class FrameworkElementExtensions
     {
         /// <summary>
         /// Returns the DataContext value of the hits below <paramref name="point"/>.

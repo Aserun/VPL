@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using CaptiveAire.VPL.Interfaces;
 using CaptiveAire.VPL.Metadata;
 
-namespace CaptiveAire.VPL.Model
+namespace CaptiveAire.VPL
 {
     public class FunctionService : IFunctionService
     {

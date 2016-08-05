@@ -6,6 +6,9 @@ using CaptiveAire.VPL.Model;
 
 namespace CaptiveAire.VPL.Extensions
 {
+    /// <summary>
+    /// Extensions for the IElementOwner type.
+    /// </summary>
     public static class ElementOwnerExtensions
     {
         /// <summary>
@@ -70,7 +73,7 @@ namespace CaptiveAire.VPL.Extensions
         /// Gets a variable. If it is not found, null is returned.
         /// </summary>
         /// <param name="owner"></param>
-        /// <param name="variableId"></param>
+        /// <param name="variableId">The id of the variable.</param>
         /// <returns></returns>
         public static IVariable GetVariable(this IElementOwner owner, Guid variableId)
         {
@@ -80,8 +83,8 @@ namespace CaptiveAire.VPL.Extensions
         /// <summary>
         /// Attempts to get the variable with the specified id. If the variable isn't found, an exception is thrown.
         /// </summary>
-        /// <param name="owner"></param>
-        /// <param name="variableId"></param>
+        /// <param name="owner">Owner.</param>
+        /// <param name="variableId">The id of the variable.</param>
         /// <returns></returns>
         public static IVariable GetVariableOrThrow(this IElementOwner owner, Guid variableId)
         {
@@ -143,9 +146,9 @@ namespace CaptiveAire.VPL.Extensions
         /// <summary>
         /// Creates an instance of IElementCreationContext
         /// </summary>
-        /// <param name="owner"></param>
-        /// <param name="elementTypeId"></param>
-        /// <param name="data"></param>
+        /// <param name="owner">The owner.</param>
+        /// <param name="elementTypeId">The type of element.</param>
+        /// <param name="data">Optional data.</param>
         /// <returns></returns>
         public static IElementCreationContext CreateElementCreationContext(this IElementOwner owner, Guid elementTypeId, string data = null)
         {
@@ -159,11 +162,11 @@ namespace CaptiveAire.VPL.Extensions
         /// <summary>
         /// Creates a parameter.
         /// </summary>
-        /// <param name="owner"></param>
-        /// <param name="id"></param>
-        /// <param name="type"></param>
-        /// <param name="prefix"></param>
-        /// <param name="postfix"></param>
+        /// <param name="owner">Owner.</param>
+        /// <param name="id">The id of the parameter.</param>
+        /// <param name="type">The type of parameter.</param>
+        /// <param name="prefix">Optional prefix</param>
+        /// <param name="postfix">Optionl postfix</param>
         /// <returns></returns>
         public static IParameter CreateParameter(this IElementOwner owner, string id, IVplType type, string prefix = null, string postfix = null)
         {
@@ -181,14 +184,16 @@ namespace CaptiveAire.VPL.Extensions
         /// <summary>
         /// Creates a block.
         /// </summary>
-        /// <param name="owner"></param>
-        /// <param name="id"></param>
-        /// <param name="label"></param>
+        /// <param name="owner">Owner.</param>
+        /// <param name="id">The id of the block.</param>
+        /// <param name="label">An optional label.</param>
         /// <returns></returns>
         public static IBlock CreateBlock(this IElementOwner owner, string id, object label = null)
         {
+            //Create the context
             var context = CreateElementCreationContext(owner, SystemElementIds.Block);
 
+            //Create the block
             var block = new Block(context, id)
             {
                 Label = label

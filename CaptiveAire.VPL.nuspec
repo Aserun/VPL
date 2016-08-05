@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>CaptiveAire.VPL</id>
+    <version>1.0.0.0</version>
+    <authors>CaptiveAire</authors>
+    <owners>CaptiveAire</owners>
+    <projectUrl>https://github.com/CaptiveAire/VPL</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Visual Programming Language (VPL)</description>
+    <copyright>Copyright CaptiveAire 2016</copyright>
+    <tags>VPL WPF</tags>
+
+    <dependencies>
+      <dependency id="Expression.Blend.Sdk" version="1.0.2"  />
+      <dependency id="Cas.Common.WPF" version="1.0.35" />
+      <dependency id="MvvmLightLibs" version="5.3.0.0" />
+      <dependency id="Newtonsoft.Json" version="9.0.1" />
+    </dependencies>
+
+    <references>
+      <reference file="CaptiveAire.VPL.dll" />
+	    <reference file="CaptiveAire.VPL.Interfaces.dll" />
+	    <reference file="CaptiveAire.VPL.Metadata.dll" />
+	    <reference file="CaptiveAire.VPL.Plugins.dll" />
+    </references>
+  </metadata>
+
+  <files>
+    <file target="lib\net46" src="CaptiveAire.VPL\bin\release\CaptiveAire.VPL.dll"/>
+    <file target="lib\net46" src="CaptiveAire.VPL\bin\release\CaptiveAire.VPL.xml"/>
+
+	  <file target="lib\net46" src="CaptiveAire.VPL.Interfaces\bin\release\CaptiveAire.VPL.Interfaces.dll"/>
+    <file target="lib\net46" src="CaptiveAire.VPL.Interfaces\bin\release\CaptiveAire.VPL.Interfaces.xml"/>
+
+	  <file target="lib\net46" src="CaptiveAire.VPL.Metadata\bin\release\CaptiveAire.VPL.Metadata.dll"/>
+    <file target="lib\net46" src="CaptiveAire.VPL.Metadata\bin\release\CaptiveAire.VPL.Metadata.xml"/>
+
+	  <file target="lib\net46" src="CaptiveAire.VPL.Plugins\bin\release\CaptiveAire.VPL.Plugins.dll"/>
+    <file target="lib\net46" src="CaptiveAire.VPL.Plugins\bin\release\CaptiveAire.VPL.Plugins.xml"/>
+
+  </files>
+</package>

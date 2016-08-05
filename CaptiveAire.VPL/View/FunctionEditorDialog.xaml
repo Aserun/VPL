@@ -18,6 +18,11 @@
         d:DataContext="{x:Static viewModel:ViewModelLocator.FunctionEditorDialog}"
         Title="{Binding Path=Title}" Height="800" Width="1200" Icon="/CaptiveAire.VPL;component/Images/WindowIcon.png">
     
+    <Window.InputBindings>
+        <KeyBinding Key="F5" Command="{Binding Path=RunCommand}"/>
+        <KeyBinding Key="Pause" Command="{Binding Path=StopCommand}"/>
+    </Window.InputBindings>
+    
     <Window.Resources>
         <ResourceDictionary x:Name="MainResourceDictionary">
             <ResourceDictionary.MergedDictionaries>
@@ -59,7 +64,7 @@
                 </Style>
                 <Style TargetType="Button">
                     <Setter Property="Margin" Value="2"/>
-                    <Setter Property="MinWidth" Value="60"/>
+                    <Setter Property="MinWidth" Value="80"/>
                     <Setter Property="VerticalAlignment" Value="Center"/>
                 </Style>
             </StackPanel.Resources>
@@ -73,7 +78,7 @@
             <Button Command="{Binding Path=RunCommand}" ToolTip="Run this function.">
                 <StackPanel Orientation="Horizontal">
                     <controls:AutoGreyableImage Width="16" Source="/CaptiveAire.VPL;component/Images/arrow_run_16xLG.png" />    
-                    <TextBlock>Run</TextBlock>
+                    <TextBlock>Run - F5</TextBlock>
                 </StackPanel>
             </Button>
             <Button Command="{Binding Path=StopCommand}" ToolTip="Cancel execution.">

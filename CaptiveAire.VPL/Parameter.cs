@@ -4,11 +4,10 @@ using System.Threading.Tasks;
 using System.Windows.Media;
 using CaptiveAire.VPL.Extensions;
 using CaptiveAire.VPL.Interfaces;
-using CaptiveAire.VPL.Model;
 
 namespace CaptiveAire.VPL
 {
-    internal class Parameter : Element, IParameter,  IElementDropTarget
+    internal class Parameter : Element, IParameter
     {
         private string _prefix;
         private string _postfix;

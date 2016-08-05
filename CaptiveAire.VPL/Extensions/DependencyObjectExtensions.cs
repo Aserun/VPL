@@ -1,11 +1,11 @@
 ﻿using System.Windows;
 using System.Windows.Media;
 
-namespace CaptiveAire.VPL.Model
+namespace CaptiveAire.VPL.Extensions
 {
-    public static class GraphicsUtil
+    internal static class DependencyObjectExtensions
     {
-        public static TParent FindVisualParent<TParent>(DependencyObject reference) 
+        public static TParent FindVisualParent<TParent>(this DependencyObject reference) 
             where TParent : DependencyObject
         {
             DependencyObject current = reference;
@@ -34,7 +34,7 @@ namespace CaptiveAire.VPL.Model
         /// <param name="reference"></param>
         /// <param name="name"></param>
         /// <returns></returns>
-        public static TParent FindVisualParent<TParent>(DependencyObject reference, string name)
+        public static TParent FindVisualParent<TParent>(this DependencyObject reference, string name)
             where TParent : FrameworkElement
         {
             DependencyObject current = reference;

@@ -1,11 +1,9 @@
-﻿using System.Windows.Controls;
-
-namespace CaptiveAire.VPL.View
+﻿namespace CaptiveAire.VPL.View
 {
     /// <summary>
     /// Interaction logic for CompoundStatementView.xaml
     /// </summary>
-    public partial class CompoundStatementView : UserControl
+    internal partial class CompoundStatementView
     {
         public CompoundStatementView()
         {

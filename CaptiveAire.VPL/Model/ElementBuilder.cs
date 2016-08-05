@@ -4,7 +4,6 @@ using System.Linq;
 using CaptiveAire.VPL.Extensions;
 using CaptiveAire.VPL.Interfaces;
 using CaptiveAire.VPL.Metadata;
-using CaptiveAire.VPL.ViewModel;
 
 namespace CaptiveAire.VPL.Model
 {
@@ -87,7 +86,7 @@ namespace CaptiveAire.VPL.Model
 
                         if (parameterMetadata.Operator != null)
                         {
-                            ((IElement)parameter).CommonDrop(CreateElement(element.Owner, parameterMetadata.Operator));
+                            parameter.CommonDrop(CreateElement(element.Owner, parameterMetadata.Operator));
                         }
                     }
                 }

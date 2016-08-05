@@ -4,8 +4,16 @@ using CaptiveAire.VPL.Interfaces;
 
 namespace CaptiveAire.VPL.Extensions
 {
+    /// <summary>
+    /// Extension methods for elements.
+    /// </summary>
     public static class ElementExtensions
     {
+        /// <summary>
+        /// Gets the return type of an element. If the element is not an operator, Null is returned.
+        /// </summary>
+        /// <param name="element"></param>
+        /// <returns></returns>
         public static Guid? GetReturnType(this IElement element)
         {
             var op = element as IOperator;
@@ -13,6 +21,11 @@ namespace CaptiveAire.VPL.Extensions
             return op?.Type.Id;
         }
 
+        /// <summary>
+        /// Gets the last element in a chain.
+        /// </summary>
+        /// <param name="start"></param>
+        /// <returns></returns>
         public static IElement GetLast(this IElement start)
         {
             if (start == null) throw new ArgumentNullException(nameof(start));
@@ -27,6 +40,11 @@ namespace CaptiveAire.VPL.Extensions
             return current;
         }
 
+        /// <summary>
+        /// Performs an action for the element specified and all of its next siblings.
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="action"></param>
         public static void ForEach(this IElement start, Action<IElement> action)
         {
             if (start == null) throw new ArgumentNullException(nameof(start));
@@ -94,6 +112,11 @@ namespace CaptiveAire.VPL.Extensions
             }
         }
 
+        /// <summary>
+        /// Drop logic.
+        /// </summary>
+        /// <param name="target"></param>
+        /// <param name="dropped"></param>
         public static void CommonDrop(this IElement target, IElement dropped)
         {
             if (target == null) throw new ArgumentNullException(nameof(target));

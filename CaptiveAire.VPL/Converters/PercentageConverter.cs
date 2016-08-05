@@ -4,7 +4,7 @@ using System.Windows.Data;
 
 namespace CaptiveAire.VPL.Converters
 {
-    public class PercentageConverter : IValueConverter
+    internal class PercentageConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

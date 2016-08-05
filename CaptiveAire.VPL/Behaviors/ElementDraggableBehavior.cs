@@ -33,7 +33,7 @@ namespace CaptiveAire.VPL.Behaviors
 
         private FrameworkElement DesignRoot
         {
-            get { return GraphicsUtil.FindVisualParent<FrameworkElement>(AssociatedObject, "DesignRoot"); }
+            get { return AssociatedObject.FindVisualParent<FrameworkElement>("DesignRoot"); }
         }
 
         protected override Point GetPositionFromMouse(MouseEventArgs e)
