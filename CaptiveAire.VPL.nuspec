@@ -13,7 +13,7 @@
 
     <dependencies>
       <dependency id="Expression.Blend.Sdk" version="1.0.2"  />
-      <dependency id="Cas.Common.WPF" version="1.0.35" />
+      <dependency id="Cas.Common.WPF" version="1.0.36" />
       <dependency id="MvvmLightLibs" version="5.3.0.0" />
       <dependency id="Newtonsoft.Json" version="9.0.1" />
     </dependencies>

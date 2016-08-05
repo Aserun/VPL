@@ -39,7 +39,7 @@ namespace CaptiveAire.VPL
 
             _arguments = new OrderedListViewModel<IArgument>(
                 CreateArgument,
-                deletedAction: DeleteArgument,
+                deleted: DeleteArgument,
                 addedAction: ArgumentAdded);
         }
 
@@ -105,7 +105,7 @@ namespace CaptiveAire.VPL
             MarkDirty();
         }
 
-        private void DeleteArgument(IArgument argument)
+        private bool DeleteArgument(IArgument argument)
         {
             if (argument == null) throw new ArgumentNullException(nameof(argument));
 
@@ -114,11 +114,16 @@ namespace CaptiveAire.VPL
 
             if (variable != null && variable.CanDelete())
             {
-                variable.Delete();
+                if (variable.Delete())
+                {
+                    Arguments.Remove(argument);
+                    MarkDirty();
+
+                    return true;
+                }
             }
 
-            Arguments.Remove(argument);
-            MarkDirty();
+            return false;
         }
 
         public bool IsDirty
