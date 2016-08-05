@@ -34,7 +34,7 @@ namespace CaptiveAire.VPL.Model
             var factory = _factoryManager.GetFactory(elementMetadata.ElementTypeId);
 
             //Create the context
-            var context = new ElementCreationContext(owner, elementMetadata.Data);
+            var context = new ElementCreationContext(owner, elementMetadata.Data, factory);
 
             //Create the element
             var element = factory.Create(context);
@@ -124,7 +124,7 @@ namespace CaptiveAire.VPL.Model
 
             foreach (var variableMetadata in variableMetadatas)
             {
-                var variableType = owner.GetVplType(variableMetadata.TypeId);
+                var variableType = owner.GetVplTypeOrThrow(variableMetadata.TypeId);
 
                 var variable = new Variable(owner, variableType, variableMetadata.Id)
                 {
@@ -180,7 +180,7 @@ namespace CaptiveAire.VPL.Model
             if (functionMetadata.ReturnTypeId != null)
             {
                 //Get the type for the return variable.
-                var type = function.GetVplType(functionMetadata.ReturnTypeId.Value);
+                var type = function.GetVplTypeOrThrow(functionMetadata.ReturnTypeId.Value);
 
                 //Add the return variable.
                 function.AddVariable(new ReturnValueVariable(function, type));

@@ -8,7 +8,7 @@ using CaptiveAire.VPL.Model;
 
 namespace CaptiveAire.VPL
 {
-    public class Parameter : Element, IParameter,  IElementDropTarget
+    internal class Parameter : Element, IParameter,  IElementDropTarget
     {
         private string _prefix;
         private string _postfix;
@@ -18,8 +18,8 @@ namespace CaptiveAire.VPL
         private object _value;
         private readonly Lazy<Visual> _editor;
 
-        public Parameter(IElementOwner owner, string id, IVplType type) 
-            : base(owner, Model.SystemElementIds.Parameter)
+        public Parameter(IElementCreationContext context, string id, IVplType type) 
+            : base(context)
         {
             if (type == null) throw new ArgumentNullException(nameof(type));
             _id = id;
@@ -104,7 +104,7 @@ namespace CaptiveAire.VPL
             if (returnType.Value == _type.Id)
                 return true;
 
-            var vplType = Owner.GetVplType(returnType.Value);
+            var vplType = Owner.GetVplTypeOrThrow(returnType.Value);
 
             if (vplType == null)
                 return false;

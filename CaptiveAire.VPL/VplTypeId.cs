@@ -2,6 +2,9 @@
 
 namespace CaptiveAire.VPL
 {
+    /// <summary>
+    /// The 'System' VplType Ids.
+    /// </summary>
     public static class VplTypeId
     {
         public static readonly Guid Boolean = new Guid("F0D1BC68-1DB8-46EE-8E03-7861239AC763");

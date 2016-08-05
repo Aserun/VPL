@@ -12,7 +12,7 @@ namespace CaptiveAire.VPL.Plugins.Annotations
         private readonly CommentView _commentView;
 
         public CommentStatement(IElementCreationContext context) 
-            : base(context.Owner, PluginElementIds.Comment)
+            : base(context)
         {
             Comment = context.Data;
 

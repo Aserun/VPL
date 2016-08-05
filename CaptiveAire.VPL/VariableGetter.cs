@@ -12,23 +12,19 @@ namespace CaptiveAire.VPL
         private readonly Guid _id;
         private readonly Lazy<IVariable> _variable;
 
-        private VariableGetter(IElementOwner owner) 
-            : base(owner, Model.SystemElementIds.VariableGetter)
-        {
-            _variable = new Lazy<IVariable>(GetVariable);
-        }
-
-        public VariableGetter(IElementOwner owner, Guid variableId) 
-            : this(owner)
+        public VariableGetter(IElementCreationContext context, Guid variableId) 
+            : base(context)
         {
             if (variableId == Guid.Empty)
                 throw new ArgumentException("variableId was default value.", nameof(variableId));
 
             _id = variableId;
+
+            _variable = new Lazy<IVariable>(GetVariable);
         }
 
         public VariableGetter(IElementCreationContext context)
-          : this(context.Owner)
+          : base(context)
         {
             if (string.IsNullOrWhiteSpace(context.Data))
                 throw new ArgumentNullException($"Custom serialization data missing for {GetType().Name}");
@@ -36,6 +32,8 @@ namespace CaptiveAire.VPL
             var data = JsonConvert.DeserializeObject<VariableGetterData>(context.Data);
 
             _id = data.VariableId;
+
+            _variable = new Lazy<IVariable>(GetVariable);
         }
 
         private IVariable GetVariable()

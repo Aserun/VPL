@@ -4,6 +4,9 @@ using CaptiveAire.VPL.Interfaces;
 
 namespace CaptiveAire.VPL
 {
+    /// <summary>
+    /// Default implementation of the IVplType interface.
+    /// </summary>
     public class VplType : IVplType
     {
         private readonly Guid _id;

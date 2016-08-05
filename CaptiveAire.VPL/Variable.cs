@@ -11,7 +11,7 @@ using GalaSoft.MvvmLight.CommandWpf;
 
 namespace CaptiveAire.VPL
 {
-    public class Variable : ViewModelBase, IVariable
+    internal class Variable : ViewModelBase, IVariable
     {
         private string _name;
         private readonly IElementOwner _owner;

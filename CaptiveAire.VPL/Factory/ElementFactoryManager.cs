@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using CaptiveAire.VPL.Interfaces;
 using CaptiveAire.VPL.Model;
@@ -33,6 +34,10 @@ namespace CaptiveAire.VPL.Factory
             yield return new ElementFactory(SystemElementIds.VariableGetter, FactoryCategoryNames.Variable, "Get", context => new VariableGetter(context), typeof(VariableGetter), showInToolbox:false);
 
             yield return new ElementFactory(SystemElementIds.VariableSetter, FactoryCategoryNames.Variable, "Set", context => new VariableSetter(context), typeof(VariableSetter), showInToolbox: false);
+
+            yield return new ElementFactory(SystemElementIds.Parameter, FactoryCategoryNames.Variable, "Parameter", context => { throw new NotImplementedException();}, typeof(Parameter), showInToolbox:false);
+
+            yield return new ElementFactory(SystemElementIds.Block, FactoryCategoryNames.Variable, "Block", context => { throw new NotImplementedException(); }, typeof(Block), showInToolbox: false);
 
             //See if we have any extension factories
             if (extensionFactories != null)

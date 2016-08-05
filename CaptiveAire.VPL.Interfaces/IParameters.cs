@@ -2,7 +2,7 @@
 
 namespace CaptiveAire.VPL.Interfaces
 {
-    public interface IParameters : IEnumerable<IParameter>
+    public interface IParameters : IList<IParameter>
     {
          
     }

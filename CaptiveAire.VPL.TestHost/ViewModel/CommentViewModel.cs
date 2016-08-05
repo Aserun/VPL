@@ -10,7 +10,7 @@ namespace CaptiveAire.VPL.TestHost.ViewModel
         private string _comment;
 
         public CommentViewModel(IElementCreationContext context) 
-            : base(context.Owner, CustomElementTypeIds.Comment)
+            : base(context)
         {
             Comment = context.Data;
         }

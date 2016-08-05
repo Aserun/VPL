@@ -11,18 +11,18 @@ namespace CaptiveAire.VPL.Plugins.Logical
 {
     internal class BinaryLogicalOperator : Operator
     {
-        private readonly Parameter ParameterA;
-        private readonly Parameter ParameterB;
+        private readonly IParameter ParameterA;
+        private readonly IParameter ParameterB;
         private BinaryLogicalOperatorType _operatorType;
 
         private readonly IDictionary<BinaryLogicalOperatorType, BinaryLogicalOperatorService> _services;
         private BinaryLogicalOperatorService _service;
 
         public BinaryLogicalOperator(IElementCreationContext context, BinaryLogicalOperatorType defaultType) 
-            : base(context.Owner, PluginElementIds.BinaryLogicOperator, context.Owner.GetBooleanType())
+            : base(context, context.Owner.GetBooleanType())
         {
-            ParameterA = new Parameter(context.Owner, "a", context.Owner.GetBooleanType());
-            ParameterB = new Parameter(context.Owner, "b", context.Owner.GetBooleanType());
+            ParameterA = context.Owner.CreateParameter("a", context.Owner.GetBooleanType());
+            ParameterB = context.Owner.CreateParameter("b", context.Owner.GetBooleanType());
 
             Parameters.Add(ParameterA);
             Parameters.Add(ParameterB);

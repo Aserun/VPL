@@ -7,18 +7,15 @@ namespace CaptiveAire.VPL.Plugins.Control
 {
     public class WhileStatement : CompoundStatement
     {
-        private readonly Parameter Condition;
-        private readonly Block Block;
+        private readonly IParameter Condition;
+        private readonly IBlock Block;
 
-        public WhileStatement(IElementOwner owner) 
-            : base(owner, PluginElementIds.While)
+        public WhileStatement(IElementCreationContext context) 
+            : base(context)
         {
-            Condition = new Parameter(owner, "condition", owner.GetBooleanType());
+            Condition = Owner.CreateParameter("condition", Owner.GetBooleanType());
 
-            Block = new Block(owner, "block")
-            {
-                Label = "While"
-            };
+            Block = Owner.CreateBlock("block", "While");
 
             Block.Parameters.Add(Condition);
             Blocks.Add(Block);

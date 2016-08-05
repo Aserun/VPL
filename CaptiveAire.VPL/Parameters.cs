@@ -1,15 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
+﻿using System.Collections.ObjectModel;
 using CaptiveAire.VPL.Interfaces;
 
 namespace CaptiveAire.VPL
 {
-    public class Parameters : ObservableCollection<IElement>, IParameters
+    public class Parameters : ObservableCollection<IParameter>, IParameters
     {
-        IEnumerator<IParameter> IEnumerable<IParameter>.GetEnumerator()
-        {
-            return this.ToArray<IElement>().Cast<IParameter>().GetEnumerator();
-        }
+       
     }
 }

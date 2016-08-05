@@ -21,8 +21,8 @@ namespace CaptiveAire.VPL
     {
         private readonly Parameters _parameters = new Parameters();
         private readonly IElementOwner _owner;
-        private readonly Guid _elementTypeId;
         private readonly IBlocks _blocks = new Blocks();
+        private readonly IElementFactory _factory;
         private readonly ObservableCollection<IElementAction> _actions = new ObservableCollection<IElementAction>();
 
         private IElement _previous;
@@ -36,12 +36,12 @@ namespace CaptiveAire.VPL
         private Color _backgroundColor;
         private Color _foregroundColor;
 
-        protected Element(IElementOwner owner, Guid elementTypeId)
+        protected Element(IElementCreationContext context)
         {
-            if (owner == null) throw new ArgumentNullException(nameof(owner));
+            if (context == null) throw new ArgumentNullException(nameof(context));
 
-            _owner = owner;
-            _elementTypeId = elementTypeId;
+            _owner = context.Owner;
+            _factory = context.Factory;
 
             DeleteCommand = new RelayCommand(Delete, CanDelete);
             CopyCommand = new RelayCommand(Copy);
@@ -165,6 +165,11 @@ namespace CaptiveAire.VPL
             }
         }
 
+        public IElementFactory Factory
+        {
+            get { return _factory; }
+        }
+
         public Parameters Parameters
         {
             get { return _parameters; }
@@ -191,9 +196,9 @@ namespace CaptiveAire.VPL
             get { return _owner; }
         }
 
-        public virtual Guid ElementTypeId
+        public Guid ElementTypeId
         {
-            get { return _elementTypeId; }
+            get { return _factory.ElementTypeId; }
         }
 
         public void StartMove()

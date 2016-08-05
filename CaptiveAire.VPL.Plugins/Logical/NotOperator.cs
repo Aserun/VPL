@@ -7,15 +7,12 @@ namespace CaptiveAire.VPL.Plugins.Logical
 {
     internal class NotOperator : Operator
     {
-        private readonly Parameter ParameterA;
+        private readonly IParameter ParameterA;
 
-        public NotOperator(IElementOwner owner) 
-            : base(owner, PluginElementIds.NotOperator, owner.GetBooleanType())
+        public NotOperator(IElementCreationContext context) 
+            : base(context, context.Owner.GetBooleanType())
         {
-            ParameterA = new Parameter(owner, "a", owner.GetVplType(VplTypeId.Boolean))
-            {
-                Prefix = "Not"
-            };
+            ParameterA = context.Owner.CreateParameter("a", context.Owner.GetVplTypeOrThrow(VplTypeId.Boolean), "Not");
 
             Parameters.Add(ParameterA);
         }

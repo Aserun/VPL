@@ -3,7 +3,7 @@ using CaptiveAire.VPL.Interfaces;
 
 namespace CaptiveAire.VPL
 {
-    public class ArgumentVariable : Variable
+    internal class ArgumentVariable : Variable
     {
         private readonly IArgument _argument;
 

@@ -7,17 +7,15 @@ namespace CaptiveAire.VPL.Plugins.Control
 {
     public class RepeatStatement : CompoundStatement
     {
-        private readonly Parameter Condition;
-        private readonly Block Block;
+        private readonly IParameter Condition;
+        private readonly IBlock Block;
 
-        public RepeatStatement(IElementOwner owner) : base(owner, PluginElementIds.Repeat)
+        public RepeatStatement(IElementCreationContext context) 
+            : base(context)
         {
-            Condition = new Parameter(owner, "condition", owner.GetFloatType());
+            Condition = Owner.CreateParameter("condition", Owner.GetFloatType());
 
-            Block = new Block(owner, "block")
-            {
-                Label = "Repeat"
-            };
+            Block = Owner.CreateBlock("block", "Repeat");
 
             Block.Parameters.Add(Condition);
             Blocks.Add(Block);

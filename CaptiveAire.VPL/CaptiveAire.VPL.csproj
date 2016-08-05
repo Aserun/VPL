@@ -96,6 +96,7 @@
     <Compile Include="Extensions\ElementExtensions.cs" />
     <Compile Include="Extensions\ResourceDictionaryExtensions.cs" />
     <Compile Include="ElementFactory.cs" />
+    <Compile Include="Extensions\VplServiceExtensions.cs" />
     <Compile Include="Factory\ElementFactoryManager.cs" />
     <Compile Include="Factory\FactoryCategoryNames.cs" />
     <Compile Include="Model\ElementBuilder.cs" />
@@ -151,13 +152,12 @@
     <Compile Include="Operator.cs" />
     <Compile Include="Parameters.cs" />
     <Compile Include="Parameter.cs" />
-    <Compile Include="StatementBase.cs" />
+    <Compile Include="Statement.cs" />
     <Compile Include="ViewModel\ToolCategoryViewModel.cs" />
     <Compile Include="ViewModel\ToolsViewModel.cs" />
     <Compile Include="ViewModel\ToolViewModel.cs" />
     <Compile Include="Block.cs" />
     <Compile Include="Element.cs" />
-    <Compile Include="Statement.cs" />
     <Compile Include="View\OperatorView.xaml.cs">
       <DependentUpon>OperatorView.xaml</DependentUpon>
     </Compile>

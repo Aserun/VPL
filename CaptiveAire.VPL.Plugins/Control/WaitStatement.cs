@@ -10,19 +10,14 @@ namespace CaptiveAire.VPL.Plugins.Control
     {
         private readonly IParameter SecondsParameter;
 
-        public WaitStatement(IElementOwner owner) 
-            : base(owner, PluginElementIds.Wait)
+        public WaitStatement(IElementCreationContext context) 
+            : base(context)
         {
-            var secondsParameter = new Parameter(owner, "seconds", owner.GetFloatType())
-            {
-                Value = 5.0,
-                Prefix = "Wait",
-                Postfix = "Seconds"
-            };
+            SecondsParameter = Owner.CreateParameter("seconds", Owner.GetFloatType(), "Wait", "Seconds");
 
-            Parameters.Add(secondsParameter);
+            SecondsParameter.SetValue(5.0);
 
-            SecondsParameter = secondsParameter;
+            Parameters.Add(SecondsParameter);
         }
 
         protected override async Task ExecuteCoreAsync(CancellationToken cancellationToken)

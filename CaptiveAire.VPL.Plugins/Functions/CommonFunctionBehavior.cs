@@ -140,10 +140,13 @@ namespace CaptiveAire.VPL.Plugins.Functions
 
                     foreach (var argument in function.Arguments)
                     {
-                        _parameters.Add(new Parameter(_owner, parameterIndex.ToString(), _owner.GetVplType(argument.TypeId))
-                        {
-                            Prefix = argument.Name
-                        });
+                        //Create the parameter
+                        var parameter = _owner.CreateParameter(
+                            parameterIndex.ToString(),
+                            _owner.GetVplTypeOrThrow(argument.TypeId), 
+                            argument.Name);
+
+                        _parameters.Add(parameter);
 
                         parameterIndex++;
                     }

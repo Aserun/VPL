@@ -4,7 +4,7 @@ using System.Windows.Media;
 
 namespace CaptiveAire.VPL.Interfaces
 {
-    public interface IParameter : IElement, ITyped
+    public interface IParameter : IElement, ITyped, IElementDropTarget
     {
         string Id { get; }
 

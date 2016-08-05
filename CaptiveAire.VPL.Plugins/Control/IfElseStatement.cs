@@ -25,7 +25,7 @@ namespace CaptiveAire.VPL.Plugins.Control
         private const string ConditionId = "condition";
 
         public IfElseStatement(IElementCreationContext context) 
-            : base(context.Owner, PluginElementIds.IfElse)
+            : base(context)
         {
             _data = new IfElseData();
 
@@ -70,13 +70,10 @@ namespace CaptiveAire.VPL.Plugins.Control
             var id = index == 0 ? "0" : $"If_{index}";
 
             //Create the block
-            var block = new Block(Owner, id)
-            {
-                Label = text
-            };
+            var block = Owner.CreateBlock(id, text);
 
             //Add the parameter
-            block.Parameters.Add(new Parameter(Owner, ConditionId, Owner.GetBooleanType()));
+            block.Parameters.Add(Owner.CreateParameter(ConditionId, Owner.GetBooleanType()));
 
             //Add the block to the list
             Blocks.Insert(index, block);
@@ -106,10 +103,7 @@ namespace CaptiveAire.VPL.Plugins.Control
 
         private void AddElse()
         {
-            var elseBlock = new Block(Owner, "1")
-            {
-                Label = "Else"
-            };
+            var elseBlock = Owner.CreateBlock("1", "Else");
 
             Blocks.Add(elseBlock);
 

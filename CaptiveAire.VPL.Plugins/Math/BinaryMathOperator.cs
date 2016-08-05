@@ -11,14 +11,14 @@ namespace CaptiveAire.VPL.Plugins.Math
 {
     public class BinaryMathOperator : Operator
     {
-        private readonly Parameter ParameterA;
-        private readonly Parameter ParameterB;
+        private readonly IParameter ParameterA;
+        private readonly IParameter ParameterB;
         private BinaryMathOperatorType _operatorType;
         private BinaryMathOperatorService _service;
         private readonly IDictionary<BinaryMathOperatorType, BinaryMathOperatorService> _services;
 
         public BinaryMathOperator(IElementCreationContext context, BinaryMathOperatorType defaultOperatorType) 
-            : base(context.Owner, PluginElementIds.BinaryMathOperator, context.Owner.GetFloatType())
+            : base(context, context.Owner.GetFloatType())
         {
             var services = new []
            {
@@ -35,8 +35,8 @@ namespace CaptiveAire.VPL.Plugins.Math
 
             _services = services.ToDictionary(s => s.Type, s => s);
 
-            ParameterA = new Parameter(context.Owner, "a", context.Owner.GetFloatType());
-            ParameterB = new Parameter(context.Owner, "b", context.Owner.GetFloatType());
+            ParameterA = context.Owner.CreateParameter("a", context.Owner.GetFloatType());
+            ParameterB = context.Owner.CreateParameter("b", context.Owner.GetFloatType());
 
             Parameters.Add(ParameterA);
             Parameters.Add(ParameterB);

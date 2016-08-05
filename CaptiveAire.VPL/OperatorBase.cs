@@ -7,8 +7,8 @@ namespace CaptiveAire.VPL
 {
     public abstract class OperatorBase : Element, IOperator
     {
-        protected OperatorBase(IElementOwner owner, Guid elementTypeId) 
-            : base(owner, elementTypeId)
+        protected OperatorBase(IElementCreationContext context) 
+            : base(context)
         {
         }
         

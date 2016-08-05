@@ -24,9 +24,9 @@ namespace CaptiveAire.VPL.Plugins
         {
             var factories = new IElementFactory[]
             {
-                new ElementFactory(PluginElementIds.BinaryLogicOperator, CategoryNames.Logic, "And", context => new BinaryLogicalOperator(context, BinaryLogicalOperator.BinaryLogicalOperatorType.And), typeof(BinaryLogicalOperator), VplTypeId.Boolean),
-                new ElementFactory(PluginElementIds.BinaryLogicOperator, CategoryNames.Logic, "Or", context => new BinaryLogicalOperator(context, BinaryLogicalOperator.BinaryLogicalOperatorType.Or), typeof(BinaryLogicalOperator), VplTypeId.Boolean),
-                new ElementFactory(PluginElementIds.NotOperator, CategoryNames.Logic, "Not", context => new NotOperator(context.Owner), typeof(NotOperator), VplTypeId.Boolean)
+                new ElementFactory(PluginElementIds.BinaryLogicOperator, CategoryNames.Logic, "And", context => new BinaryLogicalOperator(context, BinaryLogicalOperator.BinaryLogicalOperatorType.And), typeof(BinaryLogicalOperator), VplTypeId.Boolean, description: "True only when both parameters are true."),
+                new ElementFactory(PluginElementIds.BinaryLogicOperator, CategoryNames.Logic, "Or", context => new BinaryLogicalOperator(context, BinaryLogicalOperator.BinaryLogicalOperatorType.Or), typeof(BinaryLogicalOperator), VplTypeId.Boolean, description: "True when at least one parameter is true."),
+                new ElementFactory(PluginElementIds.NotOperator, CategoryNames.Logic, "Not", context => new NotOperator(context), typeof(NotOperator), VplTypeId.Boolean, description: "Logic 'Not' operator. Inverts a boolean value.")
             };
 
             return new VplPlugin("Logical", factories);
@@ -40,12 +40,12 @@ namespace CaptiveAire.VPL.Plugins
         {
             var factories = new IElementFactory[]
             {
-                new ElementFactory(PluginElementIds.ComparisonOperator, CategoryNames.Comparison, "<", context => new ComparisonOperator(context, ComparisonOperator.ComparisonOperatorType.LessThan), typeof(ComparisonOperator), VplTypeId.Boolean),
-                new ElementFactory(PluginElementIds.ComparisonOperator, CategoryNames.Comparison, "<=", context => new ComparisonOperator(context, ComparisonOperator.ComparisonOperatorType.LessThanOrEqual), typeof(ComparisonOperator), VplTypeId.Boolean),
-                new ElementFactory(PluginElementIds.ComparisonOperator, CategoryNames.Comparison, "=", context => new ComparisonOperator(context, ComparisonOperator.ComparisonOperatorType.Equal), typeof(ComparisonOperator), VplTypeId.Boolean),
-                new ElementFactory(PluginElementIds.ComparisonOperator, CategoryNames.Comparison, "<>", context => new ComparisonOperator(context, ComparisonOperator.ComparisonOperatorType.NotEqual), typeof(ComparisonOperator), VplTypeId.Boolean),
-                new ElementFactory(PluginElementIds.ComparisonOperator, CategoryNames.Comparison, ">", context => new ComparisonOperator(context, ComparisonOperator.ComparisonOperatorType.GreaterThan), typeof(ComparisonOperator), VplTypeId.Boolean),
-                new ElementFactory(PluginElementIds.ComparisonOperator, CategoryNames.Comparison, ">=", context => new ComparisonOperator(context, ComparisonOperator.ComparisonOperatorType.GreaterThanOrEqual), typeof(ComparisonOperator), VplTypeId.Boolean),
+                new ElementFactory(PluginElementIds.ComparisonOperator, CategoryNames.Comparison, "<", context => new ComparisonOperator(context, ComparisonOperator.ComparisonOperatorType.LessThan), typeof(ComparisonOperator), VplTypeId.Boolean, description: "Less than."),
+                new ElementFactory(PluginElementIds.ComparisonOperator, CategoryNames.Comparison, "<=", context => new ComparisonOperator(context, ComparisonOperator.ComparisonOperatorType.LessThanOrEqual), typeof(ComparisonOperator), VplTypeId.Boolean, description: "Less than or equal."),
+                new ElementFactory(PluginElementIds.ComparisonOperator, CategoryNames.Comparison, "=", context => new ComparisonOperator(context, ComparisonOperator.ComparisonOperatorType.Equal), typeof(ComparisonOperator), VplTypeId.Boolean, description: "Equals."),
+                new ElementFactory(PluginElementIds.ComparisonOperator, CategoryNames.Comparison, "<>", context => new ComparisonOperator(context, ComparisonOperator.ComparisonOperatorType.NotEqual), typeof(ComparisonOperator), VplTypeId.Boolean, description: "Does not equal."),
+                new ElementFactory(PluginElementIds.ComparisonOperator, CategoryNames.Comparison, ">", context => new ComparisonOperator(context, ComparisonOperator.ComparisonOperatorType.GreaterThan), typeof(ComparisonOperator), VplTypeId.Boolean, description: "Greater than."),
+                new ElementFactory(PluginElementIds.ComparisonOperator, CategoryNames.Comparison, ">=", context => new ComparisonOperator(context, ComparisonOperator.ComparisonOperatorType.GreaterThanOrEqual), typeof(ComparisonOperator), VplTypeId.Boolean, description: "Greater than or equal."),
             };
 
             return new VplPlugin("Comparison", factories);
@@ -59,10 +59,10 @@ namespace CaptiveAire.VPL.Plugins
         {
             var factories = new IElementFactory[]
             {
-                new ElementFactory(PluginElementIds.Wait, CategoryNames.Control, "Wait", context => new WaitStatement(context.Owner), typeof(WaitStatement), description:"Pauses execution for the specified number of seconds."),
+                new ElementFactory(PluginElementIds.Wait, CategoryNames.Control, "Wait", context => new WaitStatement(context), typeof(WaitStatement), description:"Pauses execution for the specified number of seconds."),
                 new ElementFactory(PluginElementIds.IfElse, CategoryNames.Control, "If / Else", context => new IfElseStatement(context), typeof(IfElseStatement), description: "Conditionally executes code."),
-                new ElementFactory(PluginElementIds.Repeat, CategoryNames.Control, "Repeat", context => new RepeatStatement(context.Owner), typeof(RepeatStatement), description: "Repeats a block of code a given number of times."),
-                new ElementFactory(PluginElementIds.While, CategoryNames.Control, "While", context => new WhileStatement(context.Owner), typeof(WhileStatement), description: "Repeats a block of code while the specified condition is true."),
+                new ElementFactory(PluginElementIds.Repeat, CategoryNames.Control, "Repeat", context => new RepeatStatement(context), typeof(RepeatStatement), description: "Repeats a block of code a given number of times."),
+                new ElementFactory(PluginElementIds.While, CategoryNames.Control, "While", context => new WhileStatement(context), typeof(WhileStatement), description: "Repeats a block of code while the specified condition is true."),
             };
 
             return new VplPlugin("Comparison", factories);
@@ -76,10 +76,10 @@ namespace CaptiveAire.VPL.Plugins
         {
             var factories = new IElementFactory[]
             {
-                new ElementFactory(PluginElementIds.BinaryMathOperator, CategoryNames.Math, "+", context => new BinaryMathOperator(context, BinaryMathOperator.BinaryMathOperatorType.Addition), typeof(BinaryMathOperator), VplTypeId.Float),
-                new ElementFactory(PluginElementIds.BinaryMathOperator, CategoryNames.Math, "-", context => new BinaryMathOperator(context, BinaryMathOperator.BinaryMathOperatorType.Subtraction), typeof(BinaryMathOperator), VplTypeId.Float),
-                new ElementFactory(PluginElementIds.BinaryMathOperator, CategoryNames.Math, "*", context => new BinaryMathOperator(context, BinaryMathOperator.BinaryMathOperatorType.Multiplication), typeof(BinaryMathOperator), VplTypeId.Float),
-                new ElementFactory(PluginElementIds.BinaryMathOperator, CategoryNames.Math, "/", context => new BinaryMathOperator(context, BinaryMathOperator.BinaryMathOperatorType.Division), typeof(BinaryMathOperator), VplTypeId.Float)
+                new ElementFactory(PluginElementIds.BinaryMathOperator, CategoryNames.Math, "+", context => new BinaryMathOperator(context, BinaryMathOperator.BinaryMathOperatorType.Addition), typeof(BinaryMathOperator), VplTypeId.Float, description: "Addition"),
+                new ElementFactory(PluginElementIds.BinaryMathOperator, CategoryNames.Math, "-", context => new BinaryMathOperator(context, BinaryMathOperator.BinaryMathOperatorType.Subtraction), typeof(BinaryMathOperator), VplTypeId.Float, description: "Subtraction"),
+                new ElementFactory(PluginElementIds.BinaryMathOperator, CategoryNames.Math, "*", context => new BinaryMathOperator(context, BinaryMathOperator.BinaryMathOperatorType.Multiplication), typeof(BinaryMathOperator), VplTypeId.Float, description: "Multiplication"),
+                new ElementFactory(PluginElementIds.BinaryMathOperator, CategoryNames.Math, "/", context => new BinaryMathOperator(context, BinaryMathOperator.BinaryMathOperatorType.Division), typeof(BinaryMathOperator), VplTypeId.Float, description: "Division")
             };
 
             return new VplPlugin("Math", factories);

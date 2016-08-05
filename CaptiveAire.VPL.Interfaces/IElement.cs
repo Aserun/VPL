@@ -54,5 +54,10 @@ namespace CaptiveAire.VPL.Interfaces
         /// Gets or sets the next element.
         /// </summary>
         IElement Next { get; set; }
+
+        /// <summary>
+        /// Gets the factory that created this element.
+        /// </summary>
+        IElementFactory Factory { get; }
     }
 }

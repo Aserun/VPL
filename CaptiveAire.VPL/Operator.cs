@@ -7,8 +7,8 @@ namespace CaptiveAire.VPL
     {
         private readonly IVplType _type;
 
-        protected Operator(IElementOwner owner, Guid elementTypeId, IVplType type) 
-            : base(owner, elementTypeId)
+        protected Operator(IElementCreationContext context, IVplType type) 
+            : base(context)
         {
             if (type == null) throw new ArgumentNullException(nameof(type));
             _type = type;

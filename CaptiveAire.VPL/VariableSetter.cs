@@ -10,21 +10,21 @@ namespace CaptiveAire.VPL
     internal class VariableSetter : Statement, IVariableReference
     {
         private readonly IVariable _variable;
-        private readonly Parameter _parameter;
+        private readonly IParameter _parameter;
 
-        public VariableSetter(IElementOwner owner, Guid variableId) 
-            : base(owner, Model.SystemElementIds.VariableSetter)
+        public VariableSetter(IElementCreationContext context, Guid variableId) 
+            : base(context)
         {
             if (variableId == Guid.Empty)
                 throw new ArgumentException("variableId was default value.", nameof(variableId));
 
-            _variable = owner.GetVariableOrThrow(variableId);
+            _variable = context.Owner.GetVariableOrThrow(variableId);
             _variable.NameChanged += VariableNameChanged;
-            _parameter = AddParameter(owner, _variable);
+            _parameter = AddParameter(_variable);
         }
 
         public VariableSetter(IElementCreationContext context) 
-            : base(context.Owner, Model.SystemElementIds.VariableSetter)
+            : base(context)
         {
             if (string.IsNullOrWhiteSpace(context.Data))
                 throw new ArgumentNullException($"Custom serialization data missing for {GetType().Name}");
@@ -33,7 +33,7 @@ namespace CaptiveAire.VPL
 
             _variable = context.Owner.GetVariableOrThrow(data.VariableId);
             _variable.NameChanged += VariableNameChanged;
-            _parameter = AddParameter(context.Owner, _variable);
+            _parameter = AddParameter(_variable);
         }
 
         private void VariableNameChanged(object sender, EventArgs e)
@@ -41,9 +41,9 @@ namespace CaptiveAire.VPL
             RaisePropertyChanged(() => Label);
         }
 
-        private Parameter AddParameter(IElementOwner owner, IVariable variable)
+        private IParameter AddParameter(IVariable variable)
         {
-            var parameter = new Parameter(owner, "value", variable.Type);
+            var parameter = Owner.CreateParameter("value", variable.Type);
 
             Parameters.Add(parameter);
 

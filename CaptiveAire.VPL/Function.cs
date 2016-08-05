@@ -80,7 +80,7 @@ namespace CaptiveAire.VPL
                 return;
 
             //Create the variable for this argument.
-            var variable = new ArgumentVariable(this, this.GetVplType(argument.TypeId), argument)
+            var variable = new ArgumentVariable(this, this.GetVplTypeOrThrow(argument.TypeId), argument)
             {
                 Name = argument.Name
             };
@@ -154,7 +154,7 @@ namespace CaptiveAire.VPL
         {
             if (factory == null) throw new ArgumentNullException(nameof(factory));
 
-            var context = new ElementCreationContext(this, null);
+            var context = new ElementCreationContext(this, null, factory);
 
             return factory.Create(context);
         }

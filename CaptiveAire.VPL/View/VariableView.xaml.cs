@@ -25,7 +25,7 @@ namespace CaptiveAire.VPL.View
             if (variable == null)
                 return;
 
-            var elementFactory = new ElementFactory(SystemElementIds.VariableGetter, FactoryCategoryNames.Variable, "Get", context => new VariableGetter(context.Owner, variable.Id), typeof(VariableGetter), variable.Type.Id);
+            var elementFactory = new ElementFactory(SystemElementIds.VariableGetter, FactoryCategoryNames.Variable, "Get", context => new VariableGetter(context, variable.Id), typeof(VariableGetter), variable.Type.Id);
 
             DragDrop.DoDragDrop(frameworkElement, elementFactory, DragDropEffects.Copy);
         }
@@ -39,7 +39,7 @@ namespace CaptiveAire.VPL.View
             if (variable == null)
                 return;
 
-            var elementFactory = new ElementFactory(SystemElementIds.VariableSetter, FactoryCategoryNames.Variable, "Set", context => new VariableSetter(context.Owner, variable.Id), typeof(VariableSetter), variable.Type.Id);
+            var elementFactory = new ElementFactory(SystemElementIds.VariableSetter, FactoryCategoryNames.Variable, "Set", context => new VariableSetter(context, variable.Id), typeof(VariableSetter), variable.Type.Id);
 
             DragDrop.DoDragDrop(frameworkElement, elementFactory, DragDropEffects.Copy);
         }

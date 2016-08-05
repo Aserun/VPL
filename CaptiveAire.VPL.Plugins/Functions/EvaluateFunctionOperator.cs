@@ -11,7 +11,7 @@ namespace CaptiveAire.VPL.Plugins.Functions
         private readonly CommonFunctionBehavior _behavior;
 
         public EvaluateFunctionOperator(IElementCreationContext context) 
-            : base(context.Owner, PluginElementIds.EvaluateFunction, context.Owner.GetAnyType())
+            : base(context, context.Owner.GetAnyType())
         {
             _behavior = new CommonFunctionBehavior(context, Parameters, "Evaluate", this);
 

@@ -60,6 +60,16 @@ namespace CaptiveAire.VPL.ViewModel
 
             //Select a default type
             SelectedType = context.Types.FirstOrDefault(t => t.Id == VplTypeId.Float);
+
+            function.PropertyChanged += Function_PropertyChanged;
+        }
+
+        private void Function_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(Function.Name))
+            {
+                RaisePropertyChanged(nameof(Title));
+            }
         }
 
         public ICommand RunCommand { get; private set; }
@@ -91,8 +101,6 @@ namespace CaptiveAire.VPL.ViewModel
                     .ToArray();
             }
         }
-
-        
 
         protected void ResetZoom()
         {
@@ -143,7 +151,7 @@ namespace CaptiveAire.VPL.ViewModel
                     if (Function.ReturnTypeId != null)
                     {
                         //Get the type
-                        var type = Function.GetVplType(Function.ReturnTypeId.Value);
+                        var type = Function.GetVplTypeOrThrow(Function.ReturnTypeId.Value);
 
                         //Add the return variable
                         Function.AddVariable(new ReturnValueVariable(Function, type));
@@ -253,6 +261,11 @@ namespace CaptiveAire.VPL.ViewModel
         public ToolsViewModel<IElementFactory> Tools
         {
             get { return _tools; }
+        }
+
+        public string Title
+        {
+            get { return $"Function - {Function.Name}"; }
         }
 
         private void Cancel()

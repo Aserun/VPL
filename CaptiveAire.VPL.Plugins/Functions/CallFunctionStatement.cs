@@ -12,7 +12,7 @@ namespace CaptiveAire.VPL.Plugins.Functions
         private readonly CommonFunctionBehavior _behavior;
 
         public CallFunctionStatement(IElementCreationContext context) 
-            : base(context.Owner, PluginElementIds.CallFunction)
+            : base(context)
         {
             _behavior = new CommonFunctionBehavior(context, Parameters, "Call", this);
 

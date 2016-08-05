@@ -14,5 +14,10 @@
         /// Gets the custom serialization data that was saved for this element.
         /// </summary>
         string Data { get; }
+
+        /// <summary>
+        /// Gets the factory that was used to create the element.
+        /// </summary>
+        IElementFactory Factory { get; }
     }
 }
