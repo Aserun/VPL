@@ -1,4 +1,6 @@
-﻿namespace CaptiveAire.VPL.View
+﻿using System.Windows;
+
+namespace CaptiveAire.VPL.View
 {
     /// <summary>
     /// Interaction logic for ArgumentDialogView.xaml
@@ -8,6 +10,11 @@
         public ArgumentDialogView()
         {
             InitializeComponent();
+        }
+
+        private void ArgumentDialogView_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            NameTextBox.Focus();
         }
     }
 }

@@ -11,6 +11,7 @@
         WindowStartupLocation="CenterOwner"
         SizeToContent="Height"
         x:ClassModifier="internal"
+        Loaded="SelectTypeDialogView_OnLoaded"
         d:DataContext="{d:DesignInstance viewModel:SelectTypeDialogViewModel, d:IsDesignTimeCreatable=False}"
         Title="Select Type" Width="300" Icon="/CaptiveAire.VPL;component/Images/type_16xLG.png">
     
@@ -25,7 +26,7 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <ComboBox ItemsSource="{Binding Path=Types}" SelectedValuePath="Id" DisplayMemberPath="Name" SelectedValue="{Binding Path=SelectedTypeId}" Margin="4"/>
+        <ComboBox ItemsSource="{Binding Path=Types}" SelectedValuePath="Id" DisplayMemberPath="Name" SelectedValue="{Binding Path=SelectedTypeId}" Margin="4" x:Name="TypesComboBox" />
 
         <StackPanel Grid.Row="1" HorizontalAlignment="Right" Orientation="Horizontal">
             <StackPanel.Resources>
