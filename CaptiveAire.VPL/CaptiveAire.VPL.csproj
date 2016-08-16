@@ -85,6 +85,30 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="Xceed.Wpf.AvalonDock, Version=2.9.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.2.9\lib\net40\Xceed.Wpf.AvalonDock.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Aero, Version=2.9.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.2.9\lib\net40\Xceed.Wpf.AvalonDock.Themes.Aero.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Metro, Version=2.9.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.2.9\lib\net40\Xceed.Wpf.AvalonDock.Themes.Metro.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.VS2010, Version=2.9.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.2.9\lib\net40\Xceed.Wpf.AvalonDock.Themes.VS2010.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xceed.Wpf.DataGrid, Version=2.9.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.2.9\lib\net40\Xceed.Wpf.DataGrid.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xceed.Wpf.Toolkit, Version=2.9.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.2.9\lib\net40\Xceed.Wpf.Toolkit.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ArgumentMismatchException.cs" />
@@ -110,6 +134,18 @@
     <Compile Include="Extensions\DependencyObjectExtensions.cs" />
     <Compile Include="Model\Persistor.cs" />
     <Compile Include="Model\SystemElementIds.cs" />
+    <Compile Include="Editors\ByteValueView.xaml.cs">
+      <DependentUpon>ByteValueView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Editors\DateTimeValueView.xaml.cs">
+      <DependentUpon>DateTimeValueView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Editors\DoubleValueView.xaml.cs">
+      <DependentUpon>DoubleValueView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Editors\Int32ValueView.xaml.cs">
+      <DependentUpon>Int32ValueView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="VplTypeId.cs" />
     <Compile Include="Argument.cs" />
     <Compile Include="OperatorBase.cs" />
@@ -122,13 +158,13 @@
     <Compile Include="ViewModel\ErrorViewModel.cs" />
     <Compile Include="ViewModel\SelectTypeDialogViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
-    <Compile Include="View\AnyValueView.xaml.cs">
+    <Compile Include="Editors\AnyValueView.xaml.cs">
       <DependentUpon>AnyValueView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\ArgumentDialogView.xaml.cs">
       <DependentUpon>ArgumentDialogView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\BooleanValueView.xaml.cs">
+    <Compile Include="Editors\BooleanValueView.xaml.cs">
       <DependentUpon>BooleanValueView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\ElementResources.xaml.cs">
@@ -137,7 +173,7 @@
     <Compile Include="View\SelectTypeDialogView.xaml.cs">
       <DependentUpon>SelectTypeDialogView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\TextValueView.xaml.cs">
+    <Compile Include="Editors\TextValueView.xaml.cs">
       <DependentUpon>TextValueView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\VariableView.xaml.cs">
@@ -182,11 +218,27 @@
       <DependentUpon>ToolsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="VplType.cs" />
-    <Page Include="View\AnyValueView.xaml">
+    <Page Include="Editors\AnyValueView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\ArgumentDialogView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Editors\ByteValueView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Editors\DateTimeValueView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Editors\DoubleValueView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Editors\Int32ValueView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -198,7 +250,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\BooleanValueView.xaml">
+    <Page Include="Editors\BooleanValueView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -226,7 +278,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\TextValueView.xaml">
+    <Page Include="Editors\TextValueView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

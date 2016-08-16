@@ -1,4 +1,4 @@
-﻿namespace CaptiveAire.VPL.View
+﻿namespace CaptiveAire.VPL.Editors
 {
     /// <summary>
     /// Interaction logic for TextEditorView.xaml

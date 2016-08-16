@@ -28,5 +28,7 @@ namespace CaptiveAire.VPL
         public static readonly Guid UInt32 = new Guid("BDC2D194-9F7D-4791-8DF7-0176D5CBF04A");
 
         public static readonly Guid Single = new Guid("565F75D8-F654-4B28-86FE-440A62B21CA2");
+
+        public static readonly Guid DateTime = new Guid("42679804-015E-4F04-AC2B-8A97CF548E04");
     }
 }
