@@ -36,5 +36,12 @@ namespace CaptiveAire.VPL.Plugins
         public static readonly Guid CallFunction = new Guid("12CE1B54-BBBF-4530-B0C4-7BBEF1108316");
 
         public static readonly Guid EvaluateFunction = new Guid("48BDDADD-017B-4D55-92EC-DC10B989BC7B");
+
+        // ---- Dates ----
+        public static readonly Guid Now = new Guid("97A059F6-CA40-498F-A0ED-B34B2C6818FE");
+
+        public static readonly Guid UtcNow = new Guid("00A53ABF-469B-47BF-B5D0-7939B585A0A2");
+
+        public static readonly Guid AddToDate = new Guid("B1EB4F3A-307D-48E0-92D2-274E517245C6");
     }
 }

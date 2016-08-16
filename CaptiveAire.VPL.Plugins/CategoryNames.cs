@@ -11,5 +11,7 @@
         public const string Annotation = "Annotation";
 
         public const string Math = "Math";
+
+        public const string Date = "Date";
     }
 }

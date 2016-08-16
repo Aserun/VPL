@@ -115,6 +115,9 @@
     <Compile Include="Behaviors\ElementDraggableBehavior.cs" />
     <Compile Include="Converters\CollapsedIfNotStatementConverter.cs" />
     <Compile Include="Converters\PercentageConverter.cs" />
+    <Compile Include="Editors\Int16ValueView.xaml.cs">
+      <DependentUpon>Int16ValueView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Error.cs" />
     <Compile Include="Extensions\ElementOwnerExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
@@ -219,6 +222,10 @@
     </Compile>
     <Compile Include="VplType.cs" />
     <Page Include="Editors\AnyValueView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Editors\Int16ValueView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

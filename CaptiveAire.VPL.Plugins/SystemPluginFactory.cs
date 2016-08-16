@@ -5,6 +5,7 @@ using CaptiveAire.VPL.Model;
 using CaptiveAire.VPL.Plugins.Annotations;
 using CaptiveAire.VPL.Plugins.Comparison;
 using CaptiveAire.VPL.Plugins.Control;
+using CaptiveAire.VPL.Plugins.Date;
 using CaptiveAire.VPL.Plugins.Functions;
 using CaptiveAire.VPL.Plugins.Logical;
 using CaptiveAire.VPL.Plugins.Math;
@@ -121,6 +122,22 @@ namespace CaptiveAire.VPL.Plugins
         }
 
         /// <summary>
+        /// Creates the date plugin.
+        /// </summary>
+        /// <returns></returns>
+        public static IVplPlugin CreateDatePlugin()
+        {
+            var factories = new IElementFactory[]
+            {
+                new ElementFactory(PluginElementIds.AddToDate, CategoryNames.Date, "Add To Date", context => new AddToDate(context), typeof(AddToDate), VplTypeId.DateTime, description: "Adds a number of seconds, minutes, hours or days to a date."), 
+                new ElementFactory(PluginElementIds.Now, CategoryNames.Date, "Now", context => new Now(context),typeof(Now), description: "Gets the current local time."), 
+                new ElementFactory(PluginElementIds.UtcNow, CategoryNames.Date, "UTC Now", context => new UtcNow(context), typeof(UtcNow), description: "Gets the current UTC time."), 
+            };
+
+            return new VplPlugin("Date", factories);
+        }
+
+        /// <summary>
         /// Creates all System Plugins.
         /// </summary>
         /// <returns></returns>
@@ -133,7 +150,8 @@ namespace CaptiveAire.VPL.Plugins
                 CreateControlPlugin(),
                 CreateMathPlugin(),
                 CreateFunctionsPlugin(),
-                CreateAnnotationPlugin()
+                CreateAnnotationPlugin(),
+                CreateDatePlugin(),
             };
         }
 
