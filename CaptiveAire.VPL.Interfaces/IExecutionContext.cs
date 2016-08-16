@@ -1,7 +1,9 @@
-﻿namespace CaptiveAire.VPL.Interfaces
+﻿using System;
+
+namespace CaptiveAire.VPL.Interfaces
 {
-    public interface IExecutionContext
+    public interface IExecutionContext : IDisposable
     {
-         
+          
     }
 }

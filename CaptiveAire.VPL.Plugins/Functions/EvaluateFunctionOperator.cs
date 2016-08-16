@@ -31,7 +31,7 @@ namespace CaptiveAire.VPL.Plugins.Functions
             return _behavior.GetData();
         }
 
-        public override async Task<object> EvaluateAsync(CancellationToken token)
+        public override async Task<object> EvaluateAsync(IExecutionContext executionContext, CancellationToken token)
         {
             token.ThrowIfCancellationRequested();
 
@@ -39,10 +39,10 @@ namespace CaptiveAire.VPL.Plugins.Functions
             var function = _behavior.GetFunctionOrThrow();
 
             //Get the parameters
-            var parameters = await _behavior.GetParameterValuesAsync(token);
+            var parameters = await _behavior.GetParameterValuesAsync(executionContext, token);
 
             //Execute the function and return its value
-            return await function.ExecuteAsync(parameters, token);
+            return await function.ExecuteAsync(parameters, executionContext, token);
         }
 
         protected override IError[] CheckForErrorsCore()

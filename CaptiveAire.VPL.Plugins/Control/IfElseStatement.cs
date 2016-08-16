@@ -131,16 +131,16 @@ namespace CaptiveAire.VPL.Plugins.Control
             return _data.IncludeElse;
         }
 
-        protected override async Task ExecuteCoreAsync(CancellationToken cancellationToken)
+        protected override async Task ExecuteCoreAsync(IExecutionContext executionContext, CancellationToken cancellationToken)
         {
             foreach (var block in Blocks)
             {
                 //Get the parameter (if it's there)
                 var parameter = block.Parameters.FirstOrDefault();
 
-                if (parameter == null || (bool) await parameter.EvaluateAsync(cancellationToken))
+                if (parameter == null || (bool) await parameter.EvaluateAsync(executionContext, cancellationToken))
                 {
-                    await block.ExecuteAsync(cancellationToken);
+                    await block.ExecuteAsync(executionContext, cancellationToken);
 
                     return;
                 }

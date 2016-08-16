@@ -16,6 +16,6 @@ namespace CaptiveAire.VPL.Interfaces
 
         Guid? ReturnTypeId { get; set; }
 
-        Task<object> ExecuteAsync(object[] parameters, CancellationToken cancellationToken);
+        Task<object> ExecuteAsync(object[] parameters, IExecutionContext executionContext, CancellationToken cancellationToken);
     }
 }

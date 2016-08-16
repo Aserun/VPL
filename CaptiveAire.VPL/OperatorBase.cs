@@ -14,6 +14,6 @@ namespace CaptiveAire.VPL
         
         public abstract IVplType Type { get; }
 
-        public abstract Task<object> EvaluateAsync(CancellationToken token);
+        public abstract Task<object> EvaluateAsync(IExecutionContext executionContext, CancellationToken token);
     }
 }

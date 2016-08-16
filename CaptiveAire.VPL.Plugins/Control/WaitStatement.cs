@@ -20,9 +20,9 @@ namespace CaptiveAire.VPL.Plugins.Control
             Parameters.Add(SecondsParameter);
         }
 
-        protected override async Task ExecuteCoreAsync(CancellationToken cancellationToken)
+        protected override async Task ExecuteCoreAsync(IExecutionContext executionContext, CancellationToken cancellationToken)
         {
-            var seconds = (double)await SecondsParameter.EvaluateAsync(cancellationToken);
+            var seconds = (double)await SecondsParameter.EvaluateAsync(executionContext, cancellationToken);
 
             await Task.Delay(TimeSpan.FromSeconds(seconds), cancellationToken);
         }

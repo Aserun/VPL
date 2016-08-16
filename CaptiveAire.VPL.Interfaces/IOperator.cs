@@ -11,8 +11,9 @@ namespace CaptiveAire.VPL.Interfaces
         /// <summary>
         /// Evalutes the operator.
         /// </summary>
+        /// <param name="executionContext"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        Task<object> EvaluateAsync(CancellationToken token);
+        Task<object> EvaluateAsync(IExecutionContext executionContext, CancellationToken token);
     }
 }

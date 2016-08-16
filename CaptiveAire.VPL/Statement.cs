@@ -81,16 +81,18 @@ namespace CaptiveAire.VPL
         /// <summary>
         /// To be implemented by inheritors.
         /// </summary>
+        /// <param name="executionContext"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        protected abstract Task ExecuteCoreAsync(CancellationToken cancellationToken);
+        protected abstract Task ExecuteCoreAsync(IExecutionContext executionContext, CancellationToken cancellationToken);
 
         /// <summary>
         /// Executes the statement.
         /// </summary>
+        /// <param name="executionContext"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public async Task ExecuteAsync(CancellationToken token)
+        public async Task ExecuteAsync(IExecutionContext executionContext, CancellationToken token)
         {
             try
             {
@@ -107,7 +109,7 @@ namespace CaptiveAire.VPL
                     ClearErrors();
 
                     //Execute
-                    await ExecuteCoreAsync(token);
+                    await ExecuteCoreAsync(executionContext, token);
                 }
             }
             catch(Exception ex)

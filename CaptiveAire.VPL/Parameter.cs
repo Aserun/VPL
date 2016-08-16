@@ -134,14 +134,14 @@ namespace CaptiveAire.VPL
             get { return _type; }
         }
 
-        public async Task<object> EvaluateAsync(CancellationToken cancellationToken)
+        public async Task<object> EvaluateAsync(IExecutionContext executionContext, CancellationToken cancellationToken)
         {
             var op = Next as IOperator;
 
             if (op == null) 
                 return Value;
 
-            var raw = await op.EvaluateAsync(cancellationToken);
+            var raw = await op.EvaluateAsync(executionContext, cancellationToken);
 
             //Convert to the type that we're supposed to be supporting.
             return raw.GetConvertedValue(Type.NetType);

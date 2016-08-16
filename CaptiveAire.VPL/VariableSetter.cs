@@ -66,9 +66,9 @@ namespace CaptiveAire.VPL
             return JsonConvert.SerializeObject(data);
         }
 
-        protected override async Task ExecuteCoreAsync(CancellationToken cancellationToken)
+        protected override async Task ExecuteCoreAsync(IExecutionContext executionContext, CancellationToken cancellationToken)
         {
-            var value = await _parameter.EvaluateAsync(cancellationToken);
+            var value = await _parameter.EvaluateAsync(executionContext, cancellationToken);
 
             _variable.Value = value;
         }

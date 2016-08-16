@@ -277,7 +277,7 @@ namespace CaptiveAire.VPL
             }
         }
 
-        public async Task<object> ExecuteAsync(object[] parameters, CancellationToken cancellationToken)
+        public async Task<object> ExecuteAsync(object[] parameters, IExecutionContext executionContext, CancellationToken cancellationToken)
         {
             if (parameters == null) throw new ArgumentNullException(nameof(parameters));
 
@@ -330,7 +330,7 @@ namespace CaptiveAire.VPL
             var executor = new StatementExecutor();
 
             //Execute the function.
-            await executor.ExecuteAsync(entrancePoint.Statement, cancellationToken);
+            await executor.ExecuteAsync(executionContext, entrancePoint.Statement, cancellationToken);
 
             //Find the return variable
             var returnVariable = Variables.FirstOrDefault(v => v.Id == ReturnValueVariable.ReturnVariableId);

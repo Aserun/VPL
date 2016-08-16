@@ -78,10 +78,10 @@ namespace CaptiveAire.VPL.Plugins.Comparison
             }
         }
 
-        public override async Task<object> EvaluateAsync(CancellationToken token)
+        public override async Task<object> EvaluateAsync(IExecutionContext executionContext, CancellationToken token)
         {
-            var a = (double)await ParameterA.EvaluateAsync(token);
-            var b = (double)await ParameterB.EvaluateAsync(token);
+            var a = (double)await ParameterA.EvaluateAsync(executionContext, token);
+            var b = (double)await ParameterB.EvaluateAsync(executionContext, token);
 
             return _service.Evaluate(a, b);
         }

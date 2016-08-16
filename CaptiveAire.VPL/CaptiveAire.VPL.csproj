@@ -119,6 +119,7 @@
       <DependentUpon>Int16ValueView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Error.cs" />
+    <Compile Include="ExecutionContext.cs" />
     <Compile Include="Extensions\ElementOwnerExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\GetEntrancePointResult.cs" />

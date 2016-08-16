@@ -9,14 +9,14 @@ namespace CaptiveAire.VPL.Model
     /// </summary>
     internal class StatementExecutor
     {
-        public async Task ExecuteAsync(IStatement statement, CancellationToken token)
+        public async Task ExecuteAsync(IExecutionContext executionContext, IStatement statement, CancellationToken token)
         {
             IStatement current = statement;
 
             while (current != null)
             {
                 //Execute the statement
-                await current.ExecuteAsync(token);
+                await current.ExecuteAsync(executionContext, token);
 
                 //Move to the next statement
                 current = current.Next as IStatement;

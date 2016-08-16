@@ -54,11 +54,11 @@ namespace CaptiveAire.VPL
             return elementType != null && typeof(IStatement).IsAssignableFrom(elementType);
         }
 
-        public async Task ExecuteAsync(CancellationToken token)
+        public async Task ExecuteAsync(IExecutionContext executionContext, CancellationToken token)
         {
             var executor = new StatementExecutor();
 
-            await executor.ExecuteAsync(Next as IStatement, token);
+            await executor.ExecuteAsync(executionContext, Next as IStatement, token);
         }
 
         public bool IsEnabled

@@ -63,15 +63,15 @@ namespace CaptiveAire.VPL.Plugins.Math
             return JsonConvert.SerializeObject(data);
         }
 
-        public override async Task<object> EvaluateAsync(CancellationToken token)
+        public override async Task<object> EvaluateAsync(IExecutionContext executionContext, CancellationToken token)
         {
             var service = Service;
 
             if (service == null)
                 return 0;
 
-            var a = (double)await ParameterA.EvaluateAsync(token);
-            var b = (double)await ParameterB.EvaluateAsync(token);
+            var a = (double)await ParameterA.EvaluateAsync(executionContext, token);
+            var b = (double)await ParameterB.EvaluateAsync(executionContext, token);
 
             return service.Evaluate(a, b);
         }

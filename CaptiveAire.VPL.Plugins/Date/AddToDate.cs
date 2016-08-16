@@ -53,10 +53,10 @@ namespace CaptiveAire.VPL.Plugins.Date
             }
         }
 
-        public override async Task<object> EvaluateAsync(CancellationToken token)
+        public override async Task<object> EvaluateAsync(IExecutionContext executionContext, CancellationToken token)
         {
-            var date = (DateTime) await DateParameter.EvaluateAsync(token);
-            var amount = (double) await AmountParameter.EvaluateAsync(token);
+            var date = (DateTime) await DateParameter.EvaluateAsync(executionContext, token);
+            var amount = (double) await AmountParameter.EvaluateAsync(executionContext, token);
 
             return date + _service.GetTimeSpan(amount);           
         }

@@ -23,9 +23,9 @@ namespace CaptiveAire.VPL.TestHost
             set {  }
         }
 
-        protected override async Task ExecuteCoreAsync(CancellationToken cancellationToken)
+        protected override async Task ExecuteCoreAsync(IExecutionContext executionContext, CancellationToken cancellationToken)
         {
-            var message = await _messageParameter.EvaluateAsync(cancellationToken) as string;
+            var message = await _messageParameter.EvaluateAsync(executionContext, cancellationToken) as string;
 
             MessageBox.Show(message);
         }

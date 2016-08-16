@@ -67,7 +67,7 @@ namespace CaptiveAire.VPL.Plugins.Functions
             };
         }
 
-        public async Task<object[]> GetParameterValuesAsync(CancellationToken cancellationToken)
+        public async Task<object[]> GetParameterValuesAsync(IExecutionContext executionContext, CancellationToken cancellationToken)
         {
             //Create a place to store the values we get from the parameters.
             var values = new List<object>(_parameters.Count);
@@ -76,7 +76,7 @@ namespace CaptiveAire.VPL.Plugins.Functions
             foreach (var parameter in (IParameters)_parameters)
             {
                 //Evaluate the parameter
-                var value = await parameter.EvaluateAsync(cancellationToken);
+                var value = await parameter.EvaluateAsync(executionContext, cancellationToken);
 
                 //Add the value to the results
                 values.Add(value);
