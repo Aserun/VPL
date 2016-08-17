@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using CaptiveAire.VPL.Metadata;
 
 namespace CaptiveAire.VPL.Interfaces
 {
-    public interface IExecutionContext
+    public interface IExecutionContext : IDisposable
     {
         /// <summary>
         /// Executes a function.

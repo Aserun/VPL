@@ -19,13 +19,6 @@ namespace CaptiveAire.VPL.Interfaces
         void EditFunction(FunctionMetadata metadata, Action<FunctionMetadata> saveAction, bool modal = true);
 
         /// <summary>
-        /// Creates a function that can be executed.
-        /// </summary>
-        /// <param name="metadata"></param>
-        /// <returns></returns>
-        IFunction CreateRuntimeFunction(FunctionMetadata metadata);
-
-        /// <summary>
         /// Shows a dialog which allows the user to select a VPL type
         /// </summary>
         /// <returns></returns>
@@ -35,5 +28,11 @@ namespace CaptiveAire.VPL.Interfaces
         /// Gets all of the types from the system and plugins.
         /// </summary>
         IEnumerable<IVplType> Types { get; }
+
+        /// <summary>
+        /// Creates an execution context
+        /// </summary>
+        /// <returns></returns>
+        IExecutionContext CreateExecutionContext();
     }
 }

@@ -11,23 +11,23 @@ namespace CaptiveAire.VPL
 {
     public class VplService : IVplService
     {
-        private readonly IVplServiceContext _context;
+        private readonly IVplServiceContext _serviceContext;
 
         public VplService(IEnumerable<IVplPlugin> plugins = null)
         {
-            _context = new VplServiceContext(plugins);
+            _serviceContext = new VplServiceContext(plugins);
         }
 
         public void EditFunction(FunctionMetadata metadata, Action<FunctionMetadata> saveAction, bool modal)
         {
-            //Create the view model
-            var functionViewModel = CreateRuntimeFunctionInner(metadata);
+            //Create the function view model
+            var function = CreateRuntimeFunctionInner(metadata);
           
-            //Create the view model
-            var editorViewModel = new FunctionEditorDialogViewModel(_context, functionViewModel, saveAction, new TextEditService());
+            //Create the editor view model
+            var editorViewModel = new FunctionEditorDialogViewModel(_serviceContext, function, saveAction, new TextEditService());
 
             //Create the view
-            var view = new FunctionEditorDialog(_context.CustomResources)
+            var view = new FunctionEditorDialog(_serviceContext.CustomResources)
             {
                 DataContext = editorViewModel
             };
@@ -44,15 +44,10 @@ namespace CaptiveAire.VPL
             }
         }
 
-        public IFunction CreateRuntimeFunction(FunctionMetadata metadata)
-        {
-            return CreateRuntimeFunctionInner(metadata);
-        }
-
         public Guid? SelectVplType(Guid? selectedVplType = null)
         {
             //Create the view model
-            var viewModel = new SelectTypeDialogViewModel(_context.Types)
+            var viewModel = new SelectTypeDialogViewModel(_serviceContext.Types)
             {
                 SelectedTypeId = selectedVplType
             };
@@ -73,19 +68,24 @@ namespace CaptiveAire.VPL
 
         public IEnumerable<IVplType> Types
         {
-            get { return _context.Types; }
+            get { return _serviceContext.Types; }
+        }
+
+        public IExecutionContext CreateExecutionContext()
+        {
+            return new ExecutionContext(_serviceContext);
         }
 
         private Function CreateRuntimeFunctionInner(FunctionMetadata metadata)
         {
             //Create the view model
-            var functionViewModel = new Function(_context, metadata.Id)
+            var functionViewModel = new Function(_serviceContext, metadata.Id)
             {
                 Name = metadata.Name
             };
 
             //Create the builder
-            var builder = new ElementBuilder(_context.ElementFactoryManager, _context);
+            var builder = new ElementBuilder(_serviceContext.ElementFactoryManager, _serviceContext);
 
             //Add the elements to the owner (function)
             builder.LoadFunction(functionViewModel, metadata);

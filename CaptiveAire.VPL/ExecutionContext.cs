@@ -13,7 +13,7 @@ namespace CaptiveAire.VPL
     /// This class will be instantiated for the lifetime of a function execution. The initial function may
     /// call other functions.
     /// </summary>
-    internal class ExecutionContext : IExecutionContext, IDisposable
+    internal class ExecutionContext : IExecutionContext
     {
         private readonly IVplServiceContext _serviceContext;
         private readonly IDictionary<Guid, FunctionMetadata> _cachedFunctions = new ConcurrentDictionary<Guid, FunctionMetadata>();
