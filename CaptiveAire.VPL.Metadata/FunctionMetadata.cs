@@ -3,7 +3,7 @@ using System.Dynamic;
 
 namespace CaptiveAire.VPL.Metadata
 {
-    public class FunctionMetadata
+    public class FunctionMetadata : IFunctionReference
     {
         public Guid Id { get; set; }
 

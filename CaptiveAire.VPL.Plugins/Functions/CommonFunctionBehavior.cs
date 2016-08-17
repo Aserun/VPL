@@ -21,7 +21,7 @@ namespace CaptiveAire.VPL.Plugins.Functions
         private readonly IElementOwner _owner;
         private readonly CallFunctionView _labelView;
         private readonly CallFunctionData _model;
-        private FunctionMetadata _function;
+        private IFunctionReference _function;
         private readonly IElementAction[] _actions;
 
         internal CommonFunctionBehavior(IElementCreationContext context, Parameters parameters, string text, IElement parent)
@@ -123,7 +123,7 @@ namespace CaptiveAire.VPL.Plugins.Functions
             }
         }
 
-        private void SelectFunction(FunctionMetadata function)
+        private void SelectFunction(IFunctionReference function)
         {
             //Ditch the parameters
             _parameters.Clear();
@@ -154,7 +154,7 @@ namespace CaptiveAire.VPL.Plugins.Functions
             }
         }
 
-        private FunctionMetadata Function
+        private IFunctionReference Function
         {
             get { return _function; }
             set
@@ -166,18 +166,14 @@ namespace CaptiveAire.VPL.Plugins.Functions
             }
         }
 
+        public Guid? FunctionId
+        {
+            get { return _function?.Id; }
+        }
+
         public bool HasFunction
         {
             get { return Function != null; }
-        }
-
-        public IFunction GetFunctionOrThrow()
-        {
-            if (Function == null)
-                throw new InvalidOperationException("Unable to find function to call.");
-
-            //Load up this function
-            return _owner.Context.ElementBuilder.LoadFunction(Function);
         }
 
         public string FunctionName

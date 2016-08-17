@@ -73,7 +73,7 @@ namespace CaptiveAire.VPL
             get { return _variable.Value.Type; }
         }
 
-        public override Task<object> EvaluateAsync(IExecutionContext executionContext, CancellationToken token)
+        protected override Task<object> EvaluateCoreAsync(IExecutionContext executionContext, CancellationToken cancellationToken)
         {
             return Task.FromResult(_variable.Value.Value);
         }

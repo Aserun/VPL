@@ -19,7 +19,7 @@ namespace CaptiveAire.VPL.Plugins.Date
             set {  }
         }
 
-        public override Task<object> EvaluateAsync(IExecutionContext executionContext, CancellationToken token)
+        protected override Task<object> EvaluateCoreAsync(IExecutionContext executionContext, CancellationToken cancellationToken)
         {
             return Task.FromResult((object) DateTime.Now);
         }

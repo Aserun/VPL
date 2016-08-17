@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Media;
 using CaptiveAire.VPL.Extensions;
@@ -31,18 +32,25 @@ namespace CaptiveAire.VPL.Plugins.Functions
             return _behavior.GetData();
         }
 
-        public override async Task<object> EvaluateAsync(IExecutionContext executionContext, CancellationToken token)
+        protected override async Task<object> EvaluateCoreAsync(IExecutionContext executionContext, CancellationToken cancellationToken)
         {
-            token.ThrowIfCancellationRequested();
+            cancellationToken.ThrowIfCancellationRequested();
 
             //Create an instance of the function to be called
-            var function = _behavior.GetFunctionOrThrow();
+            if (_behavior.FunctionId == null)
+                throw new InvalidOperationException("No function was selected.");
 
-            //Get the parameters
-            var parameters = await _behavior.GetParameterValuesAsync(executionContext, token);
+            var functionId = _behavior.FunctionId;
 
-            //Execute the function and return its value
-            return await function.ExecuteAsync(parameters, executionContext, token);
+            //Create an instance of the function to be called
+            if (functionId == null)
+                throw new InvalidOperationException("No function was selected.");
+
+            //Get the values from the parameters...
+            var parameters = await _behavior.GetParameterValuesAsync(executionContext, cancellationToken);
+
+            //Execute the function
+            return await executionContext.ExecuteFunctionAsync(functionId.Value, parameters, cancellationToken);
         }
 
         protected override IError[] CheckForErrorsCore()

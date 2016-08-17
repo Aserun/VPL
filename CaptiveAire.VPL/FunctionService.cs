@@ -19,7 +19,7 @@ namespace CaptiveAire.VPL
             _findFunction = findFunction;
         }
 
-        public IEnumerable<FunctionMetadata> GetFunctions()
+        public IEnumerable<IFunctionReference> GetFunctions()
         {
             return _functionFactory();
         }

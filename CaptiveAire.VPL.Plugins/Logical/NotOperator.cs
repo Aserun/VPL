@@ -17,9 +17,9 @@ namespace CaptiveAire.VPL.Plugins.Logical
             Parameters.Add(ParameterA);
         }
 
-        public override async Task<object> EvaluateAsync(IExecutionContext executionContext, CancellationToken token)
+        protected override async Task<object> EvaluateCoreAsync(IExecutionContext executionContext, CancellationToken cancellationToken)
         {
-            bool a = (bool)await ParameterA.EvaluateAsync(executionContext, token);
+            bool a = (bool)await ParameterA.EvaluateAsync(executionContext, cancellationToken);
 
             return !a;
         }

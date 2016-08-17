@@ -14,6 +14,25 @@ namespace CaptiveAire.VPL
         
         public abstract IVplType Type { get; }
 
-        public abstract Task<object> EvaluateAsync(IExecutionContext executionContext, CancellationToken token);
+        protected abstract Task<object> EvaluateCoreAsync(IExecutionContext executionContext,
+            CancellationToken cancellationToken);
+        
+        public Task<object> EvaluateAsync(IExecutionContext executionContext, CancellationToken cancellationToken)
+        {
+            try
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+
+                return EvaluateCoreAsync(executionContext, cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                //Display the error
+                SetError(ex.ToString());
+
+                //blech. I just threw up.
+                throw;
+            }
+        }
     }
 }

@@ -7,7 +7,7 @@ namespace CaptiveAire.VPL.Interfaces
 {
     public interface IFunctionService
     {
-        IEnumerable<FunctionMetadata> GetFunctions();
+        IEnumerable<IFunctionReference> GetFunctions();
 
         FunctionMetadata GetFunction(Guid id);
     }

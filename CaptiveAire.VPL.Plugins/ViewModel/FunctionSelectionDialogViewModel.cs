@@ -11,10 +11,10 @@ namespace CaptiveAire.VPL.Plugins.ViewModel
 {
     internal class FunctionSelectionDialogViewModel : ViewModelBase, ICloseableViewModel
     {
-        private readonly IEnumerable<FunctionMetadata> _functions;
-        private FunctionMetadata _selectedFunction;
+        private readonly IEnumerable<IFunctionReference> _functions;
+        private IFunctionReference _selectedFunction;
 
-        internal FunctionSelectionDialogViewModel(IEnumerable<FunctionMetadata> functions, Guid? selectedFunctionId)
+        internal FunctionSelectionDialogViewModel(IEnumerable<IFunctionReference> functions, Guid? selectedFunctionId)
         {
             if (functions == null) throw new ArgumentNullException(nameof(functions));
 
@@ -40,12 +40,12 @@ namespace CaptiveAire.VPL.Plugins.ViewModel
             return SelectedFunction != null;
         }
 
-        public IEnumerable<FunctionMetadata> Functions
+        public IEnumerable<IFunctionReference> Functions
         {
             get { return _functions; }
         }
 
-        public FunctionMetadata SelectedFunction
+        public IFunctionReference SelectedFunction
         {
             get { return _selectedFunction; }
             set

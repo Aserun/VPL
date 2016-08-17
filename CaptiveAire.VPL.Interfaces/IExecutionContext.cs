@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
 using CaptiveAire.VPL.Metadata;
 
 namespace CaptiveAire.VPL.Interfaces
@@ -6,10 +8,12 @@ namespace CaptiveAire.VPL.Interfaces
     public interface IExecutionContext
     {
         /// <summary>
-        /// Gets the metadata for a given function.
+        /// Executes a function.
         /// </summary>
         /// <param name="functionId"></param>
+        /// <param name="parameters"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        FunctionMetadata GetFunctionMetadata(Guid functionId);
+        Task<object> ExecuteFunctionAsync(Guid functionId, object[] parameters, CancellationToken cancellationToken);
     }
 }

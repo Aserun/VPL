@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -34,16 +35,17 @@ namespace CaptiveAire.VPL.Plugins.Functions
 
         protected override async Task ExecuteCoreAsync(IExecutionContext executionContext, CancellationToken cancellationToken)
         {
-            cancellationToken.ThrowIfCancellationRequested();
+            var functionId = _behavior.FunctionId;
 
             //Create an instance of the function to be called
-            var function = _behavior.GetFunctionOrThrow();
+            if (functionId == null)
+                throw new InvalidOperationException("No function was selected.");
 
             //Get the values from the parameters...
             var parameters = await _behavior.GetParameterValuesAsync(executionContext, cancellationToken);
 
-            //Call the function
-            await function.ExecuteAsync(parameters, executionContext, cancellationToken);
+            //Execute the function
+            await executionContext.ExecuteFunctionAsync(functionId.Value, parameters, cancellationToken);
         }
 
         protected override IError[] CheckForErrorsCore()

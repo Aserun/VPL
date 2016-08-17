@@ -29,13 +29,13 @@ namespace CaptiveAire.VPL
             //Create the view
             var view = new FunctionEditorDialog(_context.CustomResources)
             {
-                Owner = WindowUtil.GetActiveWindow(),
                 DataContext = editorViewModel
             };
 
             //Show the dialog
             if (modal)
             {
+                view.Owner = WindowUtil.GetActiveWindow();
                 view.ShowDialog();
             }
             else
