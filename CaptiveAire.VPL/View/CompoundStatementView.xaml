@@ -5,12 +5,12 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:converters="clr-namespace:Cas.Common.WPF.Converters;assembly=Cas.Common.WPF"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-             xmlns:viewModel="clr-namespace:CaptiveAire.VPL.ViewModel"
              xmlns:behaviors="clr-namespace:CaptiveAire.VPL.Behaviors"
              xmlns:view="clr-namespace:CaptiveAire.VPL.View"
              xmlns:vpl="clr-namespace:CaptiveAire.VPL"
              x:ClassModifier="internal"
              mc:Ignorable="d" 
+             
              d:DataContext="{d:DesignInstance vpl:CompoundStatement, d:IsDesignTimeCreatable=False}">
     
     <UserControl.Resources>
@@ -24,14 +24,23 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
+
+        <Style TargetType="Grid" x:Key="BackgroundGrid">
+            <Setter Property="Opacity" Value="1"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=IsEnabled}" Value="False">
+                    <Setter Property="Opacity" Value="0.5"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
     </UserControl.Resources>
 
-    <StackPanel>
+    <StackPanel Grid.IsSharedSizeScope="True">
         <i:Interaction.Behaviors>
             <behaviors:ElementDraggableBehavior/>
         </i:Interaction.Behaviors>
         
-        <ItemsControl ItemsSource="{Binding Path=Blocks}">
+        <ItemsControl ItemsSource="{Binding Path=Blocks}" >
             
             <ItemsControl.ItemContainerStyle>
                 <Style TargetType="ContentPresenter">
@@ -42,40 +51,42 @@
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
-                        <Grid>
+                        
+                        <!-- Header -->
+                        <Grid Style="{StaticResource BackgroundGrid}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="40"/>
                                 <ColumnDefinition SharedSizeGroup="RightColumn" Width="Auto" MinWidth="100"/>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto" MinHeight="4"/>
                             </Grid.RowDefinitions>
-                            
-                            <Grid.Style>
-                                <Style TargetType="Grid">
-                                    <Setter Property="Opacity" Value="1"/>
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding Path=IsEnabled}" Value="False">
-                                            <Setter Property="Opacity" Value="0.5"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Grid.Style>
-
-                            <Rectangle Grid.Row="0" Grid.Column="0" Style="{StaticResource BackgroundRectangle}" Grid.ColumnSpan="2" RadiusX="5" RadiusY="5" IsHitTestVisible="True" />
+                                
+                            <Rectangle Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource BackgroundRectangle}"  RadiusX="5" RadiusY="5" IsHitTestVisible="True" />
 
                             <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal">
                                 <TextBlock Text="{Binding Path=Label}" Margin="4" VerticalAlignment="Center" />
                                 <view:ParametersView DataContext="{Binding Path=.Parameters}" VerticalAlignment="Center" Margin="2"/>
                             </StackPanel>
-
-
-                            <Rectangle Grid.Row="1" Grid.Column="0"  Style="{StaticResource BackgroundRectangle}" Margin="5,0,2,0"  />
-
-                            <ContentControl Grid.Row="1" Grid.Column="1" Margin="0,1,0,1" Content="{Binding Path=Next}" />
-                            <Rectangle Fill="Red" Height="4" Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" Visibility="{Binding Path=IsDraggingOver, Converter={StaticResource CollapsedWhenFalseConverter}}"/>
                         </Grid>
+
+                        <!-- Block Body -->
+                        <Grid Style="{StaticResource BackgroundGrid}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="40"/>
+                                <ColumnDefinition SharedSizeGroup="RightColumn" Width="Auto" MinWidth="100"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" MinHeight="4"/>
+                            </Grid.RowDefinitions>
+
+                            <!-- Left hand side of block -->
+                            <Rectangle Grid.Row="0" Grid.Column="0" Style="{StaticResource BackgroundRectangle}" Margin="5,0,2,0"  />
+
+                            <ContentControl Grid.Column="1" Margin="0,1,0,1" Content="{Binding Path=Next}" />
+                            <Rectangle Fill="Red" Height="4" Grid.Column="1" VerticalAlignment="Top" Visibility="{Binding Path=IsDraggingOver, Converter={StaticResource CollapsedWhenFalseConverter}}"/>
+                        </Grid>
+
                     </StackPanel>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
@@ -86,10 +97,12 @@
                 <ColumnDefinition SharedSizeGroup="RightColumn" Width="Auto" MinWidth="100"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" MinHeight="20"></RowDefinition>
+                <RowDefinition Height="Auto" MinHeight="20"/>
             </Grid.RowDefinitions>
-            <Rectangle Grid.Row="0" Grid.Column="0" Style="{StaticResource BackgroundRectangle}" Grid.ColumnSpan="2"  RadiusX="5" RadiusY="5" />
-            <Rectangle Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Bottom" Height="4" Fill="Red" Visibility="{Binding Path=IsDraggingOver, Converter={StaticResource CollapsedWhenFalseConverter}}"></Rectangle>
+            
+            <!-- Footer -->
+            <Rectangle Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource BackgroundRectangle}" RadiusX="5" RadiusY="5" />
+            <Rectangle Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Bottom" Height="4" Fill="Red" Visibility="{Binding Path=IsDraggingOver, Converter={StaticResource CollapsedWhenFalseConverter}}"/>
         </Grid>
         <Rectangle Height="0.5"/>
 

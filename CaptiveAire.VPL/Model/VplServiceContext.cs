@@ -15,6 +15,7 @@ namespace CaptiveAire.VPL.Model
         private readonly IVplType[] _types;
         private readonly IEnumerable<object> _services;
         private readonly IElementBuilder _elementBuilder;
+        private readonly IBinaryOperatorOverload[] _binaryOperatorOverloads;
 
         public VplServiceContext(IEnumerable<IVplPlugin> plugins = null)
         {
@@ -61,6 +62,11 @@ namespace CaptiveAire.VPL.Model
 
             //Create an element builder
             _elementBuilder = new ElementBuilder(_elementFactoryManager, this);
+
+            //Deal with the binary operator overloads
+            _binaryOperatorOverloads = new IBinaryOperatorOverload[]
+            {
+            };
         }
 
         public IElementFactoryManager ElementFactoryManager
@@ -81,6 +87,11 @@ namespace CaptiveAire.VPL.Model
         public IEnumerable<IVplType> Types
         {
             get { return _types; }
+        }
+
+        public IEnumerable<IBinaryOperatorOverload> BinaryOperatorOverloads
+        {
+            get { return _binaryOperatorOverloads; }
         }
 
         public IElementBuilder ElementBuilder

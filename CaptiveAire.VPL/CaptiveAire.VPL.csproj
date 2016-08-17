@@ -113,6 +113,7 @@
   <ItemGroup>
     <Compile Include="ArgumentMismatchException.cs" />
     <Compile Include="Behaviors\ElementDraggableBehavior.cs" />
+    <Compile Include="BinaryOperatorOverload.cs" />
     <Compile Include="Converters\CollapsedIfNotStatementConverter.cs" />
     <Compile Include="Converters\PercentageConverter.cs" />
     <Compile Include="Editors\Int16ValueView.xaml.cs">
@@ -128,6 +129,7 @@
     <Compile Include="Extensions\PointExtensions.cs" />
     <Compile Include="Extensions\ElementExtensions.cs" />
     <Compile Include="ElementFactory.cs" />
+    <Compile Include="Extensions\VplTypeExtensions.cs" />
     <Compile Include="Factory\ElementFactoryManager.cs" />
     <Compile Include="Factory\FactoryCategoryNames.cs" />
     <Compile Include="Model\ElementBuilder.cs" />

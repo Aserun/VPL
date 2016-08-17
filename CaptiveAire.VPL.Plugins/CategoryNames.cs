@@ -13,5 +13,7 @@
         public const string Math = "Math";
 
         public const string Date = "Date";
+
+        public const string Converion = "Conversion";
     }
 }

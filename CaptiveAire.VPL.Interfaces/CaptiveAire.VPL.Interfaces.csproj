@@ -56,8 +56,10 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BinaryOperatorOverloadType.cs" />
     <Compile Include="ErrorLevel.cs" />
     <Compile Include="IArgument.cs" />
+    <Compile Include="IBinaryOperatorOverload.cs" />
     <Compile Include="IBlock.cs" />
     <Compile Include="IBlocks.cs" />
     <Compile Include="IDeleteable.cs" />
@@ -92,6 +94,7 @@
     <Compile Include="IVplService.cs" />
     <Compile Include="IVplServiceContext.cs" />
     <Compile Include="IVplType.cs" />
+    <Compile Include="IVplTypeConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

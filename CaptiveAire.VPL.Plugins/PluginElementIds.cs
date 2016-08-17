@@ -43,5 +43,8 @@ namespace CaptiveAire.VPL.Plugins
         public static readonly Guid UtcNow = new Guid("00A53ABF-469B-47BF-B5D0-7939B585A0A2");
 
         public static readonly Guid AddToDate = new Guid("B1EB4F3A-307D-48E0-92D2-274E517245C6");
+
+        // ---- Conversion ----
+        public static readonly Guid Cast = new Guid("BB8D52BD-36D4-4CA3-9432-FC389CEE2ACC");
     }
 }

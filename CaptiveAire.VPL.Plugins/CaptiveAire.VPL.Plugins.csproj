@@ -79,6 +79,7 @@
       <DependentUpon>AnnotationResources.xaml</DependentUpon>
     </Compile>
     <Compile Include="CategoryNames.cs" />
+    <Compile Include="Conversion\Cast.cs" />
     <Compile Include="Date\AddToDate.cs" />
     <Compile Include="Date\Now.cs" />
     <Compile Include="Date\UtcNow.cs" />

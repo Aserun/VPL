@@ -19,12 +19,6 @@ namespace CaptiveAire.VPL.Interfaces
         void EditFunction(FunctionMetadata metadata, Action<FunctionMetadata> saveAction, bool modal = true);
 
         /// <summary>
-        /// Shows a dialog which allows the user to select a VPL type
-        /// </summary>
-        /// <returns></returns>
-        Guid? SelectVplType(Guid? selectedVplType = null);
-
-        /// <summary>
         /// Gets all of the types from the system and plugins.
         /// </summary>
         IEnumerable<IVplType> Types { get; }

@@ -30,6 +30,11 @@ namespace CaptiveAire.VPL.Interfaces
         IEnumerable<IVplType> Types { get; }
 
         /// <summary>
+        /// The operator overloads available in this contesxt.
+        /// </summary>
+        IEnumerable<IBinaryOperatorOverload> BinaryOperatorOverloads { get; }
+
+            /// <summary>
         /// Gets the element builder.
         /// </summary>
         IElementBuilder ElementBuilder { get; }

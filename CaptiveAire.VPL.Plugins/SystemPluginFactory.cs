@@ -1,10 +1,9 @@
 ﻿using System.Windows;
-using CaptiveAire.VPL.Factory;
 using CaptiveAire.VPL.Interfaces;
-using CaptiveAire.VPL.Model;
 using CaptiveAire.VPL.Plugins.Annotations;
 using CaptiveAire.VPL.Plugins.Comparison;
 using CaptiveAire.VPL.Plugins.Control;
+using CaptiveAire.VPL.Plugins.Conversion;
 using CaptiveAire.VPL.Plugins.Date;
 using CaptiveAire.VPL.Plugins.Functions;
 using CaptiveAire.VPL.Plugins.Logical;
@@ -137,6 +136,16 @@ namespace CaptiveAire.VPL.Plugins
             return new VplPlugin("Date", factories);
         }
 
+        public static IVplPlugin CreateConversionPlugin()
+        {
+            var factories = new IElementFactory[]
+            {
+                new ElementFactory(PluginElementIds.Cast, CategoryNames.Converion, "Cast", context => new Cast(context), typeof(Cast), VplTypeId.Any, description: "Provides a way to supply a typed parameter."), 
+            };
+
+            return new VplPlugin("Conversion", factories);
+        }
+
         /// <summary>
         /// Creates all System Plugins.
         /// </summary>
@@ -152,6 +161,7 @@ namespace CaptiveAire.VPL.Plugins
                 CreateFunctionsPlugin(),
                 CreateAnnotationPlugin(),
                 CreateDatePlugin(),
+                CreateConversionPlugin()
             };
         }
 

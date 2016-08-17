@@ -17,9 +17,31 @@ namespace CaptiveAire.VPL.Extensions
         /// <param name="owner"></param>
         /// <param name="vplTypeId"></param>
         /// <returns></returns>
+        public static IVplType GetVplTypeOrAny(this IElementOwner owner, Guid vplTypeId)
+        {
+            return owner.Context.Types.FirstOrDefault(t => t.Id == vplTypeId) ?? owner.GetAnyType();
+        }
+
+        /// <summary>
+        /// Gets the specified VplType or throws an exception.
+        /// </summary>
+        /// <param name="owner"></param>
+        /// <param name="vplTypeId"></param>
+        /// <returns></returns>
+        public static IVplType GetVplType(this IElementOwner owner, Guid vplTypeId)
+        {
+            return owner.Context.Types.FirstOrDefault(t => t.Id == vplTypeId);
+        }
+
+        /// <summary>
+        /// Gets the specified VplType or throws an exception.
+        /// </summary>
+        /// <param name="owner"></param>
+        /// <param name="vplTypeId"></param>
+        /// <returns></returns>
         public static IVplType GetVplTypeOrThrow(this IElementOwner owner, Guid vplTypeId)
         {
-            var type =  owner.Context.Types.FirstOrDefault(t => t.Id == vplTypeId);
+            var type = owner.GetVplType(vplTypeId);
 
             if (type == null)
             {
