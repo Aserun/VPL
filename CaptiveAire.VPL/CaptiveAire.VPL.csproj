@@ -116,6 +116,9 @@
     <Compile Include="BinaryOperatorOverload.cs" />
     <Compile Include="Converters\CollapsedIfNotStatementConverter.cs" />
     <Compile Include="Converters\PercentageConverter.cs" />
+    <Compile Include="Editors\BooleanValueCheckBoxView.xaml.cs">
+      <DependentUpon>BooleanValueCheckBoxView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Editors\Int16ValueView.xaml.cs">
       <DependentUpon>Int16ValueView.xaml</DependentUpon>
     </Compile>
@@ -170,8 +173,8 @@
     <Compile Include="View\ArgumentDialogView.xaml.cs">
       <DependentUpon>ArgumentDialogView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Editors\BooleanValueView.xaml.cs">
-      <DependentUpon>BooleanValueView.xaml</DependentUpon>
+    <Compile Include="Editors\BooleanValueRadioButtonView.xaml.cs">
+      <DependentUpon>BooleanValueRadioButtonView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\ElementResources.xaml.cs">
       <DependentUpon>ElementResources.xaml</DependentUpon>
@@ -228,6 +231,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Editors\BooleanValueCheckBoxView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Editors\Int16ValueView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -260,7 +267,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Editors\BooleanValueView.xaml">
+    <Page Include="Editors\BooleanValueRadioButtonView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -13,9 +13,18 @@
 
     <UserControl.Resources>
         <converters:CollapsedWhenFalseConverter x:Key="CollapsedWhenFalseConverter"/>
+
+        <Style TargetType="FrameworkElement" x:Key="CollapsedWhenNext">
+            <Setter Property="Visibility" Value="Collapsed"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=Next}" Value="{x:Null}">
+                    <Setter Property="Visibility" Value="Visible"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
     </UserControl.Resources>
 
-    <Grid  Background="Transparent" IsHitTestVisible="True">
+    <Grid Background="Transparent" IsHitTestVisible="True">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
@@ -26,23 +35,12 @@
 
         <Grid Grid.Column="1" IsHitTestVisible="True" Background="Transparent">
 
-            <Rectangle Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center" Fill="#8E98FB98" IsHitTestVisible="False"></Rectangle>
-            
-            <ContentControl VerticalAlignment="Center" HorizontalAlignment="Center" Content="{Binding Path=Editor}">
-                <ContentControl.Style>
-                    <Style TargetType="ContentControl">
-                        <Setter Property="Visibility" Value="Collapsed"/>
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding Path=Next}" Value="{x:Null}">
-                                <Setter Property="Visibility" Value="Visible"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </ContentControl.Style>
-            </ContentControl>
-            
-            <ContentControl Content="{Binding Path=Next}" />
+            <Rectangle  Style="{StaticResource CollapsedWhenNext}" MinWidth="20" MinHeight="20" VerticalAlignment="Center" HorizontalAlignment="Stretch" Fill="LightYellow" IsHitTestVisible="False" />
 
+            <ContentControl Style="{StaticResource CollapsedWhenNext}" VerticalAlignment="Center" HorizontalAlignment="Stretch" Content="{Binding Path=Editor}" />
+            
+            <ContentControl Content="{Binding Path=Next}" HorizontalAlignment="Stretch" />
+            
             <Rectangle Fill="Red" Opacity="0.6" Visibility="{Binding Path=IsDraggingOver, Converter={StaticResource CollapsedWhenFalseConverter}}"/>
 
         </Grid>

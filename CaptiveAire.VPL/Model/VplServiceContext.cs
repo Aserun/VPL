@@ -16,21 +16,22 @@ namespace CaptiveAire.VPL.Model
         private readonly IEnumerable<object> _services;
         private readonly IElementBuilder _elementBuilder;
         private readonly IBinaryOperatorOverload[] _binaryOperatorOverloads;
+        private readonly IVplPlugin[] _plugins;
 
         public VplServiceContext(IEnumerable<IVplPlugin> plugins = null)
         {
-            plugins = plugins ?? new IVplPlugin[] {};
+            _plugins = plugins?.ToArray() ?? new IVplPlugin[] {};
 
-            _customResources = plugins.SelectMany(p => p.Resources);
+            _customResources = _plugins.SelectMany(p => p.Resources);
 
-            var customFactories = plugins.SelectMany(p => p.ElementFactories);
+            var customFactories = _plugins.SelectMany(p => p.ElementFactories);
 
             _elementFactoryManager = new ElementFactoryManager(customFactories);
 
             //These are the "built-in" types
             var types = new List<IVplType>
             {
-                new VplType(VplTypeId.Boolean, "Boolean", () => new BooleanValueView(), false, typeof(bool)),
+                new VplType(VplTypeId.Boolean, "Boolean", () => new BooleanValueCheckBoxView(), false, typeof(bool)),
                 new VplType(VplTypeId.Float, "Float", () => new DoubleValueView(), 0.0, typeof(double)),
                 new VplType(VplTypeId.Any, "Any", () => new AnyValueView(), null, typeof(object)),
                 new VplType(VplTypeId.String, "String", () => new TextValueView(), "", typeof(string)),
@@ -45,7 +46,7 @@ namespace CaptiveAire.VPL.Model
             };
 
             //Add the plugin types
-            foreach (var plugin in plugins)
+            foreach (var plugin in _plugins)
             {
                 types.AddRange(plugin.Types);
             }
@@ -56,7 +57,7 @@ namespace CaptiveAire.VPL.Model
                 .ToArray();
 
             //Create the services
-            _services = plugins
+            _services = _plugins
                 .SelectMany(p => p.Services)
                 .ToArray();
 

@@ -4,7 +4,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-             xmlns:viewModel="clr-namespace:CaptiveAire.VPL.ViewModel"
              xmlns:behaviors="clr-namespace:CaptiveAire.VPL.Behaviors"
              xmlns:view="clr-namespace:CaptiveAire.VPL.View"
              xmlns:vpl="clr-namespace:CaptiveAire.VPL"
@@ -21,18 +20,15 @@
         <behaviors:ElementDraggableBehavior/>
     </i:Interaction.Behaviors>
 
-    <Border BorderThickness="1" BorderBrush="#2AB22A">
-        <Border.Effect>
+    <Grid>
+        <Grid.Effect>
             <DropShadowEffect BlurRadius="2" Opacity="0.5" ShadowDepth="2"/>
-        </Border.Effect>
-        <Grid>
-            <Rectangle Fill="LimeGreen">
-            </Rectangle>
-            <StackPanel Orientation="Horizontal">
-                <ContentControl VerticalAlignment="Center" Grid.Row="0" Content="{Binding Path=Label}" Margin="4" />
-                <view:ParametersView VerticalAlignment="Center" DataContext="{Binding Path=Parameters}"></view:ParametersView>
-            </StackPanel>
-            
-        </Grid>
-    </Border>
+        </Grid.Effect>
+        <Rectangle Fill="LimeGreen" RadiusY="5" RadiusX="5" Stroke="#2AB22A" StrokeThickness="1">
+        </Rectangle>
+        <StackPanel Orientation="Horizontal">
+            <ContentControl VerticalAlignment="Center" Grid.Row="0" Content="{Binding Path=Label}" Margin="4" />
+            <view:ParametersView VerticalAlignment="Center" DataContext="{Binding Path=Parameters}"></view:ParametersView>
+        </StackPanel>
+    </Grid>
 </UserControl>
