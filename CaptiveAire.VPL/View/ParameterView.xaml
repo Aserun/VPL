@@ -17,7 +17,7 @@
         <Style TargetType="FrameworkElement" x:Key="CollapsedWhenNext">
             <Setter Property="Visibility" Value="Collapsed"/>
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=Next}" Value="{x:Null}">
+                <DataTrigger Binding="{Binding Path=Operator}" Value="{x:Null}">
                     <Setter Property="Visibility" Value="Visible"/>
                 </DataTrigger>
             </Style.Triggers>
@@ -39,7 +39,7 @@
 
             <ContentControl Style="{StaticResource CollapsedWhenNext}" VerticalAlignment="Center" HorizontalAlignment="Stretch" Content="{Binding Path=Editor}" />
             
-            <ContentControl Content="{Binding Path=Next}" HorizontalAlignment="Stretch" />
+            <ContentControl Content="{Binding Path=Operator}" HorizontalAlignment="Stretch" />
             
             <Rectangle Fill="Red" Opacity="0.6" Visibility="{Binding Path=IsDraggingOver, Converter={StaticResource CollapsedWhenFalseConverter}}"/>
 

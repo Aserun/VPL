@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using CaptiveAire.VPL.Extensions;
 using CaptiveAire.VPL.Interfaces;
 using CaptiveAire.VPL.Model;
 
 namespace CaptiveAire.VPL
 {
-    internal class Block : Element, IElementDropTarget, IBlock
+    internal class Block : Element, IBlock, IElementDropTarget
     {
         private readonly string _id;
-        private bool _isDraggingOver;
         private bool _isEnabled = true;
+        private bool _isDraggingOver;
+
+        private readonly Elements _elements = new Elements();
 
         public Block(IElementCreationContext context, string id) 
             : base(context)
@@ -21,7 +22,7 @@ namespace CaptiveAire.VPL
 
         public void Drop(IStatement dropped)
         {
-            this.CommonDrop(dropped);
+            
         }
 
         public bool CanDrop()
@@ -34,7 +35,7 @@ namespace CaptiveAire.VPL
             get { return _isDraggingOver; }
             set
             {
-                _isDraggingOver = value; 
+                _isDraggingOver = value;
                 RaisePropertyChanged();
             }
         }
@@ -45,7 +46,7 @@ namespace CaptiveAire.VPL
 
             if (statement != null)
             {
-                this.CommonDrop(statement);
+                Elements.Insert(0, element);
             }
         }
 
@@ -54,11 +55,12 @@ namespace CaptiveAire.VPL
             return elementType != null && typeof(IStatement).IsAssignableFrom(elementType);
         }
 
+
         public async Task ExecuteAsync(IExecutionContext executionContext, CancellationToken token)
         {
             var executor = new StatementExecutor();
 
-            await executor.ExecuteAsync(executionContext, Next as IStatement, token);
+            await executor.ExecuteAsync(executionContext, Elements, token);
         }
 
         public bool IsEnabled
@@ -81,6 +83,9 @@ namespace CaptiveAire.VPL
             get { return _id; }
         }
 
-
+        public IElements Elements
+        {
+            get { return _elements; }
+        }
     }
 }

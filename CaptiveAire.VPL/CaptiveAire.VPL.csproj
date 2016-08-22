@@ -122,11 +122,12 @@
     <Compile Include="Editors\Int16ValueView.xaml.cs">
       <DependentUpon>Int16ValueView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Elements.cs" />
     <Compile Include="Error.cs" />
     <Compile Include="ExecutionContext.cs" />
     <Compile Include="Extensions\ElementOwnerExtensions.cs" />
+    <Compile Include="Extensions\IListExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
-    <Compile Include="Extensions\GetEntrancePointResult.cs" />
     <Compile Include="Extensions\FrameworkElementExtensions.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="Extensions\PointExtensions.cs" />
@@ -154,6 +155,9 @@
     </Compile>
     <Compile Include="Editors\Int32ValueView.xaml.cs">
       <DependentUpon>Int32ValueView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ElementsView.xaml.cs">
+      <DependentUpon>ElementsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="VplTypeId.cs" />
     <Compile Include="Argument.cs" />
@@ -256,6 +260,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Editors\Int32ValueView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ElementsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

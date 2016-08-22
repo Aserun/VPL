@@ -181,8 +181,8 @@
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
                             
-                            <ScrollViewer Grid.Row="0" HorizontalScrollBarVisibility="Visible" Background="Gray">
-                                <Grid Background="Transparent" IsHitTestVisible="True" Width="{Binding Function.Width}" Height="{Binding Function.Height}" x:Name="DesignRoot" AllowDrop="True" Drop="DesignRoot_OnDrop" DragOver="DesignRoot_OnDragOver" DragEnter="DesignRoot_OnDragEnter" DragLeave="DesignRoot_OnDragLeave" >
+                            <ScrollViewer Grid.Row="0" HorizontalScrollBarVisibility="Visible" Background="White" Padding="4">
+                                <Grid Background="Transparent" IsHitTestVisible="True" x:Name="DesignRoot" AllowDrop="True" Drop="DesignRoot_OnDrop" DragOver="DesignRoot_OnDragOver" DragEnter="DesignRoot_OnDragEnter" DragLeave="DesignRoot_OnDragLeave" >
                                     <Grid.LayoutTransform>
                                         <ScaleTransform ScaleX="{Binding Path=Scale}" ScaleY="{Binding Path=Scale}"/>
                                     </Grid.LayoutTransform>
@@ -193,14 +193,14 @@
                                         </ContextMenu>
                                     </Grid.ContextMenu>
 
-                                    <ItemsControl ItemsSource="{Binding Path=Function.Elements}">
-                                        <ItemsControl.ItemsPanel>
+                                    <view:ElementsView DataContext="{Binding Path=Function.Elements}">
+                                        <!--<ItemsControl.ItemsPanel>
                                             <ItemsPanelTemplate>
                                                 <Canvas IsItemsHost="True" Width="{Binding Function.Width}" Height="{Binding Function.Height}" Background="White"  />
                                             </ItemsPanelTemplate>
-                                        </ItemsControl.ItemsPanel>
+                                        </ItemsControl.ItemsPanel>-->
 
-                                    </ItemsControl>
+                                    </view:ElementsView>
                                 </Grid>
                             </ScrollViewer>
 

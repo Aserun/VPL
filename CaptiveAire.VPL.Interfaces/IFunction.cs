@@ -10,9 +10,9 @@ namespace CaptiveAire.VPL.Interfaces
 
         string Name { get; set; }
 
-        double Width { get; set; }
+        //double Width { get; set; }
 
-        double Height { get; set; }
+        //double Height { get; set; }
 
         Guid? ReturnTypeId { get; set; }
 

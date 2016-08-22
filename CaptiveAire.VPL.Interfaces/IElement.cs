@@ -45,19 +45,24 @@ namespace CaptiveAire.VPL.Interfaces
         /// </summary>
         IEnumerable<IElementAction> Actions { get; }
 
-        /// <summary>
-        /// Gets or sets the previous element.
-        /// </summary>
-        IElement Previous { get; set; }
+        ///// <summary>
+        ///// Gets or sets the previous element.
+        ///// </summary>
+        //IElement Previous { get; set; }
 
-        /// <summary>
-        /// Gets or sets the next element.
-        /// </summary>
-        IElement Next { get; set; }
+        ///// <summary>
+        ///// Gets or sets the next element.
+        ///// </summary>
+        //IElement Next { get; set; }
 
         /// <summary>
         /// Gets the factory that created this element.
         /// </summary>
         IElementFactory Factory { get; }
+
+        /// <summary>
+        /// Gets or sets the parent collection of this element. 
+        /// </summary>
+        IElementParent Parent { get; set; }
     }
 }

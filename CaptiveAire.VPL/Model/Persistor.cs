@@ -15,7 +15,7 @@ namespace CaptiveAire.VPL.Model
             var parameterMetadata = new ParameterMetadata()
             {
                 Value = parameter.GetValue(),
-                Operator = parameter.GetNext().ToMetadata(),
+                Operator = parameter.Operator.ToMetadata(),
                 Id = parameter.Id
             };
 
@@ -31,6 +31,15 @@ namespace CaptiveAire.VPL.Model
                 .ToArray();
         }
 
+        public static ElementMetadata[] ToMetadata(this IEnumerable<IElement> elements)
+        {
+            if (elements == null) throw new ArgumentNullException(nameof(elements));
+
+            return elements
+                .Select(e => e.ToMetadata())
+                .ToArray();
+        }
+
         public static BlockMetadata ToMetadata(this IBlock block)
         {
             if (block == null) throw new ArgumentNullException(nameof(block));
@@ -39,7 +48,7 @@ namespace CaptiveAire.VPL.Model
             {
                 Id = block.Id,
                 Data = block.GetData(),
-                Next = block.GetNext().ToMetadata(),
+                Elements = block.Elements.ToMetadata(),
                 Parameters = block.Parameters.ToMetadata()
             };
 
@@ -68,13 +77,6 @@ namespace CaptiveAire.VPL.Model
                 Blocks = element.Blocks.ToMetadata(),
                 ElementTypeId = element.ElementTypeId
             };
-
-            var next = element.GetNext();
-
-            if (next != null)
-            {
-                elementMetadata.Next = next.ToMetadata();
-            }
 
             return elementMetadata;            
         }

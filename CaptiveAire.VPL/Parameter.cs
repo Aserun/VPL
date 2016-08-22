@@ -7,7 +7,7 @@ using CaptiveAire.VPL.Interfaces;
 
 namespace CaptiveAire.VPL
 {
-    internal class Parameter : Element, IParameter
+    internal class Parameter : Element, IParameter, IElementParent
     {
         private string _prefix;
         private string _postfix;
@@ -16,6 +16,7 @@ namespace CaptiveAire.VPL
         private readonly IVplType _type;
         private object _value;
         private readonly Lazy<Visual> _editor;
+        private IOperator _operator;
 
         public Parameter(IElementCreationContext context, string id, IVplType type) 
             : base(context)
@@ -67,7 +68,7 @@ namespace CaptiveAire.VPL
 
         public bool CanDrop()
         {
-            return Next == null;
+            return Operator == null;
         }
 
         public bool IsDraggingOver
@@ -82,13 +83,20 @@ namespace CaptiveAire.VPL
 
         public void Drop(IElement element)
         {
-            this.CommonDrop(element);
-            Owner.MarkDirty();
+            Operator = element as Operator;
+        }
+
+        void IElementParent.RemoveElement(IElement element)
+        {
+            if (Operator == element)
+            {
+                Operator = null;
+            }
         }
 
         public bool CanDrop(Type elementType, Guid? returnType)
         {
-            if (Next != null)
+            if (Operator != null)
                 return false;
 
             if (elementType == null)
@@ -118,6 +126,15 @@ namespace CaptiveAire.VPL
             return false;
         }
 
+        bool IElementParent.CanDrop(Type elementType, Guid? returnType)
+        {
+            return false;
+        }
+
+        void IElementParent.Drop(IElement element, IElement droppedElement)
+        {
+        }
+
         public object Value
         {
             get { return _value; }
@@ -136,7 +153,7 @@ namespace CaptiveAire.VPL
 
         public async Task<object> EvaluateAsync(IExecutionContext executionContext, CancellationToken cancellationToken)
         {
-            var op = Next as IOperator;
+            var op = Operator;
 
             if (op == null) 
                 return Value;
@@ -150,6 +167,31 @@ namespace CaptiveAire.VPL
         public Visual Editor
         {
             get { return _editor.Value; }
+        }
+
+        public IOperator Operator
+        {
+            get { return _operator; }
+            set
+            {
+                var old = _operator;
+
+                if (old != null)
+                {
+                    old.Parent = null;
+                }
+
+                _operator = value;
+                RaisePropertyChanged();
+                Owner.MarkDirty();
+
+                var newOperator = value;
+
+                if (newOperator != null)
+                {
+                    newOperator.Parent = this;
+                }
+            }
         }
     }
 }

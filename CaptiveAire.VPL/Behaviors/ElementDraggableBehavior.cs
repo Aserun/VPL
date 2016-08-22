@@ -109,36 +109,36 @@ namespace CaptiveAire.VPL.Behaviors
 
         protected override void FinishDrag(Point position)
         {
-            PerformOperation(s =>
-            {
-                s.IsDragging = false;
+            //PerformOperation(s =>
+            //{
+            //    s.IsDragging = false;
 
-                var dropTarget = GetDropTargetUnderMouse(position);
+            //    var dropTarget = GetDropTargetUnderMouse(position);
 
-                if (dropTarget == null)
-                {
-                    if (s.GetPrevious() == null)
-                    {
-                        s.CompleteMove(position - StartPosition);
-                    }
-                    else
-                    {
-                        s.DisconnectFromPrevious();
+            //    if (dropTarget == null)
+            //    {
+            //        if (s.GetPrevious() == null)
+            //        {
+            //            s.CompleteMove(position - StartPosition);
+            //        }
+            //        else
+            //        {
+            //            s.DisconnectFromPrevious();
 
-                        s.CompleteMove(position - RelativeStartPosition);
-                    }
-                }
-                else
-                {
-                    if (dropTarget.CanDrop(s.GetType(), s.GetReturnType()))
-                    {
-                        dropTarget.Drop(s);
+            //            s.CompleteMove(position - RelativeStartPosition);
+            //        }
+            //    }
+            //    else
+            //    {
+            //        if (dropTarget.CanDrop(s.GetType(), s.GetReturnType()))
+            //        {
+            //            dropTarget.Drop(s);
 
-                        //Save the undo state
-                        UndoProvider?.SaveUndoState();
-                    }
-                }
-            });
+            //            //Save the undo state
+            //            UndoProvider?.SaveUndoState();
+            //        }
+            //    }
+            //});
         }
 
         protected override void CancelDrag()

@@ -8,6 +8,8 @@
         /// <summary>
         /// The id of this block. This is used to persist / match up parameter settings.
         /// </summary>
-        string Id { get; }        
+        string Id { get; }
+        
+        IElements Elements { get; }        
     }
 }

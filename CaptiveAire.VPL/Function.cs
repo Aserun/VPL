@@ -24,7 +24,7 @@ namespace CaptiveAire.VPL
         private string _name;
         private double _width = 1000;
         private double _height = 1000;
-        private readonly ObservableCollection<IElement> _elements = new ObservableCollection<IElement>();
+        private readonly Elements _elements = new Elements();
         private readonly ObservableCollection<IVariable> _variables = new ObservableCollection<IVariable>();
         private readonly OrderedListViewModel<IArgument> _arguments;
         private Guid? _returnTypeId;
@@ -223,7 +223,7 @@ namespace CaptiveAire.VPL
             MarkDirty();
         }
 
-        public ObservableCollection<IElement> Elements
+        public IElements Elements
         {
             get { return _elements; }
         }
@@ -309,17 +309,17 @@ namespace CaptiveAire.VPL
                 argumentIndex++;
             }
 
-            //Look for the entrance point.
-            var entrancePoint = this.GetEntrancePoint();
+            ////Look for the entrance point.
+            //var entrancePoint = this.GetEntrancePoint();
 
-            //Check to see if if found an entrance point.
-            if (entrancePoint.Statement == null)
-            {
-                throw new EntrancePointNotFoundException($"Unable to find an entrance point in function '{Name}': {entrancePoint.Error}");
-            }
+            ////Check to see if if found an entrance point.
+            //if (entrancePoint.Statement == null)
+            //{
+            //    throw new EntrancePointNotFoundException($"Unable to find an entrance point in function '{Name}': {entrancePoint.Error}");
+            //}
 
             //Clear all of the errors
-            entrancePoint.Statement.ForAll(e =>
+            Elements.ForAll(e =>
             {
                 var errorSource = e as IErrorSource;
 
@@ -330,7 +330,7 @@ namespace CaptiveAire.VPL
             var executor = new StatementExecutor();
 
             //Execute the function.
-            await executor.ExecuteAsync(executionContext, entrancePoint.Statement, cancellationToken);
+            await executor.ExecuteAsync(executionContext, Elements, cancellationToken);
 
             //Find the return variable
             var returnVariable = Variables.FirstOrDefault(v => v.Id == ReturnValueVariable.ReturnVariableId);
@@ -345,7 +345,7 @@ namespace CaptiveAire.VPL
             foreach (var rootElement in Elements)
             {
                 //Clear anything that implments IErrorSource.
-                rootElement.ForAll(e => (e as IErrorSource)?.ClearErrors());
+                Elements.ForAll(e => (e as IErrorSource)?.ClearErrors());
             }
         }
 
@@ -355,37 +355,24 @@ namespace CaptiveAire.VPL
 
         public IError[] CheckForErrors()
         {
-            //Attempt to get the entrance point.
-            var entrancePoint = this.GetEntrancePoint();
-
             //Create a place to put the errors
             var errors = new List<IError>();
 
-            //Check to find out if we found an executable statement.
-            if (entrancePoint.Statement == null)
+            Elements.ForAll(e =>
             {
-                //Add the error.
-                errors.Add(new Error(this, $"Unable to find an entrance point in function '{Name}': {entrancePoint.Error}", ErrorLevel.Error));
-            }
-            else
-            {
-                //Now check through the statements for errors:
-                entrancePoint.Statement.ForAll(e =>
+                //Check to see if it's an error source.
+                var errorSource = e as IErrorSource;
+
+                //Check for errors
+                var childErrors = errorSource?.CheckForErrors();
+
+                //Check to see if there were any errors.
+                if (childErrors != null && childErrors.Length > 0)
                 {
-                    //Check to see if it's an error source.
-                    var errorSource = e as IErrorSource;
-
-                    //Check for errors
-                    var childErrors = errorSource?.CheckForErrors();
-
-                    //Check to see if there were any errors.
-                    if (childErrors != null && childErrors.Length > 0)
-                    {
-                        //Add the errors to the list.
-                        errors.AddRange(childErrors);
-                    }
-                });
-            }
+                    //Add the errors to the list.
+                    errors.AddRange(childErrors);
+                }
+            });
 
             return errors.ToArray();
         }
@@ -405,43 +392,22 @@ namespace CaptiveAire.VPL
             get { return _arguments; }
         }
 
-        private IEnumerable<IElement> EnumerateElements(IElement element)
+        private void AddElements(IElements elements, IList<IElement> allElements)
         {
-            var current = element;
-
-            while (current != null)
+            foreach (var element in elements)
             {
-                foreach (var parameter in current.Parameters)
+                foreach (var parameter in element.Parameters)
                 {
-                    if (parameter.Next != null)
-                    {
-                        foreach (var parameterElement in EnumerateElements(parameter.Next))
-                        {
-                            yield return parameterElement;
-                        }
-                    }
+                    allElements.Add(parameter.Operator);
                 }
 
-                foreach (var block in current.Blocks)
-                {
-                    if (block.Next != null)
-                    {
-                        foreach (var blockElement in EnumerateElements(block.Next))
-                        {
-                            yield return blockElement;
-                        }
-                    }
-                }
-
-                yield return current;
-
-                current = current.Next;
+                allElements.Add(element);
             }
         }
 
         public IEnumerable<IElement> GetAllElements()
         {
-            return Elements.SelectMany(EnumerateElements);
+            return Elements.EnumerateAllElements();
         }
 
         public IEnumerable<IElement> GetRootElements()

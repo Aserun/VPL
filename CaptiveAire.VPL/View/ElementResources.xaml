@@ -21,11 +21,11 @@
 
     <!-- Styles -->
     <Style TargetType="FrameworkElement" x:Key="ElementStyle">
-        <Setter Property="RenderTransform">
+        <!--<Setter Property="RenderTransform">
             <Setter.Value>
                     <TranslateTransform X="{Binding Path=Location.X}" Y="{Binding Path=Location.Y}" />
             </Setter.Value>
-        </Setter>
+        </Setter>-->
         
         <Setter Property="ContextMenu">
             <Setter.Value>

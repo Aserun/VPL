@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using CaptiveAire.VPL.Interfaces;
 
@@ -21,133 +22,145 @@ namespace CaptiveAire.VPL.Extensions
             return op?.Type.Id;
         }
 
-        /// <summary>
-        /// Gets the last element in a chain.
-        /// </summary>
-        /// <param name="start"></param>
-        /// <returns></returns>
-        public static IElement GetLast(this IElement start)
-        {
-            if (start == null) throw new ArgumentNullException(nameof(start));
+        ///// <summary>
+        ///// Gets the last element in a chain.
+        ///// </summary>
+        ///// <param name="start"></param>
+        ///// <returns></returns>
+        //public static IElement GetLast(this IElement start)
+        //{
+        //    if (start == null) throw new ArgumentNullException(nameof(start));
 
-            var current = start;
+        //    var current = start;
 
-            while (current.GetNext() != null)
-            {
-                current = current.GetNext();
-            }
+        //    while (current.GetNext() != null)
+        //    {
+        //        current = current.GetNext();
+        //    }
 
-            return current;
-        }
+        //    return current;
+        //}
 
-        /// <summary>
-        /// Performs an action for the element specified and all of its next siblings.
-        /// </summary>
-        /// <param name="start"></param>
-        /// <param name="action"></param>
-        public static void ForEach(this IElement start, Action<IElement> action)
-        {
-            if (start == null) throw new ArgumentNullException(nameof(start));
+        ///// <summary>
+        ///// Performs an action for the element specified and all of its next siblings.
+        ///// </summary>
+        ///// <param name="start"></param>
+        ///// <param name="action"></param>
+        //public static void ForEach(this IElement start, Action<IElement> action)
+        //{
+        //    if (start == null) throw new ArgumentNullException(nameof(start));
 
-            var current = start;
+        //    var current = start;
 
-            while (current != null)
-            {
-                action(current);
+        //    while (current != null)
+        //    {
+        //        action(current);
 
-                current = current.GetNext();
-            }
-        }
+        //        current = current.GetNext();
+        //    }
+        //}
 
         /// <summary>
         /// Performs an action on all of the elements in a hierarchy. This includes compound components.
         /// </summary>
-        /// <param name="start"></param>
+        /// <param name="elements"></param>
         /// <param name="action"></param>
-        public static void ForAll(this IElement start, Action<IElement> action)
+        public static void ForAll(this IElements elements, Action<IElement> action)
         {
-            if (start == null) throw new ArgumentNullException(nameof(start));
+            if (elements == null) throw new ArgumentNullException(nameof(elements));
 
-            var current = start;
-
-            while (current != null)
+            foreach (var element in elements)
             {
-                action(current);
+                action(element);
+            }
+        }
 
-                //Do the same for each block
-                foreach (var block in current.Blocks)
+        public static IEnumerable<IElement> EnumerateAllElements(this IElements elements)
+        {
+            foreach (var element in elements)
+            {
+                foreach (var parameter in element.Parameters)
                 {
-                    ForAll(block, action);
+                    yield return parameter;
                 }
 
-                current = current.GetNext();
-            }
-
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="element"></param>
-        /// <param name="delete">Optionally deletes the element completely.</param>
-        public static void DisconnectFromPrevious(this IElement element, bool delete = false)
-        {
-            if (element == null) throw new ArgumentNullException(nameof(element));
-
-            var previous = element.GetPrevious();
-
-            if (previous != null)
-            {
-                previous.SetNext(null);
-                element.SetPrevious(null);
-
-                if (!delete)
+                foreach (var block in element.Blocks)
                 {
-                    element.Owner.Add(element);
+                    yield return block;
+
+                    foreach (var childElement in block.Elements.EnumerateAllElements())
+                    {
+                        yield return childElement;
+                    }
                 }
-            }
-            else if (delete)
-            {
-                element.Owner.Remove(element);
-            }
+
+                yield return element;
+            }           
         }
 
-        /// <summary>
-        /// Drop logic.
-        /// </summary>
-        /// <param name="target"></param>
-        /// <param name="dropped"></param>
-        public static void CommonDrop(this IElement target, IElement dropped)
-        {
-            if (target == null) throw new ArgumentNullException(nameof(target));
-            if (dropped == null) throw new ArgumentNullException(nameof(dropped));
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        ///// <param name="element"></param>
+        ///// <param name="delete">Optionally deletes the element completely.</param>
+        //public static void DisconnectFromPrevious(this IElement element, bool delete = false)
+        //{
+        //    if (element == null) throw new ArgumentNullException(nameof(element));
 
-            //Remove the dropped statement from wherever it came from
-            dropped.DisconnectFromPrevious();
+        //    var previous = element.GetPrevious();
 
-            dropped.ForEach(s => s.Location = new Point(0, 0));
+        //    if (previous != null)
+        //    {
+        //        previous.SetNext(null);
+        //        element.SetPrevious(null);
 
-            //Now hook it up to where it belongs now
-            var afterDrop = target.GetNext();
+        //        if (!delete)
+        //        {
+        //            element.Owner.Add(element);
+        //        }
+        //    }
+        //    else if (delete)
+        //    {
+        //        element.Owner.Remove(element);
+        //    }
+        //}
 
-            //The dropped statement is now the next statement
-            target.SetNext(dropped);
+        ///// <summary>
+        ///// Drop logic.
+        ///// </summary>
+        ///// <param name="target"></param>
+        ///// <param name="dropped"></param>
+        //public static void CommonDrop(this IElement target, IElement dropped)
+        //{
+            //if (target == null) throw new ArgumentNullException(nameof(target));
+            //if (dropped == null) throw new ArgumentNullException(nameof(dropped));
 
-            //The new statement now points back to this
-            dropped.SetPrevious(target);
+            ////Remove the dropped statement from wherever it came from
+            //dropped.DisconnectFromPrevious();
 
-            //Get the last statement in this chain
-            var lastDropped = dropped.GetLast();
+            //dropped.ForEach(s => s.Location = new Point(0, 0));
 
-            //Hook this up just in case the new statement was dropped in the middle of a chain
-            lastDropped.SetNext(afterDrop);
+            ////Now hook it up to where it belongs now
+            //var afterDrop = target.GetNext();
 
-            //If we had a next, make sure that it points back at its new predecessor
-            afterDrop?.SetPrevious(lastDropped);
+            ////The dropped statement is now the next statement
+            //target.SetNext(dropped);
 
-            //Remove the dropped item from the design surface.
-            target.Owner.Remove(dropped);
-        }
+            ////The new statement now points back to this
+            //dropped.SetPrevious(target);
+
+            ////Get the last statement in this chain
+            //var lastDropped = dropped.GetLast();
+
+            ////Hook this up just in case the new statement was dropped in the middle of a chain
+            //lastDropped.SetNext(afterDrop);
+
+            ////If we had a next, make sure that it points back at its new predecessor
+            //afterDrop?.SetPrevious(lastDropped);
+
+            ////Remove the dropped item from the design surface.
+            //target.Owner.Remove(dropped);
+       // }
 
         /// <summary>
         /// Shortcut for adding an element action.

@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
-using CaptiveAire.VPL.Extensions;
 using CaptiveAire.VPL.Interfaces;
 using CaptiveAire.VPL.Metadata;
 using CaptiveAire.VPL.Model;
@@ -25,8 +23,6 @@ namespace CaptiveAire.VPL
         private readonly IElementFactory _factory;
         private readonly ObservableCollection<IElementAction> _actions = new ObservableCollection<IElementAction>();
 
-        private IElement _previous;
-        private IElement _next;
         private Point _location;
         private Point _startLocation;
         private bool _isDragging;
@@ -106,7 +102,7 @@ namespace CaptiveAire.VPL
         private void Delete()
         {
             //Delete
-            this.DisconnectFromPrevious(true);
+            Parent?.RemoveElement(this);
             Owner.MarkDirty();
         }
 
@@ -143,32 +139,12 @@ namespace CaptiveAire.VPL
             }
         }
 
-        public IElement Previous
-        {
-            get { return _previous; }
-            set
-            {
-                _previous = value;
-                RaisePropertyChanged();
-                Owner.MarkDirty();
-            }
-        }
-
-        public IElement Next
-        {
-            get { return _next; }
-            set
-            {
-                _next = value;
-                RaisePropertyChanged();
-                Owner.MarkDirty();
-            }
-        }
-
         public IElementFactory Factory
         {
             get { return _factory; }
         }
+
+        public IElementParent Parent { get; set; }
 
         public Parameters Parameters
         {
@@ -223,26 +199,6 @@ namespace CaptiveAire.VPL
         public void CompleteMove(Vector vector)
         {
             Location = _startLocation + vector;
-        }
-
-        public  IElement GetNext()
-        {
-            return Next;
-        }
-
-        public void SetNext(IElement element)
-        {
-            Next = element;
-        }
-
-        public IElement GetPrevious()
-        {
-            return Previous;
-        }
-
-        public void SetPrevious(IElement element)
-        {
-            Previous = element;
         }
 
         public virtual string GetData()

@@ -33,10 +33,9 @@ namespace CaptiveAire.VPL
             }
         }
 
-        public void Drop(IStatement dropped)
-        {
-            this.CommonDrop(dropped);
-        }
+        //public void Drop(IStatement dropped)
+        //{
+        //}
 
         public virtual bool CanDrop()
         {
@@ -55,17 +54,12 @@ namespace CaptiveAire.VPL
 
         public void Drop(IElement element)
         {
-            var statement = element as IStatement;
-
-            if (statement != null)
-            {
-                this.CommonDrop(statement);    
-            }           
+            Parent?.Drop(this, element);
         }
 
         public bool CanDrop(Type elementType, Guid? returnType)
         {
-            return elementType != null && typeof(IStatement).IsAssignableFrom(elementType);
+            return Parent?.CanDrop(elementType, returnType) == true;
         }
 
         public bool IsExecuting

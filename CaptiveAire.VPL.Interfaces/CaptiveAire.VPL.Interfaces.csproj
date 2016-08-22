@@ -71,6 +71,7 @@
     <Compile Include="IElementFactory.cs" />
     <Compile Include="IElementFactoryManager.cs" />
     <Compile Include="IElementOwner.cs" />
+    <Compile Include="IElementParent.cs" />
     <Compile Include="IElements.cs" />
     <Compile Include="IEntityBase.cs" />
     <Compile Include="IError.cs" />

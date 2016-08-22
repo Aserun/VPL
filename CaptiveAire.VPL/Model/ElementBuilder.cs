@@ -54,6 +54,13 @@ namespace CaptiveAire.VPL.Model
                     else
                     {
                         SetElementProperties(block, blockMetadata);
+
+                        if (blockMetadata.Elements != null)
+                        {
+
+                            //Add the block children
+                            block.Elements.AddRange(blockMetadata.Elements.Select(e => CreateElement(owner, e)).ToArray());
+                        }
                     }
                 }
             }
@@ -81,24 +88,25 @@ namespace CaptiveAire.VPL.Model
                     }
                     else
                     {
-                        //Set the value of the printer
+                        //Set the value of the parameter
                         parameter.SetValue(parameterMetadata.Value);
 
                         if (parameterMetadata.Operator != null)
                         {
-                            parameter.CommonDrop(CreateElement(element.Owner, parameterMetadata.Operator));
+                            parameter.Operator = (IOperator)(CreateElement(element.Owner, parameterMetadata.Operator)) ;
                         }
                     }
                 }
             }
 
-            //Handle next
-            if (elementMetadata.Next != null)
-            {
-                var next = CreateElement(element.Owner, elementMetadata.Next);
+            ////Handle next
+            //if (elementMetadata.Next != null)
+            //{
+            //    var next = CreateElement(element.Owner, elementMetadata.Next);
 
-                element.CommonDrop(next);
-            }
+            //    element.CommonDrop(next);
+            //}
+
         }
 
         public void AddToOwner(IElementOwner owner, IEnumerable<ElementMetadata> rootElements)
@@ -152,14 +160,106 @@ namespace CaptiveAire.VPL.Model
             }
         }
 
+        private static IEnumerable<ElementMetadata> EnumerateElementsWhileFixingBlocks(ElementMetadata first)
+        {
+            var current = first;
+
+            while (current != null)
+            {
+                if (current.Blocks != null)
+                {
+                    foreach (var block in current.Blocks)
+                    {
+                        FixBlock(block);
+                    }
+                }
+
+                yield return current;
+
+                current = current.Next;
+            }
+        }
+
+        private static void FixBlock(BlockMetadata blockMetadata)
+        {
+            if (blockMetadata == null) throw new ArgumentNullException(nameof(blockMetadata));
+
+            if (blockMetadata.Next != null)
+            {
+                //Convert to a list
+                blockMetadata.Elements = EnumerateElementsWhileFixingBlocks(blockMetadata.Next)
+                    .ToArray();
+
+                //Ditch the next pointer
+                blockMetadata.Next = null;
+            }
+        }
+
+        private bool RequiresConversion(ElementMetadata elementMetadata)
+        {
+            if (elementMetadata == null) throw new ArgumentNullException(nameof(elementMetadata));
+
+            if (elementMetadata.Next != null)
+                return true;
+
+            //if (elementMetadata.Parameters != null)
+            //{
+            //    if (elementMetadata.Parameters.Any())
+            //}
+
+            if (elementMetadata.Blocks != null)
+            {
+                if (elementMetadata.Blocks.Any(b => b.Next != null))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private void FixFunctionMetadata(FunctionMetadata functionMetadata)
+        {
+            if (functionMetadata == null) throw new ArgumentNullException(nameof(functionMetadata));
+
+            if (functionMetadata.Elements != null)
+            {
+                //Check to see if need to convert
+                if (functionMetadata.Elements.Any(RequiresConversion))
+                {
+                    //This is where we'll put all of the elements.
+                    var allElements = new List<ElementMetadata>();
+
+                    //Consider each of the root elements
+                    foreach (var rootElement in functionMetadata.Elements)
+                    {
+                        //Flatten the element chain
+                        var elements = EnumerateElementsWhileFixingBlocks(rootElement);
+
+                        //Add this to the list of all elements
+                        allElements.AddRange(elements);                        
+                    }
+
+                    //Set the next element to null
+                    allElements.ForEach(e => e.Next = null);
+
+                    functionMetadata.Elements = allElements
+                        .ToArray();
+                }               
+            }
+        }
+
         public void LoadFunction(IFunction function, FunctionMetadata functionMetadata)
         {
             if (function == null) throw new ArgumentNullException(nameof(function));
             if (functionMetadata == null)
                 return;
 
-            function.Width = functionMetadata.Width;
-            function.Height = functionMetadata.Height;
+            //Fix the bloody metadata
+            FixFunctionMetadata(functionMetadata);
+
+            //function.Width = functionMetadata.Width;
+            //function.Height = functionMetadata.Height;
             function.Name = functionMetadata.Name;
             function.ReturnTypeId = functionMetadata.ReturnTypeId;
 

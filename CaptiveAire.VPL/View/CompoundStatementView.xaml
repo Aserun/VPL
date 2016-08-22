@@ -83,7 +83,8 @@
                             <!-- Left hand side of block -->
                             <Rectangle Grid.Row="0" Grid.Column="0" Style="{StaticResource BackgroundRectangle}" Margin="5,0,2,0"  />
 
-                            <ContentControl Grid.Column="1" Margin="0,1,0,1" Content="{Binding Path=Next}" />
+                            <view:ElementsView Grid.Row="0" Grid.Column="1" DataContext="{Binding Path=Elements}"/>
+
                             <Rectangle Fill="Red" Height="4" Grid.Column="1" VerticalAlignment="Top" Visibility="{Binding Path=IsDraggingOver, Converter={StaticResource CollapsedWhenFalseConverter}}"/>
                         </Grid>
 
@@ -106,6 +107,5 @@
         </Grid>
         <Rectangle Height="0.5"/>
 
-        <ContentControl Content="{Binding Path=Next}" />
     </StackPanel>
 </UserControl>

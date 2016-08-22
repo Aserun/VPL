@@ -19,5 +19,7 @@ namespace CaptiveAire.VPL.Interfaces
         Task<object> EvaluateAsync(IExecutionContext executionContext, CancellationToken cancellationToken);
 
         Visual Editor { get; }
+
+        IOperator Operator { get; set; }
     }
 }

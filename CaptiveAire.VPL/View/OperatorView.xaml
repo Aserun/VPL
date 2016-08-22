@@ -12,10 +12,6 @@
              x:ClassModifier="internal"
              d:DataContext="{d:DesignInstance vpl:Operator, d:IsDesignTimeCreatable=False}">
 
-    <UserControl.RenderTransform>
-        <TranslateTransform X="{Binding Path=Location.X}" Y="{Binding Path=Location.Y}" />
-    </UserControl.RenderTransform>
-
     <i:Interaction.Behaviors>
         <behaviors:ElementDraggableBehavior/>
     </i:Interaction.Behaviors>
