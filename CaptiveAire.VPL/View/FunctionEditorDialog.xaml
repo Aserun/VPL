@@ -11,6 +11,7 @@
         xmlns:controls="clr-namespace:Cas.Common.WPF.Controls;assembly=Cas.Common.WPF"
         xmlns:wpf="clr-namespace:Cas.Common.WPF;assembly=Cas.Common.WPF"
         xmlns:converters1="clr-namespace:CaptiveAire.VPL.Converters"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
         Background="LightGray"
         x:ClassModifier="internal"
@@ -265,6 +266,7 @@
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
@@ -290,8 +292,18 @@
                             <Button Grid.Row="1" Grid.Column="3" Margin="4" MinWidth="100" Command="{Binding Path=ClearReturnTypeCommand}" VerticalAlignment="Center">Clear Type</Button>
                         </Grid>
                     </GroupBox>
+
+                    <GroupBox Grid.Row="1" Header="Dimensions">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Margin="4" VerticalAlignment="Center">Width</TextBlock>
+                            <xctk:IntegerUpDown MinWidth="200" Margin="4" VerticalAlignment="Center" Value="{Binding Path=Function.Width}"/>
+
+                            <TextBlock Margin="4" VerticalAlignment="Center">Height</TextBlock>
+                            <xctk:IntegerUpDown MinWidth="200" Margin="4" VerticalAlignment="Center" Value="{Binding Path=Function.Height}"/>
+                        </StackPanel>
+                    </GroupBox>
                     
-                    <GroupBox Grid.Row="1" Header="Arguments">
+                    <GroupBox Grid.Row="2" Header="Arguments">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
