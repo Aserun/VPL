@@ -21,11 +21,6 @@
 
     <!-- Styles -->
     <Style TargetType="FrameworkElement" x:Key="ElementStyle">
-        <!--<Setter Property="RenderTransform">
-            <Setter.Value>
-                    <TranslateTransform X="{Binding Path=Location.X}" Y="{Binding Path=Location.Y}" />
-            </Setter.Value>
-        </Setter>-->
         
         <Setter Property="ContextMenu">
             <Setter.Value>
@@ -45,6 +40,13 @@
                     <MenuItem Header="Delete" Command="{Binding Path=DeleteCommand}">
                         <MenuItem.Icon>
                             <controls:AutoGreyableImage Source="/CaptiveAire.VPL;component/Images/Delete.gif"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+
+                    <Separator/>                    
+                    <MenuItem Header="Paste" Command="{Binding Path=PasteCommand}">
+                        <MenuItem.Icon>
+                            <controls:AutoGreyableImage Source="/CaptiveAire.VPL;component/Images/Paste_16x.png"/>
                         </MenuItem.Icon>
                     </MenuItem>
 
@@ -77,7 +79,6 @@
             </DataTrigger>
             <MultiDataTrigger>
                 <MultiDataTrigger.Conditions>
-                    <!--<Condition Binding="{Binding Path=Previous}" Value="{x:Null}"/>-->
                     <Condition Binding="{Binding Path=IsDragging}" Value="False"/>
                 </MultiDataTrigger.Conditions>
                 <Setter Property="Effect">

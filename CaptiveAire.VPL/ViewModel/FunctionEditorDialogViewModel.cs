@@ -62,6 +62,9 @@ namespace CaptiveAire.VPL.ViewModel
             SelectedType = context.Types.FirstOrDefault(t => t.Id == VplTypeId.Float);
 
             function.PropertyChanged += Function_PropertyChanged;
+
+            //Save the initial state
+            function.SaveUndoState();
         }
 
         private void Function_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -201,12 +204,14 @@ namespace CaptiveAire.VPL.ViewModel
             if (data != null)
             {
                 Function.DropFromToolbox(data);
+
+                Function.SaveUndoState();
             }
         }
 
         private bool CanPaste()
         {
-            return Clipboard.ContainsData(nameof(ElementClipboardData));
+            return ClipboardUtility.CanPaste();
         }
 
         private void AddVariable()

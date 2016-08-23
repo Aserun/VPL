@@ -171,5 +171,13 @@ namespace CaptiveAire.VPL.View
                 });
             }
         }
+
+        private void ElementsOnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            this.PerformViewModelAction<FunctionEditorDialogViewModel>(vm =>
+            {
+                vm.Function.SelectionService.SelectNone();
+            });
+        }
     }
 }

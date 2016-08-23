@@ -52,6 +52,8 @@ namespace CaptiveAire.VPL
                 {
                     Elements.Add(element);
                 }
+
+                Owner.SaveUndoState();
             }
         }
 

@@ -27,7 +27,7 @@ namespace CaptiveAire.VPL.Model
 
         public bool CanUndo()
         {
-            return _undoStates.Count > 0;
+            return _undoStates.Count > 1;
         }
 
         public TState Redo()

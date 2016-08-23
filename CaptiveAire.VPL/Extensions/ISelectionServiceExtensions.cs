@@ -111,16 +111,9 @@ namespace CaptiveAire.VPL.Extensions
 
             //Get the selected elements
             var elements = selectionService.GetSelected()
-                .OfType<IElement>()
-                .ToMetadata()
-                .ToArray();
-
-            if (elements.Any())
-            {
-                var json = JsonConvert.SerializeObject(elements);
-
-                Clipboard.SetData(ClipboardUtility.CopyPasteFormat, json);
-            }
+                .OfType<IElement>();
+                
+            ClipboardUtility.Copy(elements);            
         }
     }
 }

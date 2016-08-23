@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Media;
-using CaptiveAire.VPL.Extensions;
 using CaptiveAire.VPL.Interfaces;
 
 namespace CaptiveAire.VPL

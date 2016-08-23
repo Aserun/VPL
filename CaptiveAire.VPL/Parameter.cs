@@ -109,6 +109,8 @@ namespace CaptiveAire.VPL
                 var elements = Owner.CreateElements(data);
 
                 Operator = elements[0] as IOperator;
+
+                Owner.SaveUndoState();
             }
         }
 

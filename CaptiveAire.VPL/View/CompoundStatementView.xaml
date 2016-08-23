@@ -10,7 +10,8 @@
              xmlns:vpl="clr-namespace:CaptiveAire.VPL"
              x:ClassModifier="internal"
              mc:Ignorable="d" 
-             
+             ToolTip="{Binding Path=Error}"
+             x:Name="Root"
              d:DataContext="{d:DesignInstance vpl:CompoundStatement, d:IsDesignTimeCreatable=False}">
     
     <UserControl.Resources>
@@ -19,8 +20,14 @@
         <Style TargetType="Rectangle" x:Key="BackgroundRectangle">
             <Setter Property="Fill" Value="Goldenrod"/>
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=IsEnabled}" Value="False">
+                <DataTrigger Binding="{Binding ElementName=Root, Path=DataContext.IsEnabled}" Value="False">
                     <Setter Property="Fill" Value="LightGray"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding ElementName=Root, Path=DataContext.HasError}" Value="True">
+                    <Setter Property="Fill" Value="Red"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding ElementName=Root, Path=DataContext.IsSelected}" Value="True">
+                    <Setter Property="Fill" Value="Aqua"></Setter>
                 </DataTrigger>
             </Style.Triggers>
         </Style>

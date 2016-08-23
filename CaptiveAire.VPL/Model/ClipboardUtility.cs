@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using CaptiveAire.VPL.Interfaces;
@@ -14,6 +15,20 @@ namespace CaptiveAire.VPL.Model
         /// </summary>
         internal const string CopyPasteFormat = "CaptiveAire.VPL.CopyPasteFormat";
 
+        internal static void Copy(IEnumerable<IElement> elements)
+        {
+            var elementMetadatas = elements
+              .ToMetadata()
+              .ToArray();
+
+            if (elementMetadatas.Any())
+            {
+                var json = JsonConvert.SerializeObject(elementMetadatas);
+
+                Clipboard.SetData(CopyPasteFormat, json);
+            }
+        }
+
         internal static bool CanPaste()
         {
             return Clipboard.ContainsData(CopyPasteFormat);
@@ -23,13 +38,16 @@ namespace CaptiveAire.VPL.Model
         {
             try
             {
-                var json = Clipboard.GetData(nameof(ElementClipboardData)) as string;
+                var json = Clipboard.GetData(CopyPasteFormat) as string;
 
-                var elementMetadatas = JsonConvert.DeserializeObject<ElementMetadata[]>(json);
-
-                if (elementMetadatas.Any())
+                if (!string.IsNullOrWhiteSpace(json))
                 {
-                    return new ElementClipboardData(elementMetadatas);
+                    var elementMetadatas = JsonConvert.DeserializeObject<ElementMetadata[]>(json);
+
+                    if (elementMetadatas.Any())
+                    {
+                        return new ElementClipboardData(elementMetadatas);
+                    }
                 }
             }
             catch (Exception)

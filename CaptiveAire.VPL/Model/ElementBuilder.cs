@@ -57,7 +57,6 @@ namespace CaptiveAire.VPL.Model
 
                         if (blockMetadata.Elements != null)
                         {
-
                             //Add the block children
                             block.Elements.AddRange(blockMetadata.Elements.Select(e => CreateElement(owner, e)).ToArray());
                         }
@@ -108,8 +107,6 @@ namespace CaptiveAire.VPL.Model
             foreach (var elementMetadata in rootElements)
             {
                 var element = CreateElement(owner, elementMetadata);
-
-                element.Location = elementMetadata.Location;
 
                 owner.Add(element);
             }

@@ -209,7 +209,7 @@ namespace CaptiveAire.VPL
             return this.AreAllItemsStatements(data);
         }
 
-        public void DropFromToolbox(IElementClipboardData data)
+        public bool DropFromToolbox(IElementClipboardData data)
         {
             if (CanDropFromToolbox(data))
             {
@@ -221,7 +221,13 @@ namespace CaptiveAire.VPL
                 }
 
                 MarkDirty();
+
+                SaveUndoState();
+
+                return true;
             }
+
+            return false;
         }
 
         public void Add(IElement element)
@@ -279,28 +285,6 @@ namespace CaptiveAire.VPL
             set
             {
                 _name = value; 
-                RaisePropertyChanged();
-                MarkDirty();
-            }
-        }
-
-        public double Width
-        {
-            get { return _width; }
-            set
-            {
-                _width = value; 
-                RaisePropertyChanged();
-                MarkDirty();
-            }
-        }
-
-        public double Height
-        {
-            get { return _height; }
-            set
-            {
-                _height = value; 
                 RaisePropertyChanged();
                 MarkDirty();
             }
@@ -372,12 +356,8 @@ namespace CaptiveAire.VPL
 
         public void ClearErrors()
         {
-            //Do this for all of the root element chains.
-            foreach (var rootElement in Elements)
-            {
-                //Clear anything that implments IErrorSource.
-                Elements.ForAll(e => (e as IErrorSource)?.ClearErrors());
-            }
+            //Clear anything that implments IErrorSource.
+            Elements.ForAll(e => (e as IErrorSource)?.ClearErrors());
         }
 
         public void SetError(string message)
@@ -428,19 +408,6 @@ namespace CaptiveAire.VPL
             get { return _undoService; }
         }
 
-        //private void AddElements(IElements elements, IList<IElement> allElements)
-        //{
-        //    foreach (var element in elements)
-        //    {
-        //        foreach (var parameter in element.Parameters)
-        //        {
-        //            allElements.Add(parameter.Operator);
-        //        }
-
-        //        allElements.Add(element);
-        //    }
-        //}
-
         public IEnumerable<IElement> GetAllElements()
         {
             return Elements.EnumerateAllElements();
@@ -451,7 +418,6 @@ namespace CaptiveAire.VPL
             return Elements
                 .ToArray();
         }
-
 
         public void SaveUndoState()
         {
