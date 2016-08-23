@@ -89,7 +89,12 @@ namespace CaptiveAire.VPL
             if (data.Items.Length != 1)
                 return false;
 
-            var factory = Owner.Context.ElementFactoryManager.GetFactory(data.Items[0].ElementMetadata.ElementTypeId);
+            IElementFactory factory = data.Items[0].Factory;
+
+            if (factory == null)
+            {
+                factory = Owner.Context.ElementFactoryManager.GetFactory(data.Items[0].ElementMetadata.ElementTypeId);
+            }
 
             if (factory == null)
                 return false;

@@ -138,8 +138,10 @@
     <Compile Include="Extensions\VplTypeExtensions.cs" />
     <Compile Include="Factory\ElementFactoryManager.cs" />
     <Compile Include="Factory\FactoryCategoryNames.cs" />
+    <Compile Include="Model\ClipboardUtility.cs" />
     <Compile Include="Model\ElementClipboardData.cs" />
     <Compile Include="Model\ElementBuilder.cs" />
+    <Compile Include="Model\ElementClipboardDataItem.cs" />
     <Compile Include="Model\ElementCreationContext.cs" />
     <Compile Include="Model\SelectionService.cs" />
     <Compile Include="Model\StatementExecutor.cs" />
@@ -159,6 +161,7 @@
     <Compile Include="Editors\Int32ValueView.xaml.cs">
       <DependentUpon>Int32ValueView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Model\UndoService.cs" />
     <Compile Include="View\ElementsView.xaml.cs">
       <DependentUpon>ElementsView.xaml</DependentUpon>
     </Compile>
@@ -381,7 +384,6 @@
       <Name>CaptiveAire.VPL.Metadata</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Resource Include="Images\Member_16xLG.png" />
   </ItemGroup>
@@ -402,6 +404,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\save_16xLG.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Redo_16x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Undo_16x.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

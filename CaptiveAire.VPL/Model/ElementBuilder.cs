@@ -98,15 +98,6 @@ namespace CaptiveAire.VPL.Model
                     }
                 }
             }
-
-            ////Handle next
-            //if (elementMetadata.Next != null)
-            //{
-            //    var next = CreateElement(element.Owner, elementMetadata.Next);
-
-            //    element.CommonDrop(next);
-            //}
-
         }
 
         public void AddToOwner(IElementOwner owner, IEnumerable<ElementMetadata> rootElements)
@@ -160,6 +151,7 @@ namespace CaptiveAire.VPL.Model
             }
         }
 
+#pragma warning disable CS0618
         private static IEnumerable<ElementMetadata> EnumerateElementsWhileFixingBlocks(ElementMetadata first)
         {
             var current = first;
@@ -202,11 +194,6 @@ namespace CaptiveAire.VPL.Model
             if (elementMetadata.Next != null)
                 return true;
 
-            //if (elementMetadata.Parameters != null)
-            //{
-            //    if (elementMetadata.Parameters.Any())
-            //}
-
             if (elementMetadata.Blocks != null)
             {
                 if (elementMetadata.Blocks.Any(b => b.Next != null))
@@ -248,6 +235,7 @@ namespace CaptiveAire.VPL.Model
                 }               
             }
         }
+#pragma warning restore CS0618
 
         public void LoadFunction(IFunction function, FunctionMetadata functionMetadata)
         {
@@ -258,8 +246,7 @@ namespace CaptiveAire.VPL.Model
             //Fix the bloody metadata
             FixFunctionMetadata(functionMetadata);
 
-            //function.Width = functionMetadata.Width;
-            //function.Height = functionMetadata.Height;
+            //Now get the simple stuff
             function.Name = functionMetadata.Name;
             function.ReturnTypeId = functionMetadata.ReturnTypeId;
 

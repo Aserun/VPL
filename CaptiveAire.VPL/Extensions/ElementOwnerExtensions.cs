@@ -19,12 +19,24 @@ namespace CaptiveAire.VPL.Extensions
 
             //Create the elements
             return data.Items
-                .Select(item => owner.Context.ElementBuilder.CreateElement(owner, item.ElementMetadata))
+                .Select(item =>
+                {
+                    if (item.ElementMetadata != null)
+                    {
+                        return owner.Context.ElementBuilder.CreateElement(owner, item.ElementMetadata);
+                    }
+
+                    if (item.Factory != null)
+                    {
+                        return owner.CreateElement(item.Factory);
+                    }
+                    
+                    //This shouldn't happen
+                    return null;                   
+                })
                 .ToArray();
         }
-
         
-
         public static IElement CreateElement(this IElementOwner owner, IElementFactory factory)
         {
             if (factory == null) throw new ArgumentNullException(nameof(factory));
@@ -42,12 +54,23 @@ namespace CaptiveAire.VPL.Extensions
             return data.Items.Any()
                    && data.Items.All(i =>
                    {
-                       //Get the factory for this element type
-                       var factory = owner.Context.ElementFactoryManager.GetFactory(i.ElementMetadata.ElementTypeId);
+                       IElementFactory factory;
 
-                       //Make sure we got it
-                       if (factory == null)
+                       if (i.Factory != null)
+                       {
+                           //First try to use the factory
+                           factory = i.Factory;
+                       }
+                       else if (i.ElementMetadata != null)
+                       {
+                           //Get the factory for this element type
+                           factory = owner.Context.ElementFactoryManager.GetFactory(i.ElementMetadata.ElementTypeId);
+                       }
+                       else
+                       {
+                           //This shouldn't happen
                            return false;
+                       }
 
                        //Determine if this is a statement
                        return factory.ElementType.IsStatement();

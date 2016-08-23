@@ -5,7 +5,7 @@ namespace CaptiveAire.VPL.Interfaces
     /// <summary>
     /// Represents an entity that owns elements.
     /// </summary>
-    public interface IElementOwner
+    public interface IElementOwner : IUndoProvider
     {
         /// <summary>
         /// Add a root level element.

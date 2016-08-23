@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using CaptiveAire.VPL.Extensions;
 using CaptiveAire.VPL.Interfaces;
@@ -13,6 +14,8 @@ using CaptiveAire.VPL.View;
 using CaptiveAire.VPL.ViewModel;
 using Cas.Common.WPF;
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.CommandWpf;
+using Newtonsoft.Json;
 
 namespace CaptiveAire.VPL
 {
@@ -29,6 +32,7 @@ namespace CaptiveAire.VPL
         private Guid? _returnTypeId;
         private bool _isDirty;
         private readonly ISelectionService _selectionService = new SelectionService();
+        private readonly UndoService<string> _undoService = new UndoService<string>();
 
         public Function(IVplServiceContext context, Guid functionId)
         {
@@ -43,6 +47,44 @@ namespace CaptiveAire.VPL
                 addedAction: ArgumentAdded);
 
             _elements = new Elements(this);
+
+            UndoCommand = new RelayCommand(Undo, _undoService.CanUndo);
+            RedoCommand = new RelayCommand(Redo, _undoService.CanRedo);
+        }
+
+        public ICommand UndoCommand { get; }
+        public ICommand RedoCommand { get; }
+
+        private void Undo()
+        {
+            var state = _undoService.Undo();
+
+            //Apply the state
+            ApplyState(state);
+        }
+
+        private void Redo()
+        {
+            var state = _undoService.Redo();
+
+            //Apply the state
+            ApplyState(state);
+        }
+
+        private void ApplyState(string state)
+        {
+            try
+            {
+                var elements = JsonConvert.DeserializeObject<ElementMetadata[]>(state);
+
+                Elements.Clear();
+
+                Context.ElementBuilder.AddToOwner(this, elements);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString(), ex.Source);
+            }
         }
 
         /// <summary>
@@ -381,18 +423,23 @@ namespace CaptiveAire.VPL
             get { return _arguments; }
         }
 
-        private void AddElements(IElements elements, IList<IElement> allElements)
+        private IUndoService<string> UndoService
         {
-            foreach (var element in elements)
-            {
-                foreach (var parameter in element.Parameters)
-                {
-                    allElements.Add(parameter.Operator);
-                }
-
-                allElements.Add(element);
-            }
+            get { return _undoService; }
         }
+
+        //private void AddElements(IElements elements, IList<IElement> allElements)
+        //{
+        //    foreach (var element in elements)
+        //    {
+        //        foreach (var parameter in element.Parameters)
+        //        {
+        //            allElements.Add(parameter.Operator);
+        //        }
+
+        //        allElements.Add(element);
+        //    }
+        //}
 
         public IEnumerable<IElement> GetAllElements()
         {
@@ -405,6 +452,17 @@ namespace CaptiveAire.VPL
                 .ToArray();
         }
 
-       
+
+        public void SaveUndoState()
+        {
+            //Get the metadata
+            var metadata = Elements.ToMetadata();
+
+            //Serialize it
+            var json = JsonConvert.SerializeObject(metadata, Formatting.Indented);
+
+            //Save the action
+            UndoService.Do(json);
+        }
     }
 }

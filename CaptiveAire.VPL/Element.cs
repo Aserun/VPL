@@ -278,6 +278,18 @@ namespace CaptiveAire.VPL
             return new IError[] { };
         }
 
+        bool IDeleteable.Delete()
+        {
+            Delete();
+
+            return true;
+        }
+
+        bool IDeleteable.CanDelete()
+        {
+            return CanDelete();
+        }
+
         public bool IsSelected
         {
             get { return _isSelected; }

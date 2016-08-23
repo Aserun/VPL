@@ -23,6 +23,8 @@
         <KeyBinding Key="F5" Command="{Binding Path=RunCommand}"/>
         <KeyBinding Key="Pause" Command="{Binding Path=StopCommand}"/>
         <KeyBinding Key="S" Modifiers="Control" Command="{Binding Path=SaveCommand}"/>
+        <KeyBinding Key="Z" Modifiers="Control" Command="{Binding Path=Function.UndoCommand}"/>
+        <KeyBinding Key="Y" Modifiers="Control" Command="{Binding Path=Function.RedoCommand}"/>
     </Window.InputBindings>
     
     <Window.Resources>
@@ -54,8 +56,8 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <StackPanel Orientation="Horizontal">
-            <StackPanel.Resources>
+        <ToolBar>
+            <ToolBar.Resources>
                 <Style TargetType="controls:AutoGreyableImage">
                     <Setter Property="Margin" Value="2"/>
                     <Setter Property="VerticalAlignment" Value="Center"/>
@@ -69,7 +71,7 @@
                     <Setter Property="MinWidth" Value="80"/>
                     <Setter Property="VerticalAlignment" Value="Center"/>
                 </Style>
-            </StackPanel.Resources>
+            </ToolBar.Resources>
 
             <Button Command="{Binding Path=CheckForErrorsCommand}" ToolTip="Check the function for errors.">
                 <StackPanel Orientation="Horizontal">
@@ -89,7 +91,16 @@
                     <TextBlock>Stop</TextBlock>
                 </StackPanel>
             </Button>
-        </StackPanel>
+            
+            <Separator/>
+
+            <Button Command="{Binding Path=Function.UndoCommand}" ToolTip="Undo (Ctrl + Z)" >
+                <controls:AutoGreyableImage Source="/CaptiveAire.VPL;component/Images/Undo_16x.png" />
+            </Button>
+            <Button Command="{Binding Path=Function.RedoCommand}" ToolTip="Redo (Ctrol + Y)">
+                <controls:AutoGreyableImage Source="/CaptiveAire.VPL;component/Images/Redo_16x.png" />
+            </Button>
+        </ToolBar>
 
         <TabControl Grid.Row="1">
             <TabItem Header="Code" >

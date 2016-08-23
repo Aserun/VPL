@@ -117,9 +117,9 @@ namespace CaptiveAire.VPL.Extensions
 
             if (elements.Any())
             {
-                var data = JsonConvert.SerializeObject(elements);
+                var json = JsonConvert.SerializeObject(elements);
 
-                Clipboard.SetData(nameof(ElementClipboardData), data);
+                Clipboard.SetData(ClipboardUtility.CopyPasteFormat, json);
             }
         }
     }

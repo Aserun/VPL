@@ -72,18 +72,18 @@ namespace CaptiveAire.VPL.ViewModel
             }
         }
 
-        public ICommand RunCommand { get; private set; }
-        public ICommand StopCommand { get; private set; }
-        public ICommand OkCommand { get; private set; }
-        public ICommand CloseCommand { get; private set; }
-        public ICommand SaveCommand { get; private set; }
-        public ICommand AddVariableCommand { get; private set; }
-        public ICommand PasteCommand { get; private set; }
-        public ICommand SelectReturnTypeCommand { get; private set; }
-        public ICommand ClearReturnTypeCommand { get; private set; }
-        public ICommand CheckForErrorsCommand { get; private set; }
-        public ICommand ResetZoomCommand { get; private set; }
-
+        public ICommand RunCommand { get; }
+        public ICommand StopCommand { get; }
+        public ICommand OkCommand { get; }
+        public ICommand CloseCommand { get; }
+        public ICommand SaveCommand { get; }
+        public ICommand AddVariableCommand { get; }
+        public ICommand PasteCommand { get; }
+        public ICommand SelectReturnTypeCommand { get; }
+        public ICommand ClearReturnTypeCommand { get; }
+        public ICommand CheckForErrorsCommand { get; }
+        public ICommand ResetZoomCommand { get; }
+      
         private void CheckForErrors()
         {
             Errors = null;
@@ -196,40 +196,11 @@ namespace CaptiveAire.VPL.ViewModel
 
         private void Paste()
         {
-            try
+            var data = ClipboardUtility.Paste();
+
+            if (data != null)
             {
-                var data = Clipboard.GetData(nameof(ElementClipboardData)) as string;
-
-                var elementMetadatas = JsonConvert.DeserializeObject<ElementMetadata[]>(data);
-
-                if (elementMetadatas.Any())
-                {
-                    var clipboardData = new ElementClipboardData(elementMetadatas);
-
-                    Function.DropFromToolbox(clipboardData);
-                }
-               
-
-                //string json = Clipboard.GetData(nameof(ElementMetadata)) as string;
-
-                //if (!string.IsNullOrWhiteSpace(json))
-                //{
-                //    var element = JsonConvert.DeserializeObject<ElementMetadata>(json);
-
-                //    var factory = Function.Context.ElementFactoryManager.GetFactory(element.ElementTypeId);
-
-                //    if (Function.CanDropFromToolbox(factory))
-                //    {
-                //        var elementBuilder = new ElementBuilder(Function.Context.ElementFactoryManager, _context);
-
-                //        elementBuilder.AddToOwner(Function, new ElementMetadata[] { element });
-
-                //    }
-                //}
-            }
-            catch (Exception ex)
-            {
-                _messageBoxService.Show(ex.Message, "Unable to paste");
+                Function.DropFromToolbox(data);
             }
         }
 
@@ -240,23 +211,30 @@ namespace CaptiveAire.VPL.ViewModel
 
         private void AddVariable()
         {
-            var name = Function.Variables.Select(v => v.Name).CreateUniqueName($"{SelectedType.Name} {{0}}");
+            //Create a name for the variable
+            var name = Function.Variables
+                .Select(v => v.Name)
+                .CreateUniqueName($"{SelectedType.Name} {{0}}");
 
             bool wasAccepted = false;
 
+            //Edit the name
             _textEditService.EditText(name, "Name", "Add Variable", t =>
             {
                 name = t;
                 wasAccepted = true;
             }, t => !string.IsNullOrWhiteSpace(t));
 
+            //See if the user pressed 'ok'
             if (wasAccepted)
             {
+                //Create the variable
                 var variable = new Variable(Function, SelectedType, Guid.NewGuid())
                 {
                     Name = name
                 };
 
+                //Add it to the function
                 Function.AddVariable(variable);
             }
         }

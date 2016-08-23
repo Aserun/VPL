@@ -90,6 +90,7 @@
     <Compile Include="ITool.cs" />
     <Compile Include="ITyped.cs" />
     <Compile Include="IUndoProvider.cs" />
+    <Compile Include="IUndoService.cs" />
     <Compile Include="IVariable.cs" />
     <Compile Include="IVariableReference.cs" />
     <Compile Include="IVplPlugin.cs" />

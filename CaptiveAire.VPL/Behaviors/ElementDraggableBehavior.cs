@@ -60,6 +60,9 @@ namespace CaptiveAire.VPL.Behaviors
 
                     PerformOperation(element =>
                     {
+                        //Make sure that the element is selected
+                        element.Owner.SelectionService.EnsureSelected(element);
+
                         //Perform the drag operation.
                         element.Owner.SelectionService.DragSelected(AssociatedObject);
                     });
@@ -94,119 +97,5 @@ namespace CaptiveAire.VPL.Behaviors
 
             action(element);
         }
-
-        //private IElementDropTarget GetDropTargetUnderMouse(Point position)
-        //{
-        //    var designRoot = DesignRoot;
-
-        //    if (designRoot == null)
-        //        return null;
-
-        //    var element = Element;
-
-        //    if (element == null)
-        //        return null;
-
-        //    var effectivePosition = position - RelativeStartPosition.ToVector() - new Vector(1, 1);
-
-        //    var dropTarget = designRoot.GetDropTarget(effectivePosition, element.GetType(), element.GetReturnType());
-
-        //    if (_currentOver != dropTarget)
-        //    {
-        //        if (_currentOver != null)
-        //        {
-        //            _currentOver.IsDraggingOver = false;
-        //        }
-
-        //        if (dropTarget != null && dropTarget.CanDrop(element.GetType(), element.GetReturnType()))
-        //        {
-        //            dropTarget.IsDraggingOver = true;
-        //        }
-
-        //        _currentOver = dropTarget;
-        //    }
-
-        //    return dropTarget;
-        //}
-
-        //protected override void StartDrag(Point position)
-        //{
-        //    //PerformOperation(s =>
-        //    //{
-        //    //    s.StartMove();
-
-        //    //    s.IsDragging = true;
-        //    //});
-        //}
-
-        //protected override void ContinueDrag(Point position)
-        //{
-        //    //PerformOperation(s =>
-        //    //{
-        //    //    var vector = position - StartPosition;
-
-        //    //    GetDropTargetUnderMouse(position);
-
-        //    //    s.ContinueMove(vector);
-        //    //});
-        //}
-
-        //protected override void FinishDrag(Point position)
-        //{
-        //    //PerformOperation(s =>
-        //    //{
-        //    //    s.IsDragging = false;
-
-        //    //    var dropTarget = GetDropTargetUnderMouse(position);
-
-        //    //    if (dropTarget == null)
-        //    //    {
-        //    //        if (s.GetPrevious() == null)
-        //    //        {
-        //    //            s.CompleteMove(position - StartPosition);
-        //    //        }
-        //    //        else
-        //    //        {
-        //    //            s.DisconnectFromPrevious();
-
-        //    //            s.CompleteMove(position - RelativeStartPosition);
-        //    //        }
-        //    //    }
-        //    //    else
-        //    //    {
-        //    //        if (dropTarget.CanDrop(s.GetType(), s.GetReturnType()))
-        //    //        {
-        //    //            dropTarget.Drop(s);
-
-        //    //            //Save the undo state
-        //    //            UndoProvider?.SaveUndoState();
-        //    //        }
-        //    //    }
-        //    //});
-        //}
-
-        //protected override void CancelDrag()
-        //{
-        //    PerformOperation(s =>
-        //    {
-        //        s.IsDragging = false;
-
-        //        s.CancelMove();
-        //    });
-        //}
-
-        //protected override void Reset()
-        //{
-        //    var current = _currentOver;
-
-        //    if (current != null)
-        //    {
-        //        current.IsDraggingOver = false;
-        //    }
-
-        //    _currentOver = null;
-
-        //    base.Reset();
-        //}
     }
 }

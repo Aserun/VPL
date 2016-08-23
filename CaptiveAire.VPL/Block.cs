@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using CaptiveAire.VPL.Extensions;
 using CaptiveAire.VPL.Interfaces;
@@ -55,22 +54,6 @@ namespace CaptiveAire.VPL
                 }
             }
         }
-
-        //public void Drop(IElement element)
-        //{
-        //    var statement = element as IStatement;
-
-        //    if (statement != null)
-        //    {
-        //        Elements.Insert(0, element);
-        //    }
-        //}
-
-        //public bool CanDrop(Type elementType, Guid? returnType)
-        //{
-        //    return elementType != null && elementType.IsStatement();
-        //}
-
 
         public async Task ExecuteAsync(IExecutionContext executionContext, CancellationToken token)
         {

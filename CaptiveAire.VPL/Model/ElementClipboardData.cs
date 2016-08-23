@@ -15,48 +15,27 @@ namespace CaptiveAire.VPL.Model
         {
             _items = new IClipboardDataItem[]
             {
-                new ElementClipboardDataItem(new ElementMetadata()
-                {
-                    ElementTypeId  = elementFactory.ElementTypeId
-                }) 
+                new ElementClipboardDataItem(elementFactory, null)
             };
         }
 
         public ElementClipboardData(IEnumerable<IElement> elements)
         {
             _items = elements
-                .Select(e => (IClipboardDataItem)new ElementClipboardDataItem(e.ToMetadata()))
+                .Select(e => (IClipboardDataItem)new ElementClipboardDataItem(e.Factory, e.ToMetadata()))
                 .ToArray();
         }
 
         public ElementClipboardData(IEnumerable<ElementMetadata> elementMetadatas)
         {
             _items = elementMetadatas
-                .Select(m => new ElementClipboardDataItem(m))
+                .Select(m => new ElementClipboardDataItem(null, m))
                 .ToArray();
         }
 
         public IClipboardDataItem[] Items
         {
             get { return _items; }
-        }
-    }
-
-    [Serializable]
-    internal class ElementClipboardDataItem : IClipboardDataItem
-    {
-        private readonly ElementMetadata _elementMetadata;
-
-        internal ElementClipboardDataItem(ElementMetadata elementMetadata)
-        {
-            if (elementMetadata == null) throw new ArgumentNullException(nameof(elementMetadata));
-
-            _elementMetadata = elementMetadata;
-        }
-
-        public ElementMetadata ElementMetadata
-        {
-            get { return _elementMetadata; }
         }
     }
 }

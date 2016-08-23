@@ -71,7 +71,6 @@ namespace CaptiveAire.VPL.Model
 
             var elementMetadata =  new ElementMetadata()
             {
-                Location = element.Location,
                 Data = element.GetData(),
                 Parameters = element.Parameters.ToMetadata(),
                 Blocks = element.Blocks.ToMetadata(),
@@ -113,8 +112,6 @@ namespace CaptiveAire.VPL.Model
             {
                 Id = function.Id,
                 Name = function.Name,
-                Width = function.Width,
-                Height = function.Height,
                 Variables = function.Variables.Where(v => v.Persist).Select(v => v.ToMetadata()).ToArray(),
                 Elements = function.Elements.Select(e => e.ToMetadata()).ToArray(),
                 Arguments = function.Arguments.Select(a => a.ToMetadata()).ToArray(),
