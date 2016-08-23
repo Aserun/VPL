@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Media;
@@ -33,10 +34,6 @@ namespace CaptiveAire.VPL
             }
         }
 
-        //public void Drop(IStatement dropped)
-        //{
-        //}
-
         public virtual bool CanDrop()
         {
             return true;
@@ -52,15 +49,25 @@ namespace CaptiveAire.VPL
             }
         }
 
-        public void Drop(IElement element)
+        public bool CanDrop(IElementClipboardData data)
         {
-            Parent?.Drop(this, element);
+            return Parent?.CanDrop(data) == true;
         }
 
-        public bool CanDrop(Type elementType, Guid? returnType)
+        public void Drop(IElementClipboardData data)
         {
-            return Parent?.CanDrop(elementType, returnType) == true;
+            Parent?.Drop(this, data);
         }
+
+        //public void Drop(IElement element)
+        //{
+        //    Parent?.Drop(this, element);
+        //}
+
+        //public bool CanDrop(Type elementType, Guid? returnType)
+        //{
+        //    return Parent?.CanDrop(elementType, returnType) == true;
+        //}
 
         public bool IsExecuting
         {

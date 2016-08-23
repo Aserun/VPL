@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using CaptiveAire.VPL.Extensions;
 using CaptiveAire.VPL.Interfaces;
 using CaptiveAire.VPL.Model;
 
@@ -12,17 +13,14 @@ namespace CaptiveAire.VPL
         private bool _isEnabled = true;
         private bool _isDraggingOver;
 
-        private readonly Elements _elements = new Elements();
+        private readonly Elements _elements;
 
         public Block(IElementCreationContext context, string id) 
             : base(context)
         {
             _id = id;
-        }
 
-        public void Drop(IStatement dropped)
-        {
-            
+            _elements = new Elements(context.Owner);
         }
 
         public bool CanDrop()
@@ -40,20 +38,38 @@ namespace CaptiveAire.VPL
             }
         }
 
-        public void Drop(IElement element)
+        public bool CanDrop(IElementClipboardData data)
         {
-            var statement = element as IStatement;
+            return Owner.AreAllItemsStatements(data);
+        }
 
-            if (statement != null)
+        public void Drop(IElementClipboardData data)
+        {
+            if (CanDrop(data))
             {
-                Elements.Insert(0, element);
+                var elements = Owner.CreateElements(data);
+
+                foreach (var element in elements)
+                {
+                    Elements.Add(element);
+                }
             }
         }
 
-        public bool CanDrop(Type elementType, Guid? returnType)
-        {
-            return elementType != null && typeof(IStatement).IsAssignableFrom(elementType);
-        }
+        //public void Drop(IElement element)
+        //{
+        //    var statement = element as IStatement;
+
+        //    if (statement != null)
+        //    {
+        //        Elements.Insert(0, element);
+        //    }
+        //}
+
+        //public bool CanDrop(Type elementType, Guid? returnType)
+        //{
+        //    return elementType != null && elementType.IsStatement();
+        //}
 
 
         public async Task ExecuteAsync(IExecutionContext executionContext, CancellationToken token)

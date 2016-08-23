@@ -31,6 +31,7 @@ namespace CaptiveAire.VPL
         private object _label;
         private Color _backgroundColor;
         private Color _foregroundColor;
+        private bool _isSelected;
 
         protected Element(IElementCreationContext context)
         {
@@ -278,6 +279,16 @@ namespace CaptiveAire.VPL
         protected virtual IError[] CheckForErrorsCore()
         {
             return new IError[] { };
+        }
+
+        public bool IsSelected
+        {
+            get { return _isSelected; }
+            set
+            {
+                _isSelected = value; 
+                RaisePropertyChanged();
+            }
         }
     }
 }

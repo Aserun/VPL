@@ -5,7 +5,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:converters="clr-namespace:Cas.Common.WPF.Converters;assembly=Cas.Common.WPF"
-             xmlns:viewModel="clr-namespace:CaptiveAire.VPL.ViewModel"
              xmlns:behaviors="clr-namespace:CaptiveAire.VPL.Behaviors"
              xmlns:view="clr-namespace:CaptiveAire.VPL.View"
              xmlns:vpl="clr-namespace:CaptiveAire.VPL"
@@ -55,6 +54,9 @@
                                 <DataTrigger Binding="{Binding Path=IsEnabled}" Value="False">
                                     <Setter Property="Fill" Value="LightGray"/>
                                 </DataTrigger>
+                                <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
+                                    <Setter Property="Fill" Value="Aqua"/>
+                                </DataTrigger>
                             </Style.Triggers>
                             
                         </Style>
@@ -73,10 +75,8 @@
 
                 <Rectangle VerticalAlignment="Bottom" Height="4" Fill="Red" Visibility="{Binding Path=IsDraggingOver, Converter={StaticResource CollapsedWhenFalseConverter}}"/>
             </Grid>
-        
-            <Rectangle Height="0.5"/>
 
-            <ContentControl Content="{Binding Path=Next}"  />
+            <Rectangle Height="0.5"/>
         </StackPanel>
     </Grid>
 </UserControl>

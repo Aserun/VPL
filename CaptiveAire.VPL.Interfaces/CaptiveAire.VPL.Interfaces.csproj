@@ -62,10 +62,12 @@
     <Compile Include="IBinaryOperatorOverload.cs" />
     <Compile Include="IBlock.cs" />
     <Compile Include="IBlocks.cs" />
+    <Compile Include="IClipboardDataItem.cs" />
     <Compile Include="IDeleteable.cs" />
     <Compile Include="IElement.cs" />
     <Compile Include="IElementAction.cs" />
     <Compile Include="IElementBuilder.cs" />
+    <Compile Include="IElementClipboardData.cs" />
     <Compile Include="IElementCreationContext.cs" />
     <Compile Include="IElementDropTarget.cs" />
     <Compile Include="IElementFactory.cs" />
@@ -73,7 +75,6 @@
     <Compile Include="IElementOwner.cs" />
     <Compile Include="IElementParent.cs" />
     <Compile Include="IElements.cs" />
-    <Compile Include="IEntityBase.cs" />
     <Compile Include="IError.cs" />
     <Compile Include="IErrorSource.cs" />
     <Compile Include="IExecutionContext.cs" />

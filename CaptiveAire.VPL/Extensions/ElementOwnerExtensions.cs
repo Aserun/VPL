@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using CaptiveAire.VPL.Interfaces;
+using CaptiveAire.VPL.Metadata;
 using CaptiveAire.VPL.Model;
 
 namespace CaptiveAire.VPL.Extensions
@@ -11,6 +12,48 @@ namespace CaptiveAire.VPL.Extensions
     /// </summary>
     public static class ElementOwnerExtensions
     {
+        public static IElement[] CreateElements(this IElementOwner owner, IElementClipboardData data)
+        {
+            if (owner == null) throw new ArgumentNullException(nameof(owner));
+            if (data == null) throw new ArgumentNullException(nameof(data));
+
+            //Create the elements
+            return data.Items
+                .Select(item => owner.Context.ElementBuilder.CreateElement(owner, item.ElementMetadata))
+                .ToArray();
+        }
+
+        
+
+        public static IElement CreateElement(this IElementOwner owner, IElementFactory factory)
+        {
+            if (factory == null) throw new ArgumentNullException(nameof(factory));
+
+            var context = new ElementCreationContext(owner, null, factory);
+
+            return factory.Create(context);
+        }
+
+        public static bool AreAllItemsStatements(this IElementOwner owner, IElementClipboardData data)
+        {
+            if (owner == null) throw new ArgumentNullException(nameof(owner));
+            if (data == null) throw new ArgumentNullException(nameof(data));
+
+            return data.Items.Any()
+                   && data.Items.All(i =>
+                   {
+                       //Get the factory for this element type
+                       var factory = owner.Context.ElementFactoryManager.GetFactory(i.ElementMetadata.ElementTypeId);
+
+                       //Make sure we got it
+                       if (factory == null)
+                           return false;
+
+                       //Determine if this is a statement
+                       return factory.ElementType.IsStatement();
+                   });
+        }
+
         /// <summary>
         /// Gets the specified VplType or throws an exception.
         /// </summary>

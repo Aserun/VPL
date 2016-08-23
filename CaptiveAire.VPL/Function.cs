@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
 using CaptiveAire.VPL.Extensions;
 using CaptiveAire.VPL.Interfaces;
@@ -24,11 +23,12 @@ namespace CaptiveAire.VPL
         private string _name;
         private double _width = 1000;
         private double _height = 1000;
-        private readonly Elements _elements = new Elements();
+        private readonly Elements _elements;
         private readonly ObservableCollection<IVariable> _variables = new ObservableCollection<IVariable>();
         private readonly OrderedListViewModel<IArgument> _arguments;
         private Guid? _returnTypeId;
         private bool _isDirty;
+        private readonly ISelectionService _selectionService = new SelectionService();
 
         public Function(IVplServiceContext context, Guid functionId)
         {
@@ -41,6 +41,8 @@ namespace CaptiveAire.VPL
                 CreateArgument,
                 deleted: DeleteArgument,
                 addedAction: ArgumentAdded);
+
+            _elements = new Elements(this);
         }
 
         /// <summary>
@@ -140,6 +142,11 @@ namespace CaptiveAire.VPL
             }
         }
 
+        public ISelectionService SelectionService
+        {
+            get { return _selectionService; }
+        }
+
         public IEnumerable<IArgument> GetArguments()
         {
             return _arguments.ToArray();
@@ -155,33 +162,24 @@ namespace CaptiveAire.VPL
             IsDirty = false;
         }
 
-        private IElement CreateElement(IElementFactory factory)
+        public bool CanDropFromToolbox(IElementClipboardData data)
         {
-            if (factory == null) throw new ArgumentNullException(nameof(factory));
-
-            var context = new ElementCreationContext(this, null, factory);
-
-            return factory.Create(context);
+            return this.AreAllItemsStatements(data);
         }
 
-        public void DropFromToolbox(IElementFactory factory, Point point)
+        public void DropFromToolbox(IElementClipboardData data)
         {
-            var element = CreateElement(factory);
+            if (CanDropFromToolbox(data))
+            {
+                var elements = this.CreateElements(data);
 
-            element.Location = point;
+                foreach (var element in elements)
+                {
+                    Elements.Add(element);
+                }
 
-            Elements.Add(element);
-
-            MarkDirty();
-        }
-
-        public void DropFromToolbox(IElementFactory factory, IElementDropTarget dropTarget)
-        {
-            var element = CreateElement(factory);
-
-            dropTarget.Drop(element);
-
-            MarkDirty();
+                MarkDirty();
+            }
         }
 
         public void Add(IElement element)
@@ -308,15 +306,6 @@ namespace CaptiveAire.VPL
 
                 argumentIndex++;
             }
-
-            ////Look for the entrance point.
-            //var entrancePoint = this.GetEntrancePoint();
-
-            ////Check to see if if found an entrance point.
-            //if (entrancePoint.Statement == null)
-            //{
-            //    throw new EntrancePointNotFoundException($"Unable to find an entrance point in function '{Name}': {entrancePoint.Error}");
-            //}
 
             //Clear all of the errors
             Elements.ForAll(e =>

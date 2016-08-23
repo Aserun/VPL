@@ -1,11 +1,21 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using CaptiveAire.VPL.Extensions;
 using CaptiveAire.VPL.Interfaces;
 
 namespace CaptiveAire.VPL
 {
     internal class Elements : ObservableCollection<IElement>, IElements
     {
+        private readonly IElementOwner _owner;
+
+        public Elements(IElementOwner owner)
+        {
+            if (owner == null) throw new ArgumentNullException(nameof(owner));
+
+            _owner = owner;
+        }
+
         protected override void SetItem(int index, IElement item)
         {
             Items[index].Parent = null;
@@ -34,21 +44,28 @@ namespace CaptiveAire.VPL
             Remove(element);
         }
 
-        public bool CanDrop(Type elementType, Guid? returnType)
+        public bool CanDrop(IElementClipboardData data)
         {
-            return typeof (IStatement).IsAssignableFrom(elementType);
+            return _owner.AreAllItemsStatements(data);
         }
 
-        public void Drop(IElement element, IElement droppedElement)
+        public void Drop(IElement element, IElementClipboardData data)
         {
-            var index = IndexOf(element);
-
-            if (index >= 0)
+            if (CanDrop(data))
             {
-                Insert(index + 1, droppedElement);
+                var index = IndexOf(element);
+
+                if (index >= 0)
+                {
+                    //Create the elements
+                    var elements = _owner.CreateElements(data);
+
+                    foreach (var newElement in elements)
+                    {
+                        Insert(++index, newElement);
+                    }
+                }
             }
         }
     }
-
-    
 }

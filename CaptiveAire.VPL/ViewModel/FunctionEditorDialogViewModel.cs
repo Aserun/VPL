@@ -198,16 +198,22 @@ namespace CaptiveAire.VPL.ViewModel
         {
             try
             {
-                string json = Clipboard.GetData(nameof(ElementMetadata)) as string;
+                //string json = Clipboard.GetData(nameof(ElementMetadata)) as string;
 
-                if (!string.IsNullOrWhiteSpace(json))
-                {
-                    var element = JsonConvert.DeserializeObject<ElementMetadata>(json);
+                //if (!string.IsNullOrWhiteSpace(json))
+                //{
+                //    var element = JsonConvert.DeserializeObject<ElementMetadata>(json);
 
-                    var elementBuilder = new ElementBuilder(Function.Context.ElementFactoryManager, _context);
+                //    var factory = Function.Context.ElementFactoryManager.GetFactory(element.ElementTypeId);
 
-                    elementBuilder.AddToOwner(Function, new ElementMetadata[] { element });
-                }
+                //    if (Function.CanDropFromToolbox(factory))
+                //    {
+                //        var elementBuilder = new ElementBuilder(Function.Context.ElementFactoryManager, _context);
+
+                //        elementBuilder.AddToOwner(Function, new ElementMetadata[] { element });
+
+                //    }
+                //}
             }
             catch (Exception ex)
             {

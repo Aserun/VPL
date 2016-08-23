@@ -293,7 +293,7 @@
                         </Grid>
                     </GroupBox>
 
-                    <GroupBox Grid.Row="1" Header="Dimensions">
+                    <!--<GroupBox Grid.Row="1" Header="Dimensions">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Margin="4" VerticalAlignment="Center">Width</TextBlock>
                             <xctk:IntegerUpDown MinWidth="200" Margin="4" VerticalAlignment="Center" Value="{Binding Path=Function.Width}"/>
@@ -301,7 +301,7 @@
                             <TextBlock Margin="4" VerticalAlignment="Center">Height</TextBlock>
                             <xctk:IntegerUpDown MinWidth="200" Margin="4" VerticalAlignment="Center" Value="{Binding Path=Function.Height}"/>
                         </StackPanel>
-                    </GroupBox>
+                    </GroupBox>-->
                     
                     <GroupBox Grid.Row="2" Header="Arguments">
                         <Grid>

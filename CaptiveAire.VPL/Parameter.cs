@@ -81,9 +81,30 @@ namespace CaptiveAire.VPL
             }
         }
 
-        public void Drop(IElement element)
+        public bool CanDrop(IElementClipboardData data)
         {
-            Operator = element as Operator;
+            if (Operator != null)
+                return false;
+
+            if (data.Items.Length != 1)
+                return false;
+
+            var factory = Owner.Context.ElementFactoryManager.GetFactory(data.Items[0].ElementMetadata.ElementTypeId);
+
+            if (factory == null)
+                return false;
+
+            return factory.ElementType.IsOperator();
+        }
+
+        public void Drop(IElementClipboardData data)
+        {
+            if (CanDrop(data))
+            {
+                var elements = Owner.CreateElements(data);
+
+                Operator = elements[0] as IOperator;
+            }
         }
 
         void IElementParent.RemoveElement(IElement element)
@@ -94,45 +115,48 @@ namespace CaptiveAire.VPL
             }
         }
 
-        public bool CanDrop(Type elementType, Guid? returnType)
+        //public bool CanDrop(Type elementType, Guid? returnType)
+        //{
+        //    if (Operator != null)
+        //        return false;
+
+        //    if (elementType == null)
+        //        return false;
+
+        //    if (typeof (IOperator).IsAssignableFrom(elementType))
+        //        return true;
+
+        //    if (returnType == null)
+        //        return false;
+
+        //    if (returnType.Value == _type.Id)
+        //        return true;
+
+        //    var vplType = Owner.GetVplTypeOrThrow(returnType.Value);
+
+        //    if (vplType == null)
+        //        return false;
+
+        //    if (_type.NetType.IsAssignableFrom(vplType.NetType))
+        //        return true;
+
+        //    // This will have to be evaluated at runtime.
+        //    if (returnType.Value == VplTypeId.Any)
+        //        return true;
+
+        //    return false;
+        //}
+
+        bool IElementParent.CanDrop(IElementClipboardData data)
         {
-            if (Operator != null)
-                return false;
-
-            if (elementType == null)
-                return false;
-
-            if (typeof (IOperator).IsAssignableFrom(elementType))
-                return true;
-
-            if (returnType == null)
-                return false;
-
-            if (returnType.Value == _type.Id)
-                return true;
-
-            var vplType = Owner.GetVplTypeOrThrow(returnType.Value);
-
-            if (vplType == null)
-                return false;
-
-            if (_type.NetType.IsAssignableFrom(vplType.NetType))
-                return true;
-
-            // This will have to be evaluated at runtime.
-            if (returnType.Value == VplTypeId.Any)
-                return true;
-
             return false;
+
+            
         }
 
-        bool IElementParent.CanDrop(Type elementType, Guid? returnType)
+        void IElementParent.Drop(IElement element, IElementClipboardData data)
         {
-            return false;
-        }
 
-        void IElementParent.Drop(IElement element, IElement droppedElement)
-        {
         }
 
         public object Value

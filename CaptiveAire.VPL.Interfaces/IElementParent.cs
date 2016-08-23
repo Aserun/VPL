@@ -6,8 +6,8 @@ namespace CaptiveAire.VPL.Interfaces
     {
         void RemoveElement(IElement element);
 
-        bool CanDrop(Type elementType, Guid? returnType);
+        bool CanDrop(IElementClipboardData data);
 
-        void Drop(IElement element, IElement droppedElement);
+        void Drop(IElement element, IElementClipboardData data);
     }
 }

@@ -77,7 +77,7 @@
             </DataTrigger>
             <MultiDataTrigger>
                 <MultiDataTrigger.Conditions>
-                    <Condition Binding="{Binding Path=Previous}" Value="{x:Null}"/>
+                    <!--<Condition Binding="{Binding Path=Previous}" Value="{x:Null}"/>-->
                     <Condition Binding="{Binding Path=IsDragging}" Value="False"/>
                 </MultiDataTrigger.Conditions>
                 <Setter Property="Effect">

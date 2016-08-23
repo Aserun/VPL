@@ -48,11 +48,18 @@ namespace CaptiveAire.VPL.Extensions
             return foundList.ToArray();
         }
 
-        public static IElementDropTarget GetDropTarget(this FrameworkElement designRoot, Point position, Type elementType, Guid? returnType)
+        //public static IElementDropTarget GetDropTarget(this FrameworkElement designRoot, Point position, Type elementType, Guid? returnType)
+        //{
+        //    var dropTargets = designRoot?.HitTestForTopDataContext<IElementDropTarget>(position);
+
+        //    return dropTargets?.FirstOrDefault(d => d.CanDrop(elementType, returnType));
+        //}
+
+        public static IElementDropTarget GetDropTarget(this FrameworkElement designRoot, Point position, IElementClipboardData data)
         {
             var dropTargets = designRoot?.HitTestForTopDataContext<IElementDropTarget>(position);
 
-            return dropTargets?.FirstOrDefault(d => d.CanDrop(elementType, returnType));
+            return dropTargets?.FirstOrDefault(d => d.CanDrop(data));
         }
     }
 }

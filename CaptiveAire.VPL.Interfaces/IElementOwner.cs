@@ -80,5 +80,10 @@ namespace CaptiveAire.VPL.Interfaces
         /// </summary>
         bool IsDirty { get; }
 
+        /// <summary>
+        /// Gets the selection service for this context.
+        /// </summary>
+        ISelectionService SelectionService { get; }
+
     }
 }

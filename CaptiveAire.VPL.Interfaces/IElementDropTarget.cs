@@ -12,18 +12,22 @@ namespace CaptiveAire.VPL.Interfaces
         /// </summary>
         bool IsDraggingOver { get; set; }
 
-        /// <summary>
-        /// Drops the element.
-        /// </summary>
-        /// <param name="element"></param>
-        void Drop(IElement element);
+        ///// <summary>
+        ///// Drops the element.
+        ///// </summary>
+        ///// <param name="element"></param>
+        //void Drop(IElement element);
 
-        /// <summary>
-        /// Determines whether the item can be dropped.
-        /// </summary>
-        /// <param name="element"></param>
-        /// <param name="returnType"></param>
-        /// <returns></returns>
-        bool CanDrop(Type element, Guid? returnType);
+        ///// <summary>
+        ///// Determines whether the item can be dropped.
+        ///// </summary>
+        ///// <param name="element"></param>
+        ///// <param name="returnType"></param>
+        ///// <returns></returns>
+        //bool CanDrop(Type element, Guid? returnType);
+
+        bool CanDrop(IElementClipboardData data);
+
+        void Drop(IElementClipboardData data);
     }
 }
