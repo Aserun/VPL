@@ -14,6 +14,8 @@ using CaptiveAire.VPL.View;
 using CaptiveAire.VPL.ViewModel;
 using Cas.Common.WPF;
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.CommandWpf;
+using Newtonsoft.Json;
 
 namespace CaptiveAire.VPL
 {
@@ -24,11 +26,13 @@ namespace CaptiveAire.VPL
         private string _name;
         private double _width = 1000;
         private double _height = 1000;
-        private readonly ObservableCollection<IElement> _elements = new ObservableCollection<IElement>();
+        private readonly Elements _elements;
         private readonly ObservableCollection<IVariable> _variables = new ObservableCollection<IVariable>();
         private readonly OrderedListViewModel<IArgument> _arguments;
         private Guid? _returnTypeId;
         private bool _isDirty;
+        private readonly ISelectionService _selectionService = new SelectionService();
+        private readonly UndoService<string> _undoService = new UndoService<string>();
 
         public Function(IVplServiceContext context, Guid functionId)
         {
@@ -41,6 +45,46 @@ namespace CaptiveAire.VPL
                 CreateArgument,
                 deleted: DeleteArgument,
                 addedAction: ArgumentAdded);
+
+            _elements = new Elements(this);
+
+            UndoCommand = new RelayCommand(Undo, _undoService.CanUndo);
+            RedoCommand = new RelayCommand(Redo, _undoService.CanRedo);
+        }
+
+        public ICommand UndoCommand { get; }
+        public ICommand RedoCommand { get; }
+
+        private void Undo()
+        {
+            var state = _undoService.Undo();
+
+            //Apply the state
+            ApplyState(state);
+        }
+
+        private void Redo()
+        {
+            var state = _undoService.Redo();
+
+            //Apply the state
+            ApplyState(state);
+        }
+
+        private void ApplyState(string state)
+        {
+            try
+            {
+                var elements = JsonConvert.DeserializeObject<ElementMetadata[]>(state);
+
+                Elements.Clear();
+
+                Context.ElementBuilder.AddToOwner(this, elements);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString(), ex.Source);
+            }
         }
 
         /// <summary>
@@ -140,6 +184,11 @@ namespace CaptiveAire.VPL
             }
         }
 
+        public ISelectionService SelectionService
+        {
+            get { return _selectionService; }
+        }
+
         public IEnumerable<IArgument> GetArguments()
         {
             return _arguments.ToArray();
@@ -155,33 +204,30 @@ namespace CaptiveAire.VPL
             IsDirty = false;
         }
 
-        private IElement CreateElement(IElementFactory factory)
+        public bool CanDropFromToolbox(IElementClipboardData data)
         {
-            if (factory == null) throw new ArgumentNullException(nameof(factory));
-
-            var context = new ElementCreationContext(this, null, factory);
-
-            return factory.Create(context);
+            return this.AreAllItemsStatements(data);
         }
 
-        public void DropFromToolbox(IElementFactory factory, Point point)
+        public bool DropFromToolbox(IElementClipboardData data)
         {
-            var element = CreateElement(factory);
+            if (CanDropFromToolbox(data))
+            {
+                var elements = this.CreateElements(data);
 
-            element.Location = point;
+                foreach (var element in elements)
+                {
+                    Elements.Add(element);
+                }
 
-            Elements.Add(element);
+                MarkDirty();
 
-            MarkDirty();
-        }
+                SaveUndoState();
 
-        public void DropFromToolbox(IElementFactory factory, IElementDropTarget dropTarget)
-        {
-            var element = CreateElement(factory);
+                return true;
+            }
 
-            dropTarget.Drop(element);
-
-            MarkDirty();
+            return false;
         }
 
         public void Add(IElement element)
@@ -223,7 +269,7 @@ namespace CaptiveAire.VPL
             MarkDirty();
         }
 
-        public ObservableCollection<IElement> Elements
+        public IElements Elements
         {
             get { return _elements; }
         }
@@ -239,28 +285,6 @@ namespace CaptiveAire.VPL
             set
             {
                 _name = value; 
-                RaisePropertyChanged();
-                MarkDirty();
-            }
-        }
-
-        public double Width
-        {
-            get { return _width; }
-            set
-            {
-                _width = value; 
-                RaisePropertyChanged();
-                MarkDirty();
-            }
-        }
-
-        public double Height
-        {
-            get { return _height; }
-            set
-            {
-                _height = value; 
                 RaisePropertyChanged();
                 MarkDirty();
             }
@@ -309,17 +333,8 @@ namespace CaptiveAire.VPL
                 argumentIndex++;
             }
 
-            //Look for the entrance point.
-            var entrancePoint = this.GetEntrancePoint();
-
-            //Check to see if if found an entrance point.
-            if (entrancePoint.Statement == null)
-            {
-                throw new EntrancePointNotFoundException($"Unable to find an entrance point in function '{Name}': {entrancePoint.Error}");
-            }
-
             //Clear all of the errors
-            entrancePoint.Statement.ForAll(e =>
+            Elements.ForAll(e =>
             {
                 var errorSource = e as IErrorSource;
 
@@ -330,7 +345,7 @@ namespace CaptiveAire.VPL
             var executor = new StatementExecutor();
 
             //Execute the function.
-            await executor.ExecuteAsync(executionContext, entrancePoint.Statement, cancellationToken);
+            await executor.ExecuteAsync(executionContext, Elements, cancellationToken);
 
             //Find the return variable
             var returnVariable = Variables.FirstOrDefault(v => v.Id == ReturnValueVariable.ReturnVariableId);
@@ -341,12 +356,8 @@ namespace CaptiveAire.VPL
 
         public void ClearErrors()
         {
-            //Do this for all of the root element chains.
-            foreach (var rootElement in Elements)
-            {
-                //Clear anything that implments IErrorSource.
-                rootElement.ForAll(e => (e as IErrorSource)?.ClearErrors());
-            }
+            //Clear anything that implments IErrorSource.
+            Elements.ForAll(e => (e as IErrorSource)?.ClearErrors());
         }
 
         public void SetError(string message)
@@ -355,37 +366,24 @@ namespace CaptiveAire.VPL
 
         public IError[] CheckForErrors()
         {
-            //Attempt to get the entrance point.
-            var entrancePoint = this.GetEntrancePoint();
-
             //Create a place to put the errors
             var errors = new List<IError>();
 
-            //Check to find out if we found an executable statement.
-            if (entrancePoint.Statement == null)
+            Elements.ForAll(e =>
             {
-                //Add the error.
-                errors.Add(new Error(this, $"Unable to find an entrance point in function '{Name}': {entrancePoint.Error}", ErrorLevel.Error));
-            }
-            else
-            {
-                //Now check through the statements for errors:
-                entrancePoint.Statement.ForAll(e =>
+                //Check to see if it's an error source.
+                var errorSource = e as IErrorSource;
+
+                //Check for errors
+                var childErrors = errorSource?.CheckForErrors();
+
+                //Check to see if there were any errors.
+                if (childErrors != null && childErrors.Length > 0)
                 {
-                    //Check to see if it's an error source.
-                    var errorSource = e as IErrorSource;
-
-                    //Check for errors
-                    var childErrors = errorSource?.CheckForErrors();
-
-                    //Check to see if there were any errors.
-                    if (childErrors != null && childErrors.Length > 0)
-                    {
-                        //Add the errors to the list.
-                        errors.AddRange(childErrors);
-                    }
-                });
-            }
+                    //Add the errors to the list.
+                    errors.AddRange(childErrors);
+                }
+            });
 
             return errors.ToArray();
         }
@@ -405,43 +403,14 @@ namespace CaptiveAire.VPL
             get { return _arguments; }
         }
 
-        private IEnumerable<IElement> EnumerateElements(IElement element)
+        private IUndoService<string> UndoService
         {
-            var current = element;
-
-            while (current != null)
-            {
-                foreach (var parameter in current.Parameters)
-                {
-                    if (parameter.Next != null)
-                    {
-                        foreach (var parameterElement in EnumerateElements(parameter.Next))
-                        {
-                            yield return parameterElement;
-                        }
-                    }
-                }
-
-                foreach (var block in current.Blocks)
-                {
-                    if (block.Next != null)
-                    {
-                        foreach (var blockElement in EnumerateElements(block.Next))
-                        {
-                            yield return blockElement;
-                        }
-                    }
-                }
-
-                yield return current;
-
-                current = current.Next;
-            }
+            get { return _undoService; }
         }
 
         public IEnumerable<IElement> GetAllElements()
         {
-            return Elements.SelectMany(EnumerateElements);
+            return Elements.EnumerateAllElements();
         }
 
         public IEnumerable<IElement> GetRootElements()
@@ -450,6 +419,16 @@ namespace CaptiveAire.VPL
                 .ToArray();
         }
 
-       
+        public void SaveUndoState()
+        {
+            //Get the metadata
+            var metadata = Elements.ToMetadata();
+
+            //Serialize it
+            var json = JsonConvert.SerializeObject(metadata, Formatting.Indented);
+
+            //Save the action
+            UndoService.Do(json);
+        }
     }
 }

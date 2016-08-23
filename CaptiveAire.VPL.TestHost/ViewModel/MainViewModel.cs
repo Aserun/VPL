@@ -5,7 +5,6 @@ using CaptiveAire.VPL.Extensions;
 using CaptiveAire.VPL.Metadata;
 using CaptiveAire.VPL.TestHost.Metadata;
 using CaptiveAire.VPL.TestHost.Model;
-using CaptiveAire.VPL.View;
 using Cas.Common.WPF;
 using Cas.Common.WPF.Behaviors;
 using Cas.Common.WPF.Interfaces;
@@ -63,8 +62,6 @@ namespace CaptiveAire.VPL.TestHost.ViewModel
                     Name = name,
                     Id = Guid.NewGuid(),
                     Elements = new ElementMetadata[] { },
-                    Width = 1000,
-                    Height = 1000
                 };
 
                 var functionHeaderViewModel = new FunctionHeaderViewModel(functionHeaderMetadata);
@@ -218,6 +215,8 @@ namespace CaptiveAire.VPL.TestHost.ViewModel
         {
         }
 
+#pragma warning disable CS0067
         public event EventHandler<CloseEventArgs> Close;
+#pragma warning restore CS0067
     }
 }

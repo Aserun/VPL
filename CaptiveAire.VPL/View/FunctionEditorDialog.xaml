@@ -23,6 +23,8 @@
         <KeyBinding Key="F5" Command="{Binding Path=RunCommand}"/>
         <KeyBinding Key="Pause" Command="{Binding Path=StopCommand}"/>
         <KeyBinding Key="S" Modifiers="Control" Command="{Binding Path=SaveCommand}"/>
+        <KeyBinding Key="Z" Modifiers="Control" Command="{Binding Path=Function.UndoCommand}"/>
+        <KeyBinding Key="Y" Modifiers="Control" Command="{Binding Path=Function.RedoCommand}"/>
     </Window.InputBindings>
     
     <Window.Resources>
@@ -54,8 +56,8 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <StackPanel Orientation="Horizontal">
-            <StackPanel.Resources>
+        <ToolBar>
+            <ToolBar.Resources>
                 <Style TargetType="controls:AutoGreyableImage">
                     <Setter Property="Margin" Value="2"/>
                     <Setter Property="VerticalAlignment" Value="Center"/>
@@ -69,7 +71,7 @@
                     <Setter Property="MinWidth" Value="80"/>
                     <Setter Property="VerticalAlignment" Value="Center"/>
                 </Style>
-            </StackPanel.Resources>
+            </ToolBar.Resources>
 
             <Button Command="{Binding Path=CheckForErrorsCommand}" ToolTip="Check the function for errors.">
                 <StackPanel Orientation="Horizontal">
@@ -89,7 +91,16 @@
                     <TextBlock>Stop</TextBlock>
                 </StackPanel>
             </Button>
-        </StackPanel>
+            
+            <Separator/>
+
+            <Button Command="{Binding Path=Function.UndoCommand}" ToolTip="Undo (Ctrl + Z)" >
+                <controls:AutoGreyableImage Source="/CaptiveAire.VPL;component/Images/Undo_16x.png" />
+            </Button>
+            <Button Command="{Binding Path=Function.RedoCommand}" ToolTip="Redo (Ctrol + Y)">
+                <controls:AutoGreyableImage Source="/CaptiveAire.VPL;component/Images/Redo_16x.png" />
+            </Button>
+        </ToolBar>
 
         <TabControl Grid.Row="1">
             <TabItem Header="Code" >
@@ -180,9 +191,9 @@
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
-                            
-                            <ScrollViewer Grid.Row="0" HorizontalScrollBarVisibility="Visible" Background="Gray">
-                                <Grid Background="Transparent" IsHitTestVisible="True" Width="{Binding Function.Width}" Height="{Binding Function.Height}" x:Name="DesignRoot" AllowDrop="True" Drop="DesignRoot_OnDrop" DragOver="DesignRoot_OnDragOver" DragEnter="DesignRoot_OnDragEnter" DragLeave="DesignRoot_OnDragLeave" >
+
+                            <ScrollViewer Grid.Row="0" HorizontalScrollBarVisibility="Visible" Background="White" Padding="4" >
+                                <Grid Background="Transparent" IsHitTestVisible="True" x:Name="DesignRoot" AllowDrop="True" Drop="DesignRoot_OnDrop" DragOver="DesignRoot_OnDragOver" DragEnter="DesignRoot_OnDragEnter" DragLeave="DesignRoot_OnDragLeave" MouseLeftButtonDown="ElementsOnMouseLeftButtonDown">
                                     <Grid.LayoutTransform>
                                         <ScaleTransform ScaleX="{Binding Path=Scale}" ScaleY="{Binding Path=Scale}"/>
                                     </Grid.LayoutTransform>
@@ -193,14 +204,8 @@
                                         </ContextMenu>
                                     </Grid.ContextMenu>
 
-                                    <ItemsControl ItemsSource="{Binding Path=Function.Elements}">
-                                        <ItemsControl.ItemsPanel>
-                                            <ItemsPanelTemplate>
-                                                <Canvas IsItemsHost="True" Width="{Binding Function.Width}" Height="{Binding Function.Height}" Background="White"  />
-                                            </ItemsPanelTemplate>
-                                        </ItemsControl.ItemsPanel>
-
-                                    </ItemsControl>
+                                    <view:ElementsView DataContext="{Binding Path=Function.Elements}" >
+                                    </view:ElementsView>
                                 </Grid>
                             </ScrollViewer>
 
@@ -293,7 +298,7 @@
                         </Grid>
                     </GroupBox>
 
-                    <GroupBox Grid.Row="1" Header="Dimensions">
+                    <!--<GroupBox Grid.Row="1" Header="Dimensions">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Margin="4" VerticalAlignment="Center">Width</TextBlock>
                             <xctk:IntegerUpDown MinWidth="200" Margin="4" VerticalAlignment="Center" Value="{Binding Path=Function.Width}"/>
@@ -301,7 +306,7 @@
                             <TextBlock Margin="4" VerticalAlignment="Center">Height</TextBlock>
                             <xctk:IntegerUpDown MinWidth="200" Margin="4" VerticalAlignment="Center" Value="{Binding Path=Function.Height}"/>
                         </StackPanel>
-                    </GroupBox>
+                    </GroupBox>-->
                     
                     <GroupBox Grid.Row="2" Header="Arguments">
                         <Grid>

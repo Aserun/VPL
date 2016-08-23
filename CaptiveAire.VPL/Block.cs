@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using CaptiveAire.VPL.Extensions;
 using CaptiveAire.VPL.Interfaces;
@@ -7,21 +6,20 @@ using CaptiveAire.VPL.Model;
 
 namespace CaptiveAire.VPL
 {
-    internal class Block : Element, IElementDropTarget, IBlock
+    internal class Block : Element, IBlock, IElementDropTarget
     {
         private readonly string _id;
-        private bool _isDraggingOver;
         private bool _isEnabled = true;
+        private bool _isDraggingOver;
+
+        private readonly Elements _elements;
 
         public Block(IElementCreationContext context, string id) 
             : base(context)
         {
             _id = id;
-        }
 
-        public void Drop(IStatement dropped)
-        {
-            this.CommonDrop(dropped);
+            _elements = new Elements(context.Owner);
         }
 
         public bool CanDrop()
@@ -34,31 +32,36 @@ namespace CaptiveAire.VPL
             get { return _isDraggingOver; }
             set
             {
-                _isDraggingOver = value; 
+                _isDraggingOver = value;
                 RaisePropertyChanged();
             }
         }
 
-        public void Drop(IElement element)
+        public bool CanDrop(IElementClipboardData data)
         {
-            var statement = element as IStatement;
-
-            if (statement != null)
-            {
-                this.CommonDrop(statement);
-            }
+            return Owner.AreAllItemsStatements(data);
         }
 
-        public bool CanDrop(Type elementType, Guid? returnType)
+        public void Drop(IElementClipboardData data)
         {
-            return elementType != null && typeof(IStatement).IsAssignableFrom(elementType);
+            if (CanDrop(data))
+            {
+                var elements = Owner.CreateElements(data);
+
+                foreach (var element in elements)
+                {
+                    Elements.Add(element);
+                }
+
+                Owner.SaveUndoState();
+            }
         }
 
         public async Task ExecuteAsync(IExecutionContext executionContext, CancellationToken token)
         {
             var executor = new StatementExecutor();
 
-            await executor.ExecuteAsync(executionContext, Next as IStatement, token);
+            await executor.ExecuteAsync(executionContext, Elements, token);
         }
 
         public bool IsEnabled
@@ -81,6 +84,9 @@ namespace CaptiveAire.VPL
             get { return _id; }
         }
 
-
+        public IElements Elements
+        {
+            get { return _elements; }
+        }
     }
 }

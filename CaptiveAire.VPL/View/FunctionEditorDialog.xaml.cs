@@ -2,7 +2,6 @@
 using System.Windows;
 using System.Windows.Input;
 using CaptiveAire.VPL.Extensions;
-using CaptiveAire.VPL.Factory;
 using CaptiveAire.VPL.Interfaces;
 using CaptiveAire.VPL.Model;
 using CaptiveAire.VPL.ViewModel;
@@ -56,26 +55,65 @@ namespace CaptiveAire.VPL.View
         {
             this.PerformViewModelAction<FunctionEditorDialogViewModel>(editor =>
             {
-                var factory = e.Data.GetData(typeof (ElementFactory)) as IElementFactory;
+                var data = e.Data.GetData(typeof(ElementClipboardData)) as IElementClipboardData;
 
-                if (factory == null)
-                    return;
+                if (data == null)
+                {
+
+                    var factory = e.Data.GetData(typeof(ElementFactory)) as IElementFactory;
+
+                    if (factory == null)
+                    {
+                        e.Effects = DragDropEffects.None;
+                        return;
+                    }
+
+                    //Create data from the factory
+                    data = new ElementClipboardData(factory);
+                }
 
                 //Get the position relative to the design surface
                 var position = e.GetPosition(DesignRoot);
 
                 //Find the drop target
-                var dropTarget = DesignRoot.GetDropTarget(position, factory.ElementType, factory.ReturnType);
+                var dropTarget = DesignRoot.GetDropTarget(position, data);
+
+                //Check to see if we can do this
+                if (dropTarget == null)
+                {
+                    if (!editor.Function.CanDropFromToolbox(data))
+                    {
+                        e.Effects = DragDropEffects.None;
+                        return;
+                    }
+                }
+                else
+                {
+                    if (!dropTarget.CanDrop(data))
+                    {
+                        e.Effects = DragDropEffects.None;
+                        return;
+                    }
+                }
+
+                if ((e.AllowedEffects & DragDropEffects.Move) == DragDropEffects.Move)
+                {
+                    e.Effects = DragDropEffects.Move;
+                }
+                else if ((e.AllowedEffects & DragDropEffects.Copy) == DragDropEffects.Copy)
+                {
+                    e.Effects = DragDropEffects.Copy;
+                }
 
                 if (drop)
                 {
                     if (dropTarget == null)
                     {
-                        editor.Function.DropFromToolbox(factory, position);
+                        editor.Function.DropFromToolbox(data);
                     }
                     else
                     {
-                        editor.Function.DropFromToolbox(factory, dropTarget);
+                        dropTarget.Drop(data);
                     }
 
                     CurrentDropTarget = null;
@@ -84,8 +122,6 @@ namespace CaptiveAire.VPL.View
                 {
                     CurrentDropTarget = dropTarget;
                 }
-
-                e.Effects = DragDropEffects.Copy;
 
                 e.Handled = true;
             });
@@ -134,6 +170,14 @@ namespace CaptiveAire.VPL.View
                     vm.Scale = newScale;
                 });
             }
+        }
+
+        private void ElementsOnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            this.PerformViewModelAction<FunctionEditorDialogViewModel>(vm =>
+            {
+                vm.Function.SelectionService.SelectNone();
+            });
         }
     }
 }

@@ -5,7 +5,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:converters="clr-namespace:Cas.Common.WPF.Converters;assembly=Cas.Common.WPF"
-             xmlns:viewModel="clr-namespace:CaptiveAire.VPL.ViewModel"
              xmlns:behaviors="clr-namespace:CaptiveAire.VPL.Behaviors"
              xmlns:view="clr-namespace:CaptiveAire.VPL.View"
              xmlns:vpl="clr-namespace:CaptiveAire.VPL"
@@ -24,59 +23,64 @@
     <Grid>
         <StackPanel>
 
-            <Grid HorizontalAlignment="Left" IsHitTestVisible="True" Background="Transparent" ToolTip="{Binding Path=Error}" x:Name="ContentGrid">
-                <Grid.Style>
-                    <Style TargetType="Grid">
-                        <Setter Property="Opacity" Value="1"/>
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding Path=IsEnabled}" Value="False">
-                                <Setter Property="Opacity" Value="0.5"></Setter>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Grid.Style>
-          
-                <i:Interaction.Behaviors>
-                    <behaviors:ElementDraggableBehavior/>
-                </i:Interaction.Behaviors>
-            
-                <Rectangle RadiusX="5" RadiusY="5" >
-                    <Rectangle.Style>
-                        <Style TargetType="Rectangle">
-                            <Setter Property="Fill">
-                                <Setter.Value>
-                                    <SolidColorBrush Color="{Binding Path=BackgroundColor}"/>
-                                </Setter.Value>
-                            </Setter>
+            <Grid HorizontalAlignment="Stretch">
+                <Grid HorizontalAlignment="Left" IsHitTestVisible="True" Background="Transparent" ToolTip="{Binding Path=Error}" x:Name="ContentGrid">
+                    <Grid.Style>
+                        <Style TargetType="Grid">
+                            <Setter Property="Opacity" Value="1"/>
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding Path=HasError}" Value="True">
-                                    <Setter Property="Fill" Value="Red"/>
-                                </DataTrigger>
                                 <DataTrigger Binding="{Binding Path=IsEnabled}" Value="False">
-                                    <Setter Property="Fill" Value="LightGray"/>
+                                    <Setter Property="Opacity" Value="0.5"></Setter>
                                 </DataTrigger>
                             </Style.Triggers>
-                            
                         </Style>
-                    </Rectangle.Style>
-                </Rectangle>
+                    </Grid.Style>
+          
+                    <i:Interaction.Behaviors>
+                        <behaviors:ElementDraggableBehavior/>
+                    </i:Interaction.Behaviors>
+            
+                    <Rectangle RadiusX="5" RadiusY="5" >
+                        <Rectangle.Style>
+                            <Style TargetType="Rectangle">
+                                <Setter Property="Fill">
+                                    <Setter.Value>
+                                        <SolidColorBrush Color="{Binding Path=BackgroundColor}"/>
+                                    </Setter.Value>
+                                </Setter>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Path=HasError}" Value="True">
+                                        <Setter Property="Fill" Value="Red"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Path=IsEnabled}" Value="False">
+                                        <Setter Property="Fill" Value="LightGray"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
+                                        <Setter Property="Fill" Value="Aqua"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            
+                            </Style>
+                        </Rectangle.Style>
+                    </Rectangle>
                 
-                <StackPanel Orientation="Horizontal">
-                    <Image Source="/CaptiveAire.VPL;component/Images/Running.png" Margin="4" Width="16" Visibility="{Binding Path=IsExecuting, Converter={StaticResource CollapsedWhenFalseConverter}}" />
-                    <ContentControl VerticalAlignment="Center" Content="{Binding Path=Label}" Margin="4" >
-                        <ContentControl.Foreground>
-                            <SolidColorBrush Color="{Binding Path=ForegroundColor}" />
-                        </ContentControl.Foreground>
-                    </ContentControl>
-                    <view:ParametersView DataContext="{Binding Path=Parameters}" VerticalAlignment="Center" Margin="2"/>
-                </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/CaptiveAire.VPL;component/Images/Running.png" Margin="4" Width="16" Visibility="{Binding Path=IsExecuting, Converter={StaticResource CollapsedWhenFalseConverter}}" />
+                        <ContentControl VerticalAlignment="Center" Content="{Binding Path=Label}" Margin="4" >
+                            <ContentControl.Foreground>
+                                <SolidColorBrush Color="{Binding Path=ForegroundColor}" />
+                            </ContentControl.Foreground>
+                        </ContentControl>
+                        <view:ParametersView DataContext="{Binding Path=Parameters}" VerticalAlignment="Center" Margin="2"/>
+                    </StackPanel>
 
-                <Rectangle VerticalAlignment="Bottom" Height="4" Fill="Red" Visibility="{Binding Path=IsDraggingOver, Converter={StaticResource CollapsedWhenFalseConverter}}"/>
+                    <Rectangle VerticalAlignment="Bottom" Height="4" Fill="Red" Visibility="{Binding Path=IsDraggingOver, Converter={StaticResource CollapsedWhenFalseConverter}}"/>
+                </Grid>
+                
+                <!--<Rectangle Height="2" Fill="LightGray" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"></Rectangle>-->
             </Grid>
-        
-            <Rectangle Height="0.5"/>
 
-            <ContentControl Content="{Binding Path=Next}"  />
+            <Rectangle Height="1" HorizontalAlignment="Stretch" Fill="LightGray" Margin="5,0,0,0" Opacity="0.05"/>
         </StackPanel>
     </Grid>
 </UserControl>

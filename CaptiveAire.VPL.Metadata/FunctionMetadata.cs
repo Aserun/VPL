@@ -9,8 +9,10 @@ namespace CaptiveAire.VPL.Metadata
 
         public string Name { get; set; }
 
+        [Obsolete("We're no longer using dimensions for the design surface.")]
         public double Width { get; set; }
 
+        [Obsolete("We're no longer using dimensions for the design surface.")]
         public double Height { get; set; }
 
         public ArgumentMetadata[] Arguments { get; set; }

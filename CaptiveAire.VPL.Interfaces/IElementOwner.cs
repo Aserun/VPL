@@ -5,7 +5,7 @@ namespace CaptiveAire.VPL.Interfaces
     /// <summary>
     /// Represents an entity that owns elements.
     /// </summary>
-    public interface IElementOwner
+    public interface IElementOwner : IUndoProvider
     {
         /// <summary>
         /// Add a root level element.
@@ -79,6 +79,11 @@ namespace CaptiveAire.VPL.Interfaces
         /// Returns true if changes have been made to the scope since calling MarkClean, false otherwise.
         /// </summary>
         bool IsDirty { get; }
+
+        /// <summary>
+        /// Gets the selection service for this context.
+        /// </summary>
+        ISelectionService SelectionService { get; }
 
     }
 }

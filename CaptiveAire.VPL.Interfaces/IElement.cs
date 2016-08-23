@@ -7,7 +7,7 @@ namespace CaptiveAire.VPL.Interfaces
     /// <summary>
     /// A programming element.
     /// </summary>
-    public interface IElement : IMoveable, IEntityBase, IErrorSource
+    public interface IElement : IErrorSource, ISelectable, IDeleteable
     {
         /// <summary>
         /// Set to true when the element is being dragged.
@@ -17,6 +17,7 @@ namespace CaptiveAire.VPL.Interfaces
         /// <summary>
         /// Gets or sets the location of this element.
         /// </summary>
+        [Obsolete("We're no longer using location. Everything is in a list now.")]
         Point Location { get; set; }
 
         /// <summary>
@@ -46,18 +47,18 @@ namespace CaptiveAire.VPL.Interfaces
         IEnumerable<IElementAction> Actions { get; }
 
         /// <summary>
-        /// Gets or sets the previous element.
-        /// </summary>
-        IElement Previous { get; set; }
-
-        /// <summary>
-        /// Gets or sets the next element.
-        /// </summary>
-        IElement Next { get; set; }
-
-        /// <summary>
         /// Gets the factory that created this element.
         /// </summary>
         IElementFactory Factory { get; }
+
+        /// <summary>
+        /// Gets or sets the parent collection of this element. 
+        /// </summary>
+        IElementParent Parent { get; set; }
+
+        /// <summary>
+        /// Gets the owner of this element.
+        /// </summary>
+        IElementOwner Owner { get; }
     }
 }

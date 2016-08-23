@@ -2,18 +2,15 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using CaptiveAire.VPL.Extensions;
 using CaptiveAire.VPL.Interfaces;
-using CaptiveAire.VPL.Metadata;
 using CaptiveAire.VPL.Model;
 using Cas.Common.WPF;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
-using Newtonsoft.Json;
 
 namespace CaptiveAire.VPL
 {
@@ -25,16 +22,14 @@ namespace CaptiveAire.VPL
         private readonly IElementFactory _factory;
         private readonly ObservableCollection<IElementAction> _actions = new ObservableCollection<IElementAction>();
 
-        private IElement _previous;
-        private IElement _next;
         private Point _location;
-        private Point _startLocation;
         private bool _isDragging;
         private bool _hasError;
         private string _error;
         private object _label;
         private Color _backgroundColor;
         private Color _foregroundColor;
+        private bool _isSelected;
 
         protected Element(IElementCreationContext context)
         {
@@ -46,16 +41,20 @@ namespace CaptiveAire.VPL
             DeleteCommand = new RelayCommand(Delete, CanDelete);
             CopyCommand = new RelayCommand(Copy);
             CutCommand = new RelayCommand(Cut, CanDelete);
+            PasteCommand = new RelayCommand(Paste, CanPaste);
 
             BackgroundColor = Colors.Plum;
             ForegroundColor = Colors.Black;
         }
 
-        public ICommand DeleteCommand { get; private set; }
+        public ICommand DeleteCommand { get; }
 
-        public ICommand CopyCommand { get; private set; }
+        public ICommand CopyCommand { get; }
 
-        public ICommand CutCommand { get; private set; }
+        public ICommand CutCommand { get; }
+
+        public ICommand PasteCommand { get; }
+
 
         public bool HasError
         {
@@ -97,6 +96,28 @@ namespace CaptiveAire.VPL
             }
         }
 
+        private void Paste()
+        {
+            var data = ClipboardUtility.Paste();
+
+            if (data != null)
+            {
+                var parent = Parent;
+
+                if (parent != null)
+                {
+                    parent.Drop(this, data);
+
+                    Owner.SaveUndoState();
+                }
+            }
+        }
+
+        private bool CanPaste()
+        {
+            return ClipboardUtility.CanPaste();
+        }
+
         private void Cut()
         {
             Copy();
@@ -106,22 +127,20 @@ namespace CaptiveAire.VPL
         private void Delete()
         {
             //Delete
-            this.DisconnectFromPrevious(true);
+            Parent?.RemoveElement(this);
+            Owner.SaveUndoState();
             Owner.MarkDirty();
         }
 
         private void Copy()
         {
-            var metadata = this.ToMetadata();
-
-            var json = JsonConvert.SerializeObject(metadata, Formatting.Indented);
-
-            Clipboard.SetData(nameof(ElementMetadata), json);
+            Owner.SelectionService.EnsureSelected(this);
+            Owner.SelectionService.CopySelected();
         }
 
         private bool CanDelete()
         {
-            return true;
+            return Parent != null;
         }
         public virtual object Label
         {
@@ -143,32 +162,12 @@ namespace CaptiveAire.VPL
             }
         }
 
-        public IElement Previous
-        {
-            get { return _previous; }
-            set
-            {
-                _previous = value;
-                RaisePropertyChanged();
-                Owner.MarkDirty();
-            }
-        }
-
-        public IElement Next
-        {
-            get { return _next; }
-            set
-            {
-                _next = value;
-                RaisePropertyChanged();
-                Owner.MarkDirty();
-            }
-        }
-
         public IElementFactory Factory
         {
             get { return _factory; }
         }
+
+        public IElementParent Parent { get; set; }
 
         public Parameters Parameters
         {
@@ -199,50 +198,6 @@ namespace CaptiveAire.VPL
         public Guid ElementTypeId
         {
             get { return _factory.ElementTypeId; }
-        }
-
-        public void StartMove()
-        {
-            _startLocation = Location;
-        }
-
-        public void ContinueMove(Vector vector)
-        {
-            _location = _startLocation + vector;
-
-            RaisePropertyChanged(() => Location);
-        }
-
-        public void CancelMove()
-        {
-            _location = _startLocation;
-
-            RaisePropertyChanged(() => Location);
-        }
-
-        public void CompleteMove(Vector vector)
-        {
-            Location = _startLocation + vector;
-        }
-
-        public  IElement GetNext()
-        {
-            return Next;
-        }
-
-        public void SetNext(IElement element)
-        {
-            Next = element;
-        }
-
-        public IElement GetPrevious()
-        {
-            return Previous;
-        }
-
-        public void SetPrevious(IElement element)
-        {
-            Previous = element;
         }
 
         public virtual string GetData()
@@ -322,6 +277,28 @@ namespace CaptiveAire.VPL
         protected virtual IError[] CheckForErrorsCore()
         {
             return new IError[] { };
+        }
+
+        bool IDeleteable.Delete()
+        {
+            Delete();
+
+            return true;
+        }
+
+        bool IDeleteable.CanDelete()
+        {
+            return CanDelete();
+        }
+
+        public bool IsSelected
+        {
+            get { return _isSelected; }
+            set
+            {
+                _isSelected = value; 
+                RaisePropertyChanged();
+            }
         }
     }
 }

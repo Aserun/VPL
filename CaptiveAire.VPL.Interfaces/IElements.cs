@@ -2,7 +2,7 @@
 
 namespace CaptiveAire.VPL.Interfaces
 {
-    public interface IElements : IEnumerable<IElement>
+    public interface IElements : IList<IElement>, IElementParent
     {
          
     }

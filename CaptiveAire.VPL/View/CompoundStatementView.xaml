@@ -10,7 +10,8 @@
              xmlns:vpl="clr-namespace:CaptiveAire.VPL"
              x:ClassModifier="internal"
              mc:Ignorable="d" 
-             
+             ToolTip="{Binding Path=Error}"
+             x:Name="Root"
              d:DataContext="{d:DesignInstance vpl:CompoundStatement, d:IsDesignTimeCreatable=False}">
     
     <UserControl.Resources>
@@ -19,8 +20,14 @@
         <Style TargetType="Rectangle" x:Key="BackgroundRectangle">
             <Setter Property="Fill" Value="Goldenrod"/>
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=IsEnabled}" Value="False">
+                <DataTrigger Binding="{Binding ElementName=Root, Path=DataContext.IsEnabled}" Value="False">
                     <Setter Property="Fill" Value="LightGray"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding ElementName=Root, Path=DataContext.HasError}" Value="True">
+                    <Setter Property="Fill" Value="Red"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding ElementName=Root, Path=DataContext.IsSelected}" Value="True">
+                    <Setter Property="Fill" Value="Aqua"></Setter>
                 </DataTrigger>
             </Style.Triggers>
         </Style>
@@ -83,7 +90,8 @@
                             <!-- Left hand side of block -->
                             <Rectangle Grid.Row="0" Grid.Column="0" Style="{StaticResource BackgroundRectangle}" Margin="5,0,2,0"  />
 
-                            <ContentControl Grid.Column="1" Margin="0,1,0,1" Content="{Binding Path=Next}" />
+                            <view:ElementsView Grid.Row="0" Grid.Column="1" DataContext="{Binding Path=Elements}"/>
+
                             <Rectangle Fill="Red" Height="4" Grid.Column="1" VerticalAlignment="Top" Visibility="{Binding Path=IsDraggingOver, Converter={StaticResource CollapsedWhenFalseConverter}}"/>
                         </Grid>
 
@@ -106,6 +114,5 @@
         </Grid>
         <Rectangle Height="0.5"/>
 
-        <ContentControl Content="{Binding Path=Next}" />
     </StackPanel>
 </UserControl>

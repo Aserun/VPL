@@ -9,6 +9,7 @@
         xmlns:viewModel="clr-namespace:CaptiveAire.VPL.Plugins.ViewModel"
         mc:Ignorable="d"
         ResizeMode="NoResize"
+        Loaded="FunctionSelectionDialogView_OnLoaded"
         WindowStartupLocation="CenterOwner"
         d:DataContext="{d:DesignInstance viewModel:FunctionSelectionDialogViewModel, IsDesignTimeCreatable=false}"
         Title="Select Function" SizeToContent="Height" Width="300" Icon="/CaptiveAire.VPL;component/Images/method_16xLG.png">
@@ -25,7 +26,7 @@
 
         <TextBlock x:Name="Caption" Margin="4" HorizontalAlignment="Left" Text="Functions"/>
 
-        <ComboBox Grid.Row="1" Margin="4" ItemsSource="{Binding Path=Functions}" DisplayMemberPath="Name" SelectedItem="{Binding Path=SelectedFunction}" IsTextSearchEnabled="True" />
+        <ComboBox Grid.Row="1" Margin="4" x:Name="FunctionsComboBox" ItemsSource="{Binding Path=Functions}" DisplayMemberPath="Name" SelectedItem="{Binding Path=SelectedFunction}" IsTextSearchEnabled="True" />
 
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>

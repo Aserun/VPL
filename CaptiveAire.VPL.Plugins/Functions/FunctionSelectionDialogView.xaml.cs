@@ -1,4 +1,6 @@
-﻿namespace CaptiveAire.VPL.Plugins.Functions
+﻿using System.Windows;
+
+namespace CaptiveAire.VPL.Plugins.Functions
 {
     /// <summary>
     /// Interaction logic for FunctionSelectionDialogView.xaml
@@ -8,6 +10,11 @@
         public FunctionSelectionDialogView()
         {
             InitializeComponent();
+        }
+
+        private void FunctionSelectionDialogView_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            FunctionsComboBox.Focus();
         }
     }
 }

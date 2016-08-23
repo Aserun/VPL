@@ -2,7 +2,6 @@
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Media;
-using CaptiveAire.VPL.Extensions;
 using CaptiveAire.VPL.Interfaces;
 
 namespace CaptiveAire.VPL
@@ -33,11 +32,6 @@ namespace CaptiveAire.VPL
             }
         }
 
-        public void Drop(IStatement dropped)
-        {
-            this.CommonDrop(dropped);
-        }
-
         public virtual bool CanDrop()
         {
             return true;
@@ -53,19 +47,14 @@ namespace CaptiveAire.VPL
             }
         }
 
-        public void Drop(IElement element)
+        public bool CanDrop(IElementClipboardData data)
         {
-            var statement = element as IStatement;
-
-            if (statement != null)
-            {
-                this.CommonDrop(statement);    
-            }           
+            return Parent?.CanDrop(data) == true;
         }
 
-        public bool CanDrop(Type elementType, Guid? returnType)
+        public void Drop(IElementClipboardData data)
         {
-            return elementType != null && typeof(IStatement).IsAssignableFrom(elementType);
+            Parent?.Drop(this, data);
         }
 
         public bool IsExecuting

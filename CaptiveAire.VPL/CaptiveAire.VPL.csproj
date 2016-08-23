@@ -122,22 +122,28 @@
     <Compile Include="Editors\Int16ValueView.xaml.cs">
       <DependentUpon>Int16ValueView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Elements.cs" />
     <Compile Include="Error.cs" />
     <Compile Include="ExecutionContext.cs" />
     <Compile Include="Extensions\ElementOwnerExtensions.cs" />
+    <Compile Include="Extensions\IListExtensions.cs" />
+    <Compile Include="Extensions\ISelectionServiceExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
-    <Compile Include="Extensions\GetEntrancePointResult.cs" />
     <Compile Include="Extensions\FrameworkElementExtensions.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="Extensions\PointExtensions.cs" />
     <Compile Include="Extensions\ElementExtensions.cs" />
     <Compile Include="ElementFactory.cs" />
+    <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="Extensions\VplTypeExtensions.cs" />
     <Compile Include="Factory\ElementFactoryManager.cs" />
     <Compile Include="Factory\FactoryCategoryNames.cs" />
+    <Compile Include="Model\ClipboardUtility.cs" />
+    <Compile Include="Model\ElementClipboardData.cs" />
     <Compile Include="Model\ElementBuilder.cs" />
+    <Compile Include="Model\ElementClipboardDataItem.cs" />
     <Compile Include="Model\ElementCreationContext.cs" />
-    <Compile Include="EntrancePointNotFoundException.cs" />
+    <Compile Include="Model\SelectionService.cs" />
     <Compile Include="Model\StatementExecutor.cs" />
     <Compile Include="FunctionService.cs" />
     <Compile Include="Extensions\DependencyObjectExtensions.cs" />
@@ -154,6 +160,10 @@
     </Compile>
     <Compile Include="Editors\Int32ValueView.xaml.cs">
       <DependentUpon>Int32ValueView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Model\UndoService.cs" />
+    <Compile Include="View\ElementsView.xaml.cs">
+      <DependentUpon>ElementsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="VplTypeId.cs" />
     <Compile Include="Argument.cs" />
@@ -256,6 +266,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Editors\Int32ValueView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ElementsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -370,7 +384,6 @@
       <Name>CaptiveAire.VPL.Metadata</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Resource Include="Images\Member_16xLG.png" />
   </ItemGroup>
@@ -391,6 +404,15 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\save_16xLG.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Redo_16x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Undo_16x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Paste_16x.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

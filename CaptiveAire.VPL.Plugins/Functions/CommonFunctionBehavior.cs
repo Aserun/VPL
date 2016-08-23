@@ -114,7 +114,8 @@ namespace CaptiveAire.VPL.Plugins.Functions
 
             var view = new FunctionSelectionDialogView()
             {
-                DataContext = viewModel
+                DataContext = viewModel,
+                Owner = WindowUtil.GetActiveWindow()
             };
 
             if (view.ShowDialog() == true)

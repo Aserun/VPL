@@ -7,7 +7,7 @@ using CaptiveAire.VPL.Interfaces;
 
 namespace CaptiveAire.VPL
 {
-    internal class Parameter : Element, IParameter
+    internal class Parameter : Element, IParameter, IElementParent
     {
         private string _prefix;
         private string _postfix;
@@ -16,6 +16,7 @@ namespace CaptiveAire.VPL
         private readonly IVplType _type;
         private object _value;
         private readonly Lazy<Visual> _editor;
+        private IOperator _operator;
 
         public Parameter(IElementCreationContext context, string id, IVplType type) 
             : base(context)
@@ -67,7 +68,7 @@ namespace CaptiveAire.VPL
 
         public bool CanDrop()
         {
-            return Next == null;
+            return Operator == null;
         }
 
         public bool IsDraggingOver
@@ -80,42 +81,89 @@ namespace CaptiveAire.VPL
             }
         }
 
-        public void Drop(IElement element)
+        public bool CanDrop(IElementClipboardData data)
         {
-            this.CommonDrop(element);
-            Owner.MarkDirty();
+            if (Operator != null)
+                return false;
+
+            if (data.Items.Length != 1)
+                return false;
+
+            IElementFactory factory = data.Items[0].Factory;
+
+            if (factory == null)
+            {
+                factory = Owner.Context.ElementFactoryManager.GetFactory(data.Items[0].ElementMetadata.ElementTypeId);
+            }
+
+            if (factory == null)
+                return false;
+
+            return factory.ElementType.IsOperator();
         }
 
-        public bool CanDrop(Type elementType, Guid? returnType)
+        public void Drop(IElementClipboardData data)
         {
-            if (Next != null)
-                return false;
+            if (CanDrop(data))
+            {
+                var elements = Owner.CreateElements(data);
 
-            if (elementType == null)
-                return false;
+                Operator = elements[0] as IOperator;
 
-            if (typeof (IOperator).IsAssignableFrom(elementType))
-                return true;
+                Owner.SaveUndoState();
+            }
+        }
 
-            if (returnType == null)
-                return false;
+        void IElementParent.RemoveElement(IElement element)
+        {
+            if (Operator == element)
+            {
+                Operator = null;
+            }
+        }
 
-            if (returnType.Value == _type.Id)
-                return true;
+        //public bool CanDrop(Type elementType, Guid? returnType)
+        //{
+        //    if (Operator != null)
+        //        return false;
 
-            var vplType = Owner.GetVplTypeOrThrow(returnType.Value);
+        //    if (elementType == null)
+        //        return false;
 
-            if (vplType == null)
-                return false;
+        //    if (typeof (IOperator).IsAssignableFrom(elementType))
+        //        return true;
 
-            if (_type.NetType.IsAssignableFrom(vplType.NetType))
-                return true;
+        //    if (returnType == null)
+        //        return false;
 
-            // This will have to be evaluated at runtime.
-            if (returnType.Value == VplTypeId.Any)
-                return true;
+        //    if (returnType.Value == _type.Id)
+        //        return true;
 
+        //    var vplType = Owner.GetVplTypeOrThrow(returnType.Value);
+
+        //    if (vplType == null)
+        //        return false;
+
+        //    if (_type.NetType.IsAssignableFrom(vplType.NetType))
+        //        return true;
+
+        //    // This will have to be evaluated at runtime.
+        //    if (returnType.Value == VplTypeId.Any)
+        //        return true;
+
+        //    return false;
+        //}
+
+        bool IElementParent.CanDrop(IElementClipboardData data)
+        {
             return false;
+
+            
+        }
+
+        void IElementParent.Drop(IElement element, IElementClipboardData data)
+        {
+
         }
 
         public object Value
@@ -136,7 +184,7 @@ namespace CaptiveAire.VPL
 
         public async Task<object> EvaluateAsync(IExecutionContext executionContext, CancellationToken cancellationToken)
         {
-            var op = Next as IOperator;
+            var op = Operator;
 
             if (op == null) 
                 return Value;
@@ -150,6 +198,31 @@ namespace CaptiveAire.VPL
         public Visual Editor
         {
             get { return _editor.Value; }
+        }
+
+        public IOperator Operator
+        {
+            get { return _operator; }
+            set
+            {
+                var old = _operator;
+
+                if (old != null)
+                {
+                    old.Parent = null;
+                }
+
+                _operator = value;
+                RaisePropertyChanged();
+                Owner.MarkDirty();
+
+                var newOperator = value;
+
+                if (newOperator != null)
+                {
+                    newOperator.Parent = this;
+                }
+            }
         }
     }
 }

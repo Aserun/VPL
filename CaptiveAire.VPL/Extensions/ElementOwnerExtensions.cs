@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using CaptiveAire.VPL.Interfaces;
+using CaptiveAire.VPL.Metadata;
 using CaptiveAire.VPL.Model;
 
 namespace CaptiveAire.VPL.Extensions
@@ -11,6 +12,71 @@ namespace CaptiveAire.VPL.Extensions
     /// </summary>
     public static class ElementOwnerExtensions
     {
+        public static IElement[] CreateElements(this IElementOwner owner, IElementClipboardData data)
+        {
+            if (owner == null) throw new ArgumentNullException(nameof(owner));
+            if (data == null) throw new ArgumentNullException(nameof(data));
+
+            //Create the elements
+            return data.Items
+                .Select(item =>
+                {
+                    if (item.ElementMetadata != null)
+                    {
+                        return owner.Context.ElementBuilder.CreateElement(owner, item.ElementMetadata);
+                    }
+
+                    if (item.Factory != null)
+                    {
+                        return owner.CreateElement(item.Factory);
+                    }
+                    
+                    //This shouldn't happen
+                    return null;                   
+                })
+                .ToArray();
+        }
+        
+        public static IElement CreateElement(this IElementOwner owner, IElementFactory factory)
+        {
+            if (factory == null) throw new ArgumentNullException(nameof(factory));
+
+            var context = new ElementCreationContext(owner, null, factory);
+
+            return factory.Create(context);
+        }
+
+        public static bool AreAllItemsStatements(this IElementOwner owner, IElementClipboardData data)
+        {
+            if (owner == null) throw new ArgumentNullException(nameof(owner));
+            if (data == null) throw new ArgumentNullException(nameof(data));
+
+            return data.Items.Any()
+                   && data.Items.All(i =>
+                   {
+                       IElementFactory factory;
+
+                       if (i.Factory != null)
+                       {
+                           //First try to use the factory
+                           factory = i.Factory;
+                       }
+                       else if (i.ElementMetadata != null)
+                       {
+                           //Get the factory for this element type
+                           factory = owner.Context.ElementFactoryManager.GetFactory(i.ElementMetadata.ElementTypeId);
+                       }
+                       else
+                       {
+                           //This shouldn't happen
+                           return false;
+                       }
+
+                       //Determine if this is a statement
+                       return factory.ElementType.IsStatement();
+                   });
+        }
+
         /// <summary>
         /// Gets the specified VplType or throws an exception.
         /// </summary>
@@ -131,39 +197,39 @@ namespace CaptiveAire.VPL.Extensions
                 .FirstOrDefault();
         }
 
-        /// <summary>
-        /// Gets the entrance point for a function.
-        /// </summary>
-        /// <param name="owner"></param>
-        /// <returns></returns>
-        internal static GetEntrancePointResult GetEntrancePoint(this IElementOwner owner)
-        {
-            //Get the root statements.
-            var rootStatements = owner.GetRootElements()
-                .OfType<IStatement>()
-                .ToArray();
+        ///// <summary>
+        ///// Gets the entrance point for a function.
+        ///// </summary>
+        ///// <param name="owner"></param>
+        ///// <returns></returns>
+        //internal static GetEntrancePointResult GetEntrancePoint(this IElementOwner owner)
+        //{
+        //    //Get the root statements.
+        //    var rootStatements = owner.GetRootElements()
+        //        .OfType<IStatement>()
+        //        .ToArray();
 
-            //Check to see if we have any
-            if (rootStatements.Length == 0)
-            {
-                return new GetEntrancePointResult("Unable to find an executable statement.");
-            }
+        //    //Check to see if we have any
+        //    if (rootStatements.Length == 0)
+        //    {
+        //        return new GetEntrancePointResult("Unable to find an executable statement.");
+        //    }
 
-            //Check to see if we have too many
-            if (rootStatements.Length > 1)
-            {
-                //Set errors so it's more obvious to the user what is happening.
-                foreach (var rootStatement in rootStatements)
-                {
-                    rootStatement.SetError("Multiple entrance points.");
-                }
+        //    //Check to see if we have too many
+        //    if (rootStatements.Length > 1)
+        //    {
+        //        //Set errors so it's more obvious to the user what is happening.
+        //        foreach (var rootStatement in rootStatements)
+        //        {
+        //            rootStatement.SetError("Multiple entrance points.");
+        //        }
 
-                return new GetEntrancePointResult("There is more than one entrance point.");
-            }
+        //        return new GetEntrancePointResult("There is more than one entrance point.");
+        //    }
 
-            //We have found the entrance point.
-            return new GetEntrancePointResult(rootStatements[0]);           
-        }
+        //    //We have found the entrance point.
+        //    return new GetEntrancePointResult(rootStatements[0]);           
+        //}
 
         /// <summary>
         /// Creates an instance of IElementCreationContext
