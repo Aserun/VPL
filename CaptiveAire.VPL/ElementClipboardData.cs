@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using CaptiveAire.VPL.Interfaces;
 using CaptiveAire.VPL.Metadata;
+using CaptiveAire.VPL.Model;
 
-namespace CaptiveAire.VPL.Model
+namespace CaptiveAire.VPL
 {
     [Serializable]
-    internal class ElementClipboardData : IElementClipboardData
+    public class ElementClipboardData : IElementClipboardData
     {
         private readonly IClipboardDataItem[] _items;
 

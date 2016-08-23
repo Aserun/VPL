@@ -139,9 +139,9 @@
     <Compile Include="Factory\ElementFactoryManager.cs" />
     <Compile Include="Factory\FactoryCategoryNames.cs" />
     <Compile Include="Model\ClipboardUtility.cs" />
-    <Compile Include="Model\ElementClipboardData.cs" />
+    <Compile Include="ElementClipboardData.cs" />
     <Compile Include="Model\ElementBuilder.cs" />
-    <Compile Include="Model\ElementClipboardDataItem.cs" />
+    <Compile Include="ElementClipboardDataItem.cs" />
     <Compile Include="Model\ElementCreationContext.cs" />
     <Compile Include="Model\SelectionService.cs" />
     <Compile Include="Model\StatementExecutor.cs" />
