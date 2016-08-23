@@ -198,6 +198,18 @@ namespace CaptiveAire.VPL.ViewModel
         {
             try
             {
+                var data = Clipboard.GetData(nameof(ElementClipboardData)) as string;
+
+                var elementMetadatas = JsonConvert.DeserializeObject<ElementMetadata[]>(data);
+
+                if (elementMetadatas.Any())
+                {
+                    var clipboardData = new ElementClipboardData(elementMetadatas);
+
+                    Function.DropFromToolbox(clipboardData);
+                }
+               
+
                 //string json = Clipboard.GetData(nameof(ElementMetadata)) as string;
 
                 //if (!string.IsNullOrWhiteSpace(json))
@@ -223,7 +235,7 @@ namespace CaptiveAire.VPL.ViewModel
 
         private bool CanPaste()
         {
-            return Clipboard.ContainsData(nameof(ElementMetadata));
+            return Clipboard.ContainsData(nameof(ElementClipboardData));
         }
 
         private void AddVariable()

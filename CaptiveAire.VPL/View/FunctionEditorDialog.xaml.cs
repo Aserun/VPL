@@ -2,7 +2,6 @@
 using System.Windows;
 using System.Windows.Input;
 using CaptiveAire.VPL.Extensions;
-using CaptiveAire.VPL.Factory;
 using CaptiveAire.VPL.Interfaces;
 using CaptiveAire.VPL.Model;
 using CaptiveAire.VPL.ViewModel;
@@ -97,7 +96,14 @@ namespace CaptiveAire.VPL.View
                     }
                 }
 
-                e.Effects = DragDropEffects.Move;
+                if ((e.AllowedEffects & DragDropEffects.Move) == DragDropEffects.Move)
+                {
+                    e.Effects = DragDropEffects.Move;
+                }
+                else if ((e.AllowedEffects & DragDropEffects.Copy) == DragDropEffects.Copy)
+                {
+                    e.Effects = DragDropEffects.Copy;
+                }
 
                 if (drop)
                 {

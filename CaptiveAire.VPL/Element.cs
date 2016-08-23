@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
+using CaptiveAire.VPL.Extensions;
 using CaptiveAire.VPL.Interfaces;
 using CaptiveAire.VPL.Metadata;
 using CaptiveAire.VPL.Model;
@@ -109,11 +110,7 @@ namespace CaptiveAire.VPL
 
         private void Copy()
         {
-            var metadata = this.ToMetadata();
-
-            var json = JsonConvert.SerializeObject(metadata, Formatting.Indented);
-
-            Clipboard.SetData(nameof(ElementMetadata), json);
+            Owner.SelectionService.CopySelected();
         }
 
         private bool CanDelete()

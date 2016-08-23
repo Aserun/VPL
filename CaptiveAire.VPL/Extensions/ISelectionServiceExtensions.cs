@@ -6,6 +6,7 @@ using System.Windows.Input;
 using CaptiveAire.VPL.Interfaces;
 using CaptiveAire.VPL.Metadata;
 using CaptiveAire.VPL.Model;
+using Newtonsoft.Json;
 using Xceed.Wpf.DataGrid.Export;
 
 namespace CaptiveAire.VPL.Extensions
@@ -102,6 +103,24 @@ namespace CaptiveAire.VPL.Extensions
 
             //Probably redundant, but we'll do it anyway.
             elements[0].Owner.MarkDirty();
+        }
+
+        public static void CopySelected(this ISelectionService selectionService)
+        {
+            if (selectionService == null) throw new ArgumentNullException(nameof(selectionService));
+
+            //Get the selected elements
+            var elements = selectionService.GetSelected()
+                .OfType<IElement>()
+                .ToMetadata()
+                .ToArray();
+
+            if (elements.Any())
+            {
+                var data = JsonConvert.SerializeObject(elements);
+
+                Clipboard.SetData(nameof(ElementClipboardData), data);
+            }
         }
     }
 }

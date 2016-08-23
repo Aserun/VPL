@@ -59,16 +59,6 @@ namespace CaptiveAire.VPL
             Parent?.Drop(this, data);
         }
 
-        //public void Drop(IElement element)
-        //{
-        //    Parent?.Drop(this, element);
-        //}
-
-        //public bool CanDrop(Type elementType, Guid? returnType)
-        //{
-        //    return Parent?.CanDrop(elementType, returnType) == true;
-        //}
-
         public bool IsExecuting
         {
             get { return _isExecuting; }

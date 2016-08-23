@@ -15,7 +15,7 @@ namespace CaptiveAire.VPL.Model
         {
             _items = new IClipboardDataItem[]
             {
-                new ClipboardDataItem(new ElementMetadata()
+                new ElementClipboardDataItem(new ElementMetadata()
                 {
                     ElementTypeId  = elementFactory.ElementTypeId
                 }) 
@@ -25,7 +25,14 @@ namespace CaptiveAire.VPL.Model
         public ElementClipboardData(IEnumerable<IElement> elements)
         {
             _items = elements
-                .Select(e => (IClipboardDataItem)new ClipboardDataItem(e.ToMetadata()))
+                .Select(e => (IClipboardDataItem)new ElementClipboardDataItem(e.ToMetadata()))
+                .ToArray();
+        }
+
+        public ElementClipboardData(IEnumerable<ElementMetadata> elementMetadatas)
+        {
+            _items = elementMetadatas
+                .Select(m => new ElementClipboardDataItem(m))
                 .ToArray();
         }
 
@@ -36,13 +43,14 @@ namespace CaptiveAire.VPL.Model
     }
 
     [Serializable]
-    internal class ClipboardDataItem : IClipboardDataItem
+    internal class ElementClipboardDataItem : IClipboardDataItem
     {
         private readonly ElementMetadata _elementMetadata;
 
-        internal ClipboardDataItem(ElementMetadata elementMetadata)
+        internal ElementClipboardDataItem(ElementMetadata elementMetadata)
         {
             if (elementMetadata == null) throw new ArgumentNullException(nameof(elementMetadata));
+
             _elementMetadata = elementMetadata;
         }
 
