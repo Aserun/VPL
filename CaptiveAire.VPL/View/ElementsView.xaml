@@ -9,6 +9,7 @@
     <ItemsControl ItemsSource="{Binding}" BorderThickness="0">
         <ItemsControl.ItemContainerStyle>
             <Style TargetType="ContentPresenter">
+                <Setter Property="HorizontalAlignment" Value="Stretch"/>
             </Style>
         </ItemsControl.ItemContainerStyle>
     </ItemsControl>
