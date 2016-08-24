@@ -65,7 +65,7 @@ namespace CaptiveAire.VPL.Extensions
             if (selectable.IsSelected)
                 return;
 
-            selectionService.SelectWithKeyboardModifiers(selectable);
+            selectable.IsSelected = true;
         }
 
         public static void DragSelected(this ISelectionService selectionService, DependencyObject dragSource)
