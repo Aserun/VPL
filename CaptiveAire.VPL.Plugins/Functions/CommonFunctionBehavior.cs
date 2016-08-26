@@ -121,6 +121,7 @@ namespace CaptiveAire.VPL.Plugins.Functions
             if (view.ShowDialog() == true)
             {
                 SelectFunction(viewModel.SelectedFunction);
+                _owner.MarkDirty();
             }
         }
 

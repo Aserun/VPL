@@ -203,7 +203,7 @@ namespace CaptiveAire.VPL.ViewModel
 
             if (data != null)
             {
-                Function.DropFromToolbox(data);
+                Function.Drop(data, true);
 
                 Function.SaveUndoState();
             }

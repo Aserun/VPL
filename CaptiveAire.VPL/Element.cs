@@ -38,7 +38,7 @@ namespace CaptiveAire.VPL
             _owner = context.Owner;
             _factory = context.Factory;
 
-            DeleteCommand = new RelayCommand(DeleteFromCommand, CanDelete);
+            DeleteCommand = new RelayCommand(DeleteSelected, CanDelete);
             CopyCommand = new RelayCommand(Copy);
             CutCommand = new RelayCommand(Cut, CanDelete);
             PasteCommand = new RelayCommand(Paste, CanPaste);
@@ -121,10 +121,10 @@ namespace CaptiveAire.VPL
         private void Cut()
         {
             Copy();
-            Delete();
+            DeleteSelected();
         }
 
-        private void DeleteFromCommand()
+        private void DeleteSelected()
         {
             Owner.SelectionService.EnsureSelected(this);
 
@@ -140,7 +140,6 @@ namespace CaptiveAire.VPL
         {
             //Delete
             Parent?.RemoveElement(this);
-            
             Owner.MarkDirty();
         }
 

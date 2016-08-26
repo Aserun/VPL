@@ -204,20 +204,22 @@ namespace CaptiveAire.VPL
             IsDirty = false;
         }
 
-        public bool CanDropFromToolbox(IElementClipboardData data)
+        public bool CanDrop(IElementClipboardData data)
         {
             return this.AreAllItemsStatements(data);
         }
 
-        public bool DropFromToolbox(IElementClipboardData data)
+        public bool Drop(IElementClipboardData data, bool insertAtBeginning)
         {
-            if (CanDropFromToolbox(data))
+            if (CanDrop(data))
             {
                 var elements = this.CreateElements(data);
 
+                var index = insertAtBeginning ? 0 : Elements.Count;
+
                 foreach (var element in elements)
                 {
-                    Elements.Add(element);
+                    Elements.Insert(index++, element);
                 }
 
                 MarkDirty();

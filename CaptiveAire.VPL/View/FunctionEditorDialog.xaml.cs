@@ -81,7 +81,7 @@ namespace CaptiveAire.VPL.View
                 //Check to see if we can do this
                 if (dropTarget == null)
                 {
-                    if (!editor.Function.CanDropFromToolbox(data))
+                    if (!editor.Function.CanDrop(data))
                     {
                         e.Effects = DragDropEffects.None;
                         return;
@@ -109,7 +109,7 @@ namespace CaptiveAire.VPL.View
                 {
                     if (dropTarget == null)
                     {
-                        editor.Function.DropFromToolbox(data);
+                        editor.Function.Drop(data, false);
                     }
                     else
                     {

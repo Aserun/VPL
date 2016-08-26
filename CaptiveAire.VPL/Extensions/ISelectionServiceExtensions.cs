@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using CaptiveAire.VPL.Interfaces;
-using CaptiveAire.VPL.Metadata;
 using CaptiveAire.VPL.Model;
-using Newtonsoft.Json;
-using Xceed.Wpf.DataGrid.Export;
 
 namespace CaptiveAire.VPL.Extensions
 {
@@ -65,7 +61,7 @@ namespace CaptiveAire.VPL.Extensions
             if (selectable.IsSelected)
                 return;
 
-            selectable.IsSelected = true;
+            selectionService.SelectWithKeyboardModifiers(selectable);
         }
 
         public static void DragSelected(this ISelectionService selectionService, DependencyObject dragSource)
