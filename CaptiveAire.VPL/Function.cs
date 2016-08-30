@@ -24,8 +24,6 @@ namespace CaptiveAire.VPL
         private readonly IVplServiceContext _context;
         private readonly Guid _functionId;
         private string _name;
-        private double _width = 1000;
-        private double _height = 1000;
         private readonly Elements _elements;
         private readonly ObservableCollection<IVariable> _variables = new ObservableCollection<IVariable>();
         private readonly OrderedListViewModel<IArgument> _arguments;

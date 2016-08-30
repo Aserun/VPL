@@ -9,24 +9,26 @@ using Newtonsoft.Json;
 
 namespace CaptiveAire.VPL.Plugins.Math
 {
-    public class BinaryMathOperator : Operator
+    internal class BinaryMathOperator : Operator
     {
         private readonly IParameter ParameterA;
         private readonly IParameter ParameterB;
-        private BinaryMathOperatorType _operatorType;
+        private BinaryOperatorType _operatorType;
         private BinaryMathOperatorService _service;
-        private readonly IDictionary<BinaryMathOperatorType, BinaryMathOperatorService> _services;
+        private readonly IDictionary<BinaryOperatorType, BinaryMathOperatorService> _services;
 
-        public BinaryMathOperator(IElementCreationContext context, BinaryMathOperatorType defaultOperatorType) 
+        public BinaryMathOperator(IElementCreationContext context, BinaryOperatorType defaultOperatorType) 
             : base(context, context.Owner.GetFloatType())
         {
             var services = new []
-           {
-                new BinaryMathOperatorService(BinaryMathOperatorType.Addition, "+", (a, b) => a + b),
-                new BinaryMathOperatorService(BinaryMathOperatorType.Subtraction, "-", (a, b) => a - b),
-                new BinaryMathOperatorService(BinaryMathOperatorType.Multiplication, "*", (a, b) => a * b),
-                new BinaryMathOperatorService(BinaryMathOperatorType.Division, "/", (a, b) => a / b),
-           };
+            {
+                new BinaryMathOperatorService(BinaryOperatorType.Addition, "+", (a, b) => a + b),
+                new BinaryMathOperatorService(BinaryOperatorType.Subtraction, "-", (a, b) => a - b),
+                new BinaryMathOperatorService(BinaryOperatorType.Multiplication, "*", (a, b) => a * b),
+                new BinaryMathOperatorService(BinaryOperatorType.Division, "/", (a, b) => a / b),
+                new BinaryMathOperatorService(BinaryOperatorType.ShiftLeft, "<<", (a, b) => a << b), 
+                new BinaryMathOperatorService(BinaryOperatorType.ShiftRight, ">>", (a, b) => a >> b), 
+            };
 
             foreach (var service in services)
             {
@@ -41,7 +43,7 @@ namespace CaptiveAire.VPL.Plugins.Math
             Parameters.Add(ParameterA);
             Parameters.Add(ParameterB);
 
-            Service = _services[BinaryMathOperatorType.Addition];
+            Service = _services[BinaryOperatorType.Addition];
 
             OperatorType = defaultOperatorType;
 
@@ -70,8 +72,8 @@ namespace CaptiveAire.VPL.Plugins.Math
             if (service == null)
                 return 0;
 
-            var a = (double)await ParameterA.EvaluateAsync(executionContext, cancellationToken);
-            var b = (double)await ParameterB.EvaluateAsync(executionContext, cancellationToken);
+            dynamic a = await ParameterA.EvaluateAsync(executionContext, cancellationToken);
+            dynamic b = await ParameterB.EvaluateAsync(executionContext, cancellationToken);
 
             return service.Evaluate(a, b);
         }
@@ -90,7 +92,7 @@ namespace CaptiveAire.VPL.Plugins.Math
             }
         }
 
-        private BinaryMathOperatorType OperatorType
+        private BinaryOperatorType OperatorType
         {
             get { return _operatorType; }
             set
@@ -102,7 +104,7 @@ namespace CaptiveAire.VPL.Plugins.Math
             }
         }
 
-        public enum BinaryMathOperatorType
+        public enum BinaryOperatorType
         {
             Addition = 0,
 
@@ -111,20 +113,25 @@ namespace CaptiveAire.VPL.Plugins.Math
             Multiplication = 2,
 
             Division = 3,
+        
+            ShiftLeft = 4,
+
+            ShiftRight = 5
+        
         }
 
         public class BinaryMathOperatorData
         {
-            public BinaryMathOperatorType OperatorType { get; set; }
+            public BinaryOperatorType OperatorType { get; set; }
         }
 
         private class BinaryMathOperatorService
         {
-            private readonly BinaryMathOperatorType _operatorType;
+            private readonly BinaryOperatorType _operatorType;
             private readonly string _text;
-            private readonly Func<double, double, double> _func;
+            private readonly Func<dynamic, dynamic, dynamic> _func;
 
-            internal BinaryMathOperatorService(BinaryMathOperatorType operatorType, string text, Func<double, double, double> func)
+            internal BinaryMathOperatorService(BinaryOperatorType operatorType, string text, Func<dynamic, dynamic, dynamic> func)
             {
                 if (func == null) throw new ArgumentNullException(nameof(func));
                 if (String.IsNullOrWhiteSpace(text))
@@ -135,7 +142,7 @@ namespace CaptiveAire.VPL.Plugins.Math
                 _func = func;
             }
 
-            public BinaryMathOperatorType Type
+            public BinaryOperatorType Type
             {
                 get { return _operatorType; }
             }
@@ -145,7 +152,7 @@ namespace CaptiveAire.VPL.Plugins.Math
                 get { return _text; }
             }
 
-            public double Evaluate(double a, double b)
+            public dynamic Evaluate(dynamic a, dynamic b)
             {
                 return _func(a, b);
             }

@@ -5,6 +5,8 @@ namespace CaptiveAire.VPL.Metadata
 {
     public class FunctionMetadata : IFunctionReference
     {
+        public int? MetadataVersion { get; set; }
+
         public Guid Id { get; set; }
 
         public string Name { get; set; }

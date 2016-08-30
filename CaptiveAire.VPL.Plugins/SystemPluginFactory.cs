@@ -76,10 +76,10 @@ namespace CaptiveAire.VPL.Plugins
         {
             var factories = new IElementFactory[]
             {
-                new ElementFactory(PluginElementIds.BinaryMathOperator, CategoryNames.Math, "+", context => new BinaryMathOperator(context, BinaryMathOperator.BinaryMathOperatorType.Addition), typeof(BinaryMathOperator), VplTypeId.Float, description: "Addition"),
-                new ElementFactory(PluginElementIds.BinaryMathOperator, CategoryNames.Math, "-", context => new BinaryMathOperator(context, BinaryMathOperator.BinaryMathOperatorType.Subtraction), typeof(BinaryMathOperator), VplTypeId.Float, description: "Subtraction"),
-                new ElementFactory(PluginElementIds.BinaryMathOperator, CategoryNames.Math, "*", context => new BinaryMathOperator(context, BinaryMathOperator.BinaryMathOperatorType.Multiplication), typeof(BinaryMathOperator), VplTypeId.Float, description: "Multiplication"),
-                new ElementFactory(PluginElementIds.BinaryMathOperator, CategoryNames.Math, "/", context => new BinaryMathOperator(context, BinaryMathOperator.BinaryMathOperatorType.Division), typeof(BinaryMathOperator), VplTypeId.Float, description: "Division")
+                new ElementFactory(PluginElementIds.BinaryMathOperator, CategoryNames.Math, "+", context => new BinaryMathOperator(context, BinaryMathOperator.BinaryOperatorType.Addition), typeof(BinaryMathOperator), VplTypeId.Float, description: "Addition"),
+                new ElementFactory(PluginElementIds.BinaryMathOperator, CategoryNames.Math, "-", context => new BinaryMathOperator(context, BinaryMathOperator.BinaryOperatorType.Subtraction), typeof(BinaryMathOperator), VplTypeId.Float, description: "Subtraction"),
+                new ElementFactory(PluginElementIds.BinaryMathOperator, CategoryNames.Math, "*", context => new BinaryMathOperator(context, BinaryMathOperator.BinaryOperatorType.Multiplication), typeof(BinaryMathOperator), VplTypeId.Float, description: "Multiplication"),
+                new ElementFactory(PluginElementIds.BinaryMathOperator, CategoryNames.Math, "/", context => new BinaryMathOperator(context, BinaryMathOperator.BinaryOperatorType.Division), typeof(BinaryMathOperator), VplTypeId.Float, description: "Division")
             };
 
             return new VplPlugin("Math", factories);

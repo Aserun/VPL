@@ -191,8 +191,10 @@ namespace CaptiveAire.VPL
 
             var raw = await op.EvaluateAsync(executionContext, cancellationToken);
 
+            return raw;
+
             //Convert to the type that we're supposed to be supporting.
-            return raw.GetConvertedValue(Type.NetType);
+            //return raw.GetConvertedValue(Type.NetType);
         }
 
         public Visual Editor

@@ -15,7 +15,6 @@ namespace CaptiveAire.VPL.Model
         private readonly IVplType[] _types;
         private readonly IEnumerable<object> _services;
         private readonly IElementBuilder _elementBuilder;
-        private readonly IBinaryOperatorOverload[] _binaryOperatorOverloads;
         private readonly IVplPlugin[] _plugins;
 
         public VplServiceContext(IEnumerable<IVplPlugin> plugins = null)
@@ -42,7 +41,10 @@ namespace CaptiveAire.VPL.Model
                 new VplType(VplTypeId.Single, "Single", () => new TextValueView(), (float)0, typeof(float)),
                 new VplType(VplTypeId.SByte, "Int8", () => new TextValueView(), (sbyte)0, typeof(sbyte)),
                 new VplType(VplTypeId.Int16, "Int16", () => new Int16ValueView(), (short)0, typeof(short)),
-                new VplType(VplTypeId.DateTime, "DateTime", () => new DateTimeValueView(), DateTime.Now, typeof(DateTime))
+                new VplType(VplTypeId.DateTime, "DateTime", () => new DateTimeValueView(), DateTime.Now, typeof(DateTime)),
+                new VplType(VplTypeId.UInt64, "UInt64", () => new TextValueView(), (ulong)0, typeof(ulong)),
+                new VplType(VplTypeId.Int64, "Int64", () => new TextValueView(), (long)0, typeof(long)),
+                new VplType(VplTypeId.Decimal, "Decimal", () => new TextValueView(), (decimal)0, typeof(decimal))
             };
 
             //Add the plugin types
@@ -63,11 +65,6 @@ namespace CaptiveAire.VPL.Model
 
             //Create an element builder
             _elementBuilder = new ElementBuilder(_elementFactoryManager, this);
-
-            //Deal with the binary operator overloads
-            _binaryOperatorOverloads = new IBinaryOperatorOverload[]
-            {
-            };
         }
 
         public IElementFactoryManager ElementFactoryManager
@@ -88,11 +85,6 @@ namespace CaptiveAire.VPL.Model
         public IEnumerable<IVplType> Types
         {
             get { return _types; }
-        }
-
-        public IEnumerable<IBinaryOperatorOverload> BinaryOperatorOverloads
-        {
-            get { return _binaryOperatorOverloads; }
         }
 
         public IElementBuilder ElementBuilder

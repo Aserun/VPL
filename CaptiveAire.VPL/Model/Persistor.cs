@@ -8,6 +8,11 @@ namespace CaptiveAire.VPL.Model
 {
     internal static class Persistor
     {
+        /// <summary>
+        /// This is used to version metadata files so we know how to upgrade them as time goes on and we make changes.
+        /// </summary>
+        public const int CurrentMetadataVersion = 1;
+
         public static ParameterMetadata ToMetadata(this IParameter parameter)
         {
             if (parameter == null) throw new ArgumentNullException(nameof(parameter));
@@ -110,6 +115,7 @@ namespace CaptiveAire.VPL.Model
 
             return new FunctionMetadata()
             {
+                MetadataVersion = CurrentMetadataVersion,
                 Id = function.Id,
                 Name = function.Name,
                 Variables = function.Variables.Where(v => v.Persist).Select(v => v.ToMetadata()).ToArray(),

@@ -113,7 +113,6 @@
   <ItemGroup>
     <Compile Include="ArgumentMismatchException.cs" />
     <Compile Include="Behaviors\ElementDraggableBehavior.cs" />
-    <Compile Include="BinaryOperatorOverload.cs" />
     <Compile Include="Converters\CollapsedIfNotStatementConverter.cs" />
     <Compile Include="Converters\PercentageConverter.cs" />
     <Compile Include="Editors\BooleanValueCheckBoxView.xaml.cs">

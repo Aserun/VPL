@@ -59,7 +59,6 @@
     <Compile Include="BinaryOperatorOverloadType.cs" />
     <Compile Include="ErrorLevel.cs" />
     <Compile Include="IArgument.cs" />
-    <Compile Include="IBinaryOperatorOverload.cs" />
     <Compile Include="IBlock.cs" />
     <Compile Include="IBlocks.cs" />
     <Compile Include="IClipboardDataItem.cs" />

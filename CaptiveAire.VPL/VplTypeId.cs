@@ -9,8 +9,14 @@ namespace CaptiveAire.VPL
     {
         public static readonly Guid Boolean = new Guid("F0D1BC68-1DB8-46EE-8E03-7861239AC763");
 
+        /// <summary>
+        /// double
+        /// </summary>
         public static readonly Guid Float = new Guid("26D85D13-F9E9-4DFB-A093-E5650F396DE3");
 
+        /// <summary>
+        /// Sort of like 'object' in the .NET framework.
+        /// </summary>
         public static readonly Guid Any = new Guid("17CA2480-3594-4885-BD58-BA5BD8D35493");
 
         public static readonly Guid String = new Guid("857D766D-6090-41AC-BEDF-65AAC184B726");
@@ -30,5 +36,20 @@ namespace CaptiveAire.VPL
         public static readonly Guid Single = new Guid("565F75D8-F654-4B28-86FE-440A62B21CA2");
 
         public static readonly Guid DateTime = new Guid("42679804-015E-4F04-AC2B-8A97CF548E04");
+
+        /// <summary>
+        /// ulong
+        /// </summary>
+        public static readonly Guid UInt64 = new Guid("03789DB3-6F4F-4549-ACCE-E8AFF1048910");
+
+        /// <summary>
+        /// long
+        /// </summary>
+        public static readonly Guid Int64 = new Guid("F368712F-08B6-4265-9137-6E2E5C4C6545");
+
+        /// <summary>
+        /// decimal
+        /// </summary>
+        public static readonly Guid Decimal = new Guid("B4E7081E-D9F6-4F76-9F49-18B0C68A5FF8");
     }
 }
