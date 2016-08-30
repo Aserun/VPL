@@ -79,7 +79,9 @@ namespace CaptiveAire.VPL.Plugins
                 new ElementFactory(PluginElementIds.BinaryMathOperator, CategoryNames.Math, "+", context => new BinaryMathOperator(context, BinaryMathOperator.BinaryOperatorType.Addition), typeof(BinaryMathOperator), VplTypeId.Float, description: "Addition"),
                 new ElementFactory(PluginElementIds.BinaryMathOperator, CategoryNames.Math, "-", context => new BinaryMathOperator(context, BinaryMathOperator.BinaryOperatorType.Subtraction), typeof(BinaryMathOperator), VplTypeId.Float, description: "Subtraction"),
                 new ElementFactory(PluginElementIds.BinaryMathOperator, CategoryNames.Math, "*", context => new BinaryMathOperator(context, BinaryMathOperator.BinaryOperatorType.Multiplication), typeof(BinaryMathOperator), VplTypeId.Float, description: "Multiplication"),
-                new ElementFactory(PluginElementIds.BinaryMathOperator, CategoryNames.Math, "/", context => new BinaryMathOperator(context, BinaryMathOperator.BinaryOperatorType.Division), typeof(BinaryMathOperator), VplTypeId.Float, description: "Division")
+                new ElementFactory(PluginElementIds.BinaryMathOperator, CategoryNames.Math, "/", context => new BinaryMathOperator(context, BinaryMathOperator.BinaryOperatorType.Division), typeof(BinaryMathOperator), VplTypeId.Float, description: "Division"),
+                new ElementFactory(PluginElementIds.BinaryMathOperator, CategoryNames.Math, ">>", context => new BinaryMathOperator(context, BinaryMathOperator.BinaryOperatorType.ShiftRight), typeof(BinaryMathOperator), VplTypeId.Int, description: "Shift right"),
+                new ElementFactory(PluginElementIds.BinaryMathOperator, CategoryNames.Math, "<<", context => new BinaryMathOperator(context, BinaryMathOperator.BinaryOperatorType.ShiftLeft), typeof(BinaryMathOperator), VplTypeId.Int, description: "Shift left")
             };
 
             return new VplPlugin("Math", factories);

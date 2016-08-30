@@ -80,8 +80,8 @@ namespace CaptiveAire.VPL.Plugins.Comparison
 
         protected override async Task<object> EvaluateCoreAsync(IExecutionContext executionContext, CancellationToken cancellationToken)
         {
-            var a = (double)await ParameterA.EvaluateAsync(executionContext, cancellationToken);
-            var b = (double)await ParameterB.EvaluateAsync(executionContext, cancellationToken);
+            dynamic a = await ParameterA.EvaluateAsync(executionContext, cancellationToken);
+            dynamic b = await ParameterB.EvaluateAsync(executionContext, cancellationToken);
 
             return _service.Evaluate(a, b);
         }
@@ -90,10 +90,10 @@ namespace CaptiveAire.VPL.Plugins.Comparison
         {
             private readonly ComparisonOperatorType _comparisonType;
             private readonly string _text;
-            private readonly Func<double, double, bool> _func;
+            private readonly Func<dynamic, dynamic, bool> _func;
 
             internal ComparisonOperatorService(ComparisonOperatorType comparisonType, string text,
-                Func<double, double, bool> func)
+                Func<dynamic, dynamic, bool> func)
             {
                 if (func == null) throw new ArgumentNullException(nameof(func));
 
@@ -112,7 +112,7 @@ namespace CaptiveAire.VPL.Plugins.Comparison
                 get { return _text; }
             }
 
-            public bool Evaluate(double a, double b)
+            public bool Evaluate(dynamic a, dynamic b)
             {
                 return _func(a, b);
             }

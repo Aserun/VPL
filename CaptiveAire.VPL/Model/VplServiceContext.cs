@@ -32,7 +32,7 @@ namespace CaptiveAire.VPL.Model
             {
                 new VplType(VplTypeId.Boolean, "Boolean", () => new BooleanValueCheckBoxView(), false, typeof(bool)),
                 new VplType(VplTypeId.Float, "Float", () => new DoubleValueView(), 0.0, typeof(double)),
-                new VplType(VplTypeId.Any, "Any", () => new AnyValueView(), null, typeof(object)),
+                new VplType(VplTypeId.Any, "Any", () => new TextValueView(), null, typeof(object)),
                 new VplType(VplTypeId.String, "String", () => new TextValueView(), "", typeof(string)),
                 new VplType(VplTypeId.Int, "Int", () => new Int32ValueView(), 0, typeof(int)),
                 new VplType(VplTypeId.Byte, "Byte", () => new ByteValueView(), (byte)0, typeof(byte)),
