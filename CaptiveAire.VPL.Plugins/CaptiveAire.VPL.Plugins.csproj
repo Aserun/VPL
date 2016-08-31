@@ -89,7 +89,7 @@
     </Compile>
     <Compile Include="Functions\EvaluateFunctionOperator.cs" />
     <Compile Include="Logical\BinaryLogicalOperator.cs" />
-    <Compile Include="Math\BinaryMathOperator.cs" />
+    <Compile Include="Math\BinaryOperator.cs" />
     <Compile Include="Comparison\ComparisonOperator.cs" />
     <Compile Include="Logical\NotOperator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -101,6 +101,16 @@
     <Compile Include="Control\WhileStatement.cs" />
     <Compile Include="PluginElementIds.cs" />
     <Compile Include="SystemPluginFactory.cs" />
+    <Compile Include="Trig\Acos.cs" />
+    <Compile Include="Trig\Asin.cs" />
+    <Compile Include="Trig\Atan.cs" />
+    <Compile Include="Trig\Cos.cs" />
+    <Compile Include="Trig\Cosh.cs" />
+    <Compile Include="Trig\Sin.cs" />
+    <Compile Include="Trig\Sinh.cs" />
+    <Compile Include="Trig\Tan.cs" />
+    <Compile Include="Trig\Tanh.cs" />
+    <Compile Include="UnaryFloatOperator.cs" />
     <Compile Include="ViewModel\FunctionSelectionDialogViewModel.cs" />
     <Compile Include="Annotations\AnnotationView.xaml.cs">
       <DependentUpon>AnnotationView.xaml</DependentUpon>

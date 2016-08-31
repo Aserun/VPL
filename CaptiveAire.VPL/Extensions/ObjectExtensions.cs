@@ -16,6 +16,17 @@ namespace CaptiveAire.VPL.Extensions
             return Convert.ChangeType(value, targetType);
         }
 
+        public static T GetConvertedValue<T>(this object value)
+        {
+            if (value == null)
+                return default(T);
+
+            if (value.GetType() == typeof(T))
+                return (T)value;
+
+            return (T)Convert.ChangeType(value, typeof (T));
+        }
+
         public static T Clone<T>(this T source)
         {
             var json = JsonConvert.SerializeObject(source);

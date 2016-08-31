@@ -15,5 +15,7 @@
         public const string Date = "Date";
 
         public const string Converion = "Conversion";
+
+        public const string Trig = "Trig";
     }
 }

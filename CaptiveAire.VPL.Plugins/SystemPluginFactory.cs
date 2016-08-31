@@ -8,6 +8,7 @@ using CaptiveAire.VPL.Plugins.Date;
 using CaptiveAire.VPL.Plugins.Functions;
 using CaptiveAire.VPL.Plugins.Logical;
 using CaptiveAire.VPL.Plugins.Math;
+using CaptiveAire.VPL.Plugins.Trig;
 
 namespace CaptiveAire.VPL.Plugins
 {
@@ -76,12 +77,15 @@ namespace CaptiveAire.VPL.Plugins
         {
             var factories = new IElementFactory[]
             {
-                new ElementFactory(PluginElementIds.BinaryMathOperator, CategoryNames.Math, "+", context => new BinaryMathOperator(context, BinaryMathOperator.BinaryOperatorType.Addition), typeof(BinaryMathOperator), VplTypeId.Float, description: "Addition"),
-                new ElementFactory(PluginElementIds.BinaryMathOperator, CategoryNames.Math, "-", context => new BinaryMathOperator(context, BinaryMathOperator.BinaryOperatorType.Subtraction), typeof(BinaryMathOperator), VplTypeId.Float, description: "Subtraction"),
-                new ElementFactory(PluginElementIds.BinaryMathOperator, CategoryNames.Math, "*", context => new BinaryMathOperator(context, BinaryMathOperator.BinaryOperatorType.Multiplication), typeof(BinaryMathOperator), VplTypeId.Float, description: "Multiplication"),
-                new ElementFactory(PluginElementIds.BinaryMathOperator, CategoryNames.Math, "/", context => new BinaryMathOperator(context, BinaryMathOperator.BinaryOperatorType.Division), typeof(BinaryMathOperator), VplTypeId.Float, description: "Division"),
-                new ElementFactory(PluginElementIds.BinaryMathOperator, CategoryNames.Math, ">>", context => new BinaryMathOperator(context, BinaryMathOperator.BinaryOperatorType.ShiftRight), typeof(BinaryMathOperator), VplTypeId.Int, description: "Shift right"),
-                new ElementFactory(PluginElementIds.BinaryMathOperator, CategoryNames.Math, "<<", context => new BinaryMathOperator(context, BinaryMathOperator.BinaryOperatorType.ShiftLeft), typeof(BinaryMathOperator), VplTypeId.Int, description: "Shift left")
+                new ElementFactory(PluginElementIds.BinaryMathOperator, CategoryNames.Math, "+", context => new BinaryOperator(context, BinaryOperator.BinaryOperatorType.Addition), typeof(BinaryOperator), VplTypeId.Float, description: "Addition"),
+                new ElementFactory(PluginElementIds.BinaryMathOperator, CategoryNames.Math, "-", context => new BinaryOperator(context, BinaryOperator.BinaryOperatorType.Subtraction), typeof(BinaryOperator), VplTypeId.Float, description: "Subtraction"),
+                new ElementFactory(PluginElementIds.BinaryMathOperator, CategoryNames.Math, "*", context => new BinaryOperator(context, BinaryOperator.BinaryOperatorType.Multiplication), typeof(BinaryOperator), VplTypeId.Float, description: "Multiplication"),
+                new ElementFactory(PluginElementIds.BinaryMathOperator, CategoryNames.Math, "/", context => new BinaryOperator(context, BinaryOperator.BinaryOperatorType.Division), typeof(BinaryOperator), VplTypeId.Float, description: "Division"),
+                new ElementFactory(PluginElementIds.BinaryMathOperator, CategoryNames.Math, ">>", context => new BinaryOperator(context, BinaryOperator.BinaryOperatorType.ShiftRight), typeof(BinaryOperator), VplTypeId.Int, description: "Shift right"),
+                new ElementFactory(PluginElementIds.BinaryMathOperator, CategoryNames.Math, "<<", context => new BinaryOperator(context, BinaryOperator.BinaryOperatorType.ShiftLeft), typeof(BinaryOperator), VplTypeId.Int, description: "Shift left"),
+                new ElementFactory(PluginElementIds.BinaryMathOperator, CategoryNames.Math, "&", context => new BinaryOperator(context, BinaryOperator.BinaryOperatorType.BitwiseAnd), typeof(BinaryOperator), VplTypeId.Int, description: "Bitwise and"),
+                new ElementFactory(PluginElementIds.BinaryMathOperator, CategoryNames.Math, "|", context => new BinaryOperator(context, BinaryOperator.BinaryOperatorType.BitwiseOr), typeof(BinaryOperator), VplTypeId.Int, description: "Bitwise or"),
+                new ElementFactory(PluginElementIds.BinaryMathOperator, CategoryNames.Math, "%", context => new BinaryOperator(context, BinaryOperator.BinaryOperatorType.Modulus), typeof(BinaryOperator), VplTypeId.Int, description: "Modulus"),
             };
 
             return new VplPlugin("Math", factories);
@@ -116,7 +120,7 @@ namespace CaptiveAire.VPL.Plugins
             var factories = new IElementFactory[]
             {
                 new ElementFactory(PluginElementIds.Comment, CategoryNames.Annotation, "Comment", context => new CommentStatement(context), typeof(CommentStatement), description: "An inline comment."),
-                new ElementFactory(PluginElementIds.Annotation, CategoryNames.Annotation, "Annotation", context => new Annotation(context), typeof(Annotation), description: "A free floating comment."), 
+                new ElementFactory(PluginElementIds.Annotation, CategoryNames.Annotation, "Annotation", context => new Annotation(context), typeof(Annotation), description: "A free floating comment.", showInToolbox: false), 
             };
 
             return new VplPlugin("Annotations", factories, resources);
@@ -148,6 +152,24 @@ namespace CaptiveAire.VPL.Plugins
             return new VplPlugin("Conversion", factories);
         }
 
+        public static IVplPlugin CreateTrigPlugin()
+        {
+            var factories = new IElementFactory[]
+            {
+                new ElementFactory(PluginElementIds.Acos, CategoryNames.Trig, "Acos", context => new UnaryFloatOperator(context, System.Math.Acos, "Acos"), typeof(UnaryFloatOperator), VplTypeId.Float, description: "Returns the angle whose cosine is the specified number."),
+                new ElementFactory(PluginElementIds.Asin, CategoryNames.Trig, "Asin", context => new UnaryFloatOperator(context, System.Math.Asin, "Asin"), typeof(UnaryFloatOperator), VplTypeId.Float, description: "Returns the angle whose sine is the specified number."),
+                new ElementFactory(PluginElementIds.Atan, CategoryNames.Trig, "Atan", context => new UnaryFloatOperator(context, System.Math.Atan, "Atan"), typeof(UnaryFloatOperator), VplTypeId.Float, description: "Returns the angle whose tangent is the specified number."),
+                new ElementFactory(PluginElementIds.Cos, CategoryNames.Trig, "Cos", context => new UnaryFloatOperator(context, System.Math.Cos, "Cos"), typeof(UnaryFloatOperator), VplTypeId.Float, description: "Returns the cosine of the specified angle."),
+                new ElementFactory(PluginElementIds.Cosh, CategoryNames.Trig, "Cosh", context => new UnaryFloatOperator(context, System.Math.Cosh, "Cosh"), typeof(UnaryFloatOperator), VplTypeId.Float, description: "Returns the hyperbolic cosine of the specified angle."),
+                new ElementFactory(PluginElementIds.Sin, CategoryNames.Trig, "Sin", context => new UnaryFloatOperator(context, System.Math.Sin, "Sin"), typeof(UnaryFloatOperator), VplTypeId.Float, description: "Returns the sine of the specified angle."),
+                new ElementFactory(PluginElementIds.Sinh, CategoryNames.Trig, "Sinh", context => new UnaryFloatOperator(context, System.Math.Sinh, "Sinh"), typeof(UnaryFloatOperator), VplTypeId.Float, description: "Returns the hyperbolic sine of the specified angle."),
+                new ElementFactory(PluginElementIds.Tan, CategoryNames.Trig, "Tan", context => new UnaryFloatOperator(context, System.Math.Tan, "Tan"), typeof(UnaryFloatOperator), VplTypeId.Float, description: "Returns the tangent of the specified angle."),
+                new ElementFactory(PluginElementIds.Tanh, CategoryNames.Trig, "Tanh", context => new UnaryFloatOperator(context, System.Math.Tanh, "Tanh"), typeof(UnaryFloatOperator), VplTypeId.Float, description: "Returns the hyperbolic tangent of the specified angle."),
+            };
+
+            return new VplPlugin("Trig", factories);
+        }
+
         /// <summary>
         /// Creates all System Plugins.
         /// </summary>
@@ -163,7 +185,8 @@ namespace CaptiveAire.VPL.Plugins
                 CreateFunctionsPlugin(),
                 CreateAnnotationPlugin(),
                 CreateDatePlugin(),
-                CreateConversionPlugin()
+                CreateConversionPlugin(),
+                CreateTrigPlugin()
             };
         }
 
