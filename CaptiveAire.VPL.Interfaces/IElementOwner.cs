@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace CaptiveAire.VPL.Interfaces
 {
@@ -7,6 +8,11 @@ namespace CaptiveAire.VPL.Interfaces
     /// </summary>
     public interface IElementOwner : IUndoProvider
     {
+        /// <summary>
+        /// Effectively, the id of the function.
+        /// </summary>
+        Guid Id { get; }
+
         /// <summary>
         /// Add a root level element.
         /// </summary>

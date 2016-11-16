@@ -10,6 +10,7 @@ namespace CaptiveAire.VPL
     [Serializable]
     public class ElementClipboardData : IElementClipboardData
     {
+        private readonly Guid? _sourceFunctionId;
         private readonly IClipboardDataItem[] _items;
 
         public ElementClipboardData(IElementFactory elementFactory)
@@ -22,6 +23,9 @@ namespace CaptiveAire.VPL
 
         public ElementClipboardData(IEnumerable<IElement> elements)
         {
+            _sourceFunctionId = elements
+                .FirstOrDefault()?.Owner?.Id;
+           
             _items = elements
                 .Select(e => (IClipboardDataItem)new ElementClipboardDataItem(e.Factory, e.ToMetadata()))
                 .ToArray();
@@ -37,6 +41,11 @@ namespace CaptiveAire.VPL
         public IClipboardDataItem[] Items
         {
             get { return _items; }
+        }
+
+        public Guid? SourceFunctionId
+        {
+            get { return _sourceFunctionId; }
         }
     }
 }

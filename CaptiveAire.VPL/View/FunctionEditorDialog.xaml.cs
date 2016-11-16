@@ -96,7 +96,14 @@ namespace CaptiveAire.VPL.View
                     }
                 }
 
-                if ((e.AllowedEffects & DragDropEffects.Move) == DragDropEffects.Move)
+                if (((e.AllowedEffects & DragDropEffects.Move) == DragDropEffects.Move) &&
+                    ((e.AllowedEffects & DragDropEffects.Copy) == DragDropEffects.Copy) &&
+                    data.SourceFunctionId.HasValue &&
+                    data.SourceFunctionId.Value != editor.Function.Id)
+                {
+                    e.Effects = DragDropEffects.Copy;
+                }
+                else if ((e.AllowedEffects & DragDropEffects.Move) == DragDropEffects.Move)
                 {
                     e.Effects = DragDropEffects.Move;
                 }

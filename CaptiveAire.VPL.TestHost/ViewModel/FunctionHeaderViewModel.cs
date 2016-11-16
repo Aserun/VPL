@@ -67,7 +67,7 @@ namespace CaptiveAire.VPL.TestHost.ViewModel
                     _metadata = m;
                     RaisePropertyChanged(() => Name);
                     
-                });
+                }, false);
             }
             catch (Exception ex)
             {

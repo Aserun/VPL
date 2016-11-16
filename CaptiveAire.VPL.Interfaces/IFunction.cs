@@ -6,7 +6,7 @@ namespace CaptiveAire.VPL.Interfaces
 {
     public interface IFunction : IElementOwner, IErrorSource
     {
-        Guid Id { get; }
+        
 
         string Name { get; set; }
 
