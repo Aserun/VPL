@@ -138,7 +138,7 @@ namespace CaptiveAire.VPL.Plugins.Control
                 //Get the parameter (if it's there)
                 var parameter = block.Parameters.FirstOrDefault();
 
-                if (parameter == null || (bool) await parameter.EvaluateAsync(executionContext, cancellationToken))
+                if (parameter == null || (await parameter.EvaluateAsync(executionContext, cancellationToken)).GetConvertedValue<bool>())
                 {
                     await block.ExecuteAsync(executionContext, cancellationToken);
 
