@@ -15,8 +15,9 @@ namespace CaptiveAire.VPL.Interfaces
         /// <param name="metadata"></param>
         /// <param name="saveAction"></param>
         /// <param name="modal"></param>
+        /// <param name="displayName">Optional display name of the function.</param>
         /// <returns></returns>
-        void EditFunction(FunctionMetadata metadata, Action<FunctionMetadata> saveAction, bool modal = true);
+        void EditFunction(FunctionMetadata metadata, Action<FunctionMetadata> saveAction, bool modal = true, string displayName = null);
 
         /// <summary>
         /// Gets all of the types from the system and plugins.

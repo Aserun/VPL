@@ -18,13 +18,13 @@ namespace CaptiveAire.VPL
             _serviceContext = new VplServiceContext(plugins);
         }
 
-        public void EditFunction(FunctionMetadata metadata, Action<FunctionMetadata> saveAction, bool modal)
+        public void EditFunction(FunctionMetadata metadata, Action<FunctionMetadata> saveAction, bool modal, string displayName)
         {
             //Create the function view model
             var function = CreateRuntimeFunctionInner(metadata);
           
             //Create the editor view model
-            var editorViewModel = new FunctionEditorDialogViewModel(_serviceContext, function, saveAction, new TextEditService());
+            var editorViewModel = new FunctionEditorDialogViewModel(_serviceContext, function, saveAction, new TextEditService(), displayName);
 
             //Create the view
             var view = new FunctionEditorDialog(_serviceContext.CustomResources)
