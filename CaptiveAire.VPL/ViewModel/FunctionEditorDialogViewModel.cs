@@ -30,6 +30,7 @@ namespace CaptiveAire.VPL.ViewModel
         private readonly IMessageBoxService _messageBoxService = new MessageBoxService();
         private ErrorViewModel[] _errors;
         private double _scale = 1;
+        private bool _isErrorsExpanded;
 
         public FunctionEditorDialogViewModel(IVplServiceContext context, Function function, Action<FunctionMetadata> saveAction, ITextEditService textEditService, string displayName)
         {
@@ -104,6 +105,8 @@ namespace CaptiveAire.VPL.ViewModel
                 Errors = errors
                     .Select(e => new ErrorViewModel(e))
                     .ToArray();
+
+                IsErrorsExpanded = true;
             }
         }
 
@@ -404,6 +407,16 @@ namespace CaptiveAire.VPL.ViewModel
         public FunctionMetadata GetMetadata()
         {
             return _function.ToMetadata();
+        }
+
+        public bool IsErrorsExpanded
+        {
+            get { return _isErrorsExpanded; }
+            set
+            {
+                _isErrorsExpanded = value; 
+                RaisePropertyChanged();
+            }
         }
 
         public bool CanClose()
