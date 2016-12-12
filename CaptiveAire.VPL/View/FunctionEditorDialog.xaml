@@ -183,7 +183,7 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="4"/>
-                            <RowDefinition Height="200"/>
+                            <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
 
                         <Grid PreviewMouseWheel="ScaleOnPreviewMouseWheel">
@@ -233,33 +233,30 @@
                         
                         </Grid>
 
-                        <GridSplitter Background="DarkGray" Grid.Row="1" ResizeBehavior="PreviousAndNext" ResizeDirection="Rows" HorizontalAlignment="Stretch"/>
+                        <!--<GridSplitter Background="DarkGray" Grid.Row="1" ResizeBehavior="PreviousAndNext" ResizeDirection="Rows" HorizontalAlignment="Stretch"/>-->
                         
-                        <Grid Grid.Row="2">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="*" />
-                            </Grid.RowDefinitions>
-                        </Grid>
-                        
-                        <Grid Grid.Row="3">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>    
+                     
+                        <Expander Grid.Row="2" IsExpanded="{Binding Path=IsErrorsExpanded}" Header="Errors">
+
+                            <Grid Height="120">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>    
                             
-                            <Rectangle Grid.Row="0" Fill="CornflowerBlue"/>
-                            <TextBlock Grid.Row="0" Style="{StaticResource HeaderTextBlock}">Errors</TextBlock>
+                                <!--<Rectangle Grid.Row="0" Fill="CornflowerBlue"/>
+                                <TextBlock Grid.Row="0" Style="{StaticResource HeaderTextBlock}">Errors</TextBlock>-->
                             
-                            <DataGrid Grid.Row="1" ItemsSource="{Binding Path=Errors}" AutoGenerateColumns="False">
-                                <DataGrid.Columns>
-                                    <DataGridTextColumn Header="Level" Binding="{Binding Path=Level}" MinWidth="100" />
-                                    <DataGridTextColumn Header="Message" Binding="{Binding Path=Message}" MinWidth="800"/>
-                                </DataGrid.Columns>
-                            </DataGrid>
+                                <DataGrid Grid.Row="1" ItemsSource="{Binding Path=Errors}" AutoGenerateColumns="False">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="Level" Binding="{Binding Path=Level}" MinWidth="100" />
+                                        <DataGridTextColumn Header="Message" Binding="{Binding Path=Message}" MinWidth="800"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
                             
-                        </Grid>
-                        
+                            </Grid>
+
+                        </Expander>
 
                     </Grid>
 
