@@ -31,7 +31,7 @@ namespace CaptiveAire.VPL.ViewModel
                 function.AddVariable(variable1);
                 function.AddVariable(variable2);
 
-                return new FunctionEditorDialogViewModel(context, function, m => { }, new TextEditService());
+                return new FunctionEditorDialogViewModel(context, function, m => { }, new TextEditService(), "Design time!");
             }
         }
     }

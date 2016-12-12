@@ -87,6 +87,7 @@
     <Compile Include="Functions\CallFunctionView.xaml.cs">
       <DependentUpon>CallFunctionView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Functions\DefaultFunctionSelector.cs" />
     <Compile Include="Functions\EvaluateFunctionOperator.cs" />
     <Compile Include="Logical\BinaryLogicalOperator.cs" />
     <Compile Include="Math\BinaryOperator.cs" />

@@ -23,6 +23,7 @@ namespace CaptiveAire.VPL.ViewModel
         private readonly Function _function;
         private readonly Action<FunctionMetadata> _saveAction;
         private readonly ITextEditService _textEditService;
+        private readonly string _displayName;
         private CancellationTokenSource _cts;
         private readonly ToolsViewModel<IElementFactory> _tools;
         private IVplType _selectedType;
@@ -30,7 +31,7 @@ namespace CaptiveAire.VPL.ViewModel
         private ErrorViewModel[] _errors;
         private double _scale = 1;
 
-        public FunctionEditorDialogViewModel(IVplServiceContext context, Function function, Action<FunctionMetadata> saveAction, ITextEditService textEditService)
+        public FunctionEditorDialogViewModel(IVplServiceContext context, Function function, Action<FunctionMetadata> saveAction, ITextEditService textEditService, string displayName)
         {
             if (context == null) throw new ArgumentNullException(nameof(context));
             if (function == null) throw new ArgumentNullException(nameof(function));
@@ -41,6 +42,7 @@ namespace CaptiveAire.VPL.ViewModel
             _function = function;
             _saveAction = saveAction;
             _textEditService = textEditService;
+            _displayName = displayName;
 
             //Commands
             RunCommand = new RelayCommand(Run, CanRun);
@@ -264,9 +266,20 @@ namespace CaptiveAire.VPL.ViewModel
             get { return _tools; }
         }
 
+        private string DisplayName
+        {
+            get
+            {
+                if (!string.IsNullOrWhiteSpace(_displayName))
+                    return _displayName;
+
+                return Function.Name;
+            }
+        }
+
         public string Title
         {
-            get { return $"Function - {Function.Name}"; }
+            get { return $"Function - {DisplayName}"; }
         }
 
         private void Cancel()

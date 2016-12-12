@@ -97,30 +97,18 @@ namespace CaptiveAire.VPL.Plugins.Functions
 
         private void SelectFunction()
         {
-            var functionService = _owner.GetService<IFunctionService>();
+            var functionSelector = _owner.GetService<IFunctionSelector>();
 
-            if (functionService == null)
+            if (functionSelector == null)
             {
-                var messageBoxService = new MessageBoxService();
-
-                messageBoxService.Show("No function service was provided.");
-
-                return;
+                functionSelector = new DefaultFunctionSelector(_owner);
             }
 
-            var functions = functionService.GetFunctions();
+            var selectedFunction = functionSelector.SelectFunction(_model.FunctionId);
 
-            var viewModel = new FunctionSelectionDialogViewModel(functions, _model.FunctionId);
-
-            var view = new FunctionSelectionDialogView()
+            if (selectedFunction != null)
             {
-                DataContext = viewModel,
-                Owner = WindowUtil.GetActiveWindow()
-            };
-
-            if (view.ShowDialog() == true)
-            {
-                SelectFunction(viewModel.SelectedFunction);
+                SelectFunction(selectedFunction);
                 _owner.MarkDirty();
             }
         }
