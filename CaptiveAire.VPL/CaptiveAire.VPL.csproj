@@ -43,8 +43,8 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Cas.Common.WPF, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Cas.Common.WPF.1.0.36\lib\net45\Cas.Common.WPF.dll</HintPath>
+    <Reference Include="Cas.Common.WPF, Version=1.0.38.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Cas.Common.WPF.1.0.38\lib\net45\Cas.Common.WPF.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="GalaSoft.MvvmLight, Version=5.3.0.19026, Culture=neutral, PublicKeyToken=e7570ab207bcb616, processorArchitecture=MSIL">
@@ -412,6 +412,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Paste_16x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\SelectAll_16x.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -6,6 +6,8 @@
         xmlns:converters="clr-namespace:Cas.Common.WPF.Converters;assembly=Cas.Common.WPF"
         xmlns:viewModel1="clr-namespace:CaptiveAire.VPL.TestHost.ViewModel"
         xmlns:controls="clr-namespace:Cas.Common.WPF.Controls;assembly=Cas.Common.WPF"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:behaviors="clr-namespace:CaptiveAire.VPL.TestHost.Behaviors"
         mc:Ignorable="d"
         DataContext="{x:Static viewModel1:HostViewModelLocator.Main}"
         
@@ -39,7 +41,7 @@
             <Button Command="{Binding Path=DeleteCommand}" ToolTip="Delete function"><controls:AutoGreyableImage Width="16" Source="/CaptiveAire.VPL.TestHost;component/Images/Delete.gif"/></Button>
         </ToolBar>
         
-        <ListBox Grid.Row="2" ItemsSource="{Binding Path=Program.Functions}" DisplayMemberPath="Name" SelectedItem="{Binding Path=SelectedFunction}">
+        <ListBox Grid.Row="2" ItemsSource="{Binding Path=Program.Functions}" SelectedItem="{Binding Path=SelectedFunction}">
             
             <ListBox.ItemContainerStyle>
                 <Style TargetType="ListBoxItem">
@@ -54,6 +56,17 @@
                     </Setter>
                 </Style>
             </ListBox.ItemContainerStyle>
+            
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid Background="Transparent" IsHitTestVisible="True">
+                        <i:Interaction.Behaviors>
+                            <behaviors:FunctionDraggableBehavior/>
+                        </i:Interaction.Behaviors>
+                        <TextBlock Text="{Binding Path=Name}"></TextBlock>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
            
         </ListBox>
         

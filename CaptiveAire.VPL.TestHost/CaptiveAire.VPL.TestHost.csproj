@@ -36,8 +36,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Cas.Common.WPF, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Cas.Common.WPF.1.0.36\lib\net45\Cas.Common.WPF.dll</HintPath>
+    <Reference Include="Cas.Common.WPF, Version=1.0.38.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Cas.Common.WPF.1.0.38\lib\net45\Cas.Common.WPF.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="GalaSoft.MvvmLight, Version=5.3.0.19026, Culture=neutral, PublicKeyToken=e7570ab207bcb616, processorArchitecture=MSIL">
@@ -125,6 +125,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Behaviors\FunctionDraggableBehavior.cs" />
     <Compile Include="Metadata\RootMetadata.cs" />
     <Compile Include="Model\CustomElementTypeIds.cs" />
     <Compile Include="Model\HostPersistor.cs" />

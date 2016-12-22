@@ -7,6 +7,7 @@
              xmlns:converters="clr-namespace:Cas.Common.WPF.Converters;assembly=Cas.Common.WPF"
              xmlns:viewModel="clr-namespace:CaptiveAire.VPL.ViewModel"
              xmlns:vpl="clr-namespace:CaptiveAire.VPL"
+             xmlns:controls="clr-namespace:Cas.Common.WPF.Controls;assembly=Cas.Common.WPF"
              mc:Ignorable="d" 
              x:ClassModifier="internal"
              d:DataContext="{d:DesignInstance vpl:Parameter, d:IsDesignTimeCreatable=False}">
@@ -25,6 +26,7 @@
     </UserControl.Resources>
 
     <Grid Background="Transparent" IsHitTestVisible="True">
+        
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>

@@ -311,5 +311,17 @@ namespace CaptiveAire.VPL
                 RaisePropertyChanged();
             }
         }
+
+        public virtual ISelectable[] GetSiblings()
+        {
+            if (Parent == null)
+            {
+                return new ISelectable[] { this };
+            }
+
+            return Parent.GetChildren()
+                .Cast<ISelectable>()
+                .ToArray();
+        }
     }
 }
