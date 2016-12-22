@@ -12,19 +12,25 @@
         xmlns:wpf="clr-namespace:Cas.Common.WPF;assembly=Cas.Common.WPF"
         xmlns:converters1="clr-namespace:CaptiveAire.VPL.Converters"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:windows="clr-namespace:Cas.Common.WPF.Behaviors.Windows;assembly=Cas.Common.WPF"
         mc:Ignorable="d"
         Background="LightGray"
         x:ClassModifier="internal"
         x:Name="Root"
         d:DataContext="{x:Static viewModel:ViewModelLocator.FunctionEditorDialog}"
         Title="{Binding Path=Title}" Height="800" Width="1200" Icon="/CaptiveAire.VPL;component/Images/WindowIcon.png">
-    
+
+   
     <Window.InputBindings>
         <KeyBinding Key="F5" Command="{Binding Path=RunCommand}"/>
         <KeyBinding Key="Pause" Command="{Binding Path=StopCommand}"/>
         <KeyBinding Key="S" Modifiers="Control" Command="{Binding Path=SaveCommand}"/>
         <KeyBinding Key="Z" Modifiers="Control" Command="{Binding Path=Function.UndoCommand}"/>
         <KeyBinding Key="Y" Modifiers="Control" Command="{Binding Path=Function.RedoCommand}"/>
+        <KeyBinding Key="C" Modifiers="Control" Command="{Binding Path=Function.CopyCommand}"/>
+        <KeyBinding Key="X" Modifiers="Control" Command="{Binding Path=Function.CutCommand}"/>
+        <KeyBinding Key="V" Modifiers="Control" Command="{Binding Path=Function.PasteCommand}"/>
+        <KeyBinding Key="A" Modifiers="Control" Command="{Binding Path=Function.SelectAllCommand}"/>
     </Window.InputBindings>
     
     <Window.Resources>
@@ -47,6 +53,7 @@
     
     <i:Interaction.Behaviors>
         <behaviors:CloseableBehavior/>
+        <windows:WindowSettingsBehavior/>
     </i:Interaction.Behaviors>
 
     <Grid>
@@ -100,6 +107,26 @@
             <Button Command="{Binding Path=Function.RedoCommand}" ToolTip="Redo (Ctrol + Y)">
                 <controls:AutoGreyableImage Source="/CaptiveAire.VPL;component/Images/Redo_16x.png" />
             </Button>
+
+            <Separator/>
+            <Button Command="{Binding Path=Function.CopyCommand}" ToolTip="Copy (Ctrl + C)" >
+                <controls:AutoGreyableImage Source="/CaptiveAire.VPL;component/Images/CopyToClipboard_16x.png" />
+            </Button>
+
+            <Button Command="{Binding Path=Function.CutCommand}" ToolTip="Cut (Ctrl + V)" >
+                <controls:AutoGreyableImage Source="/CaptiveAire.VPL;component/Images/Cut_16x.png" />
+            </Button>
+            
+            <Button Command="{Binding Path=Function.PasteCommand}" ToolTip="Paste (Ctrl + P)" >
+                <controls:AutoGreyableImage Source="/CaptiveAire.VPL;component/Images/Paste_16x.png" />
+            </Button>
+            
+            <Separator/>
+
+            <Button Command="{Binding Path=Function.SelectAllCommand}" ToolTip="Select All (Ctrl + A)" >
+                <controls:AutoGreyableImage Source="/CaptiveAire.VPL;component/Images/SelectAll_16x.png" />
+            </Button>
+
         </ToolBar>
 
         <TabControl Grid.Row="1">

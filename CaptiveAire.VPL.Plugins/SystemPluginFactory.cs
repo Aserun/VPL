@@ -1,5 +1,7 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using CaptiveAire.VPL.Interfaces;
+using CaptiveAire.VPL.Metadata;
 using CaptiveAire.VPL.Plugins.Annotations;
 using CaptiveAire.VPL.Plugins.Comparison;
 using CaptiveAire.VPL.Plugins.Control;
@@ -9,6 +11,7 @@ using CaptiveAire.VPL.Plugins.Functions;
 using CaptiveAire.VPL.Plugins.Logical;
 using CaptiveAire.VPL.Plugins.Math;
 using CaptiveAire.VPL.Plugins.Trig;
+using Newtonsoft.Json;
 
 namespace CaptiveAire.VPL.Plugins
 {
@@ -104,6 +107,25 @@ namespace CaptiveAire.VPL.Plugins
             };
 
             return new VplPlugin("Functions", factories);
+        }
+
+        public static IElementClipboardData CreateFunctionCallClipboardData(Guid functionId)
+        {
+            var data = new CommonFunctionBehavior.CallFunctionData()
+            {
+                FunctionId = functionId
+            };
+
+            var elementMetadata = new ElementMetadata()
+            {
+                Data = JsonConvert.SerializeObject(data),
+                ElementTypeId = PluginElementIds.CallFunction
+            };
+
+            return new ElementClipboardData(new ElementMetadata[]
+            {
+                elementMetadata
+            });
         }
 
         /// <summary>

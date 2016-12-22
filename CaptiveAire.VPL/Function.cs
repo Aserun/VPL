@@ -48,10 +48,80 @@ namespace CaptiveAire.VPL
 
             UndoCommand = new RelayCommand(Undo, _undoService.CanUndo);
             RedoCommand = new RelayCommand(Redo, _undoService.CanRedo);
+            CopyCommand = new RelayCommand(Copy, CanCopy);
+            CutCommand = new RelayCommand(Cut, CanCut);
+            PasteCommand = new RelayCommand(Paste, CanPaste);
+            SelectAllCommand = new RelayCommand(SelectAll);
+            
         }
 
         public ICommand UndoCommand { get; }
         public ICommand RedoCommand { get; }
+        public ICommand CopyCommand { get; }
+        public ICommand CutCommand { get;  }
+        public ICommand PasteCommand { get; }
+        public ICommand SelectAllCommand { get; }
+
+        private void SelectAll()
+        {
+            SelectionService.SelectNone();
+
+            foreach (var element in Elements)
+            {
+                SelectionService.Select(element);
+            }
+        }
+
+        private void Copy()
+        {
+            //Get the elements
+            var elements = SelectionService.GetSelected()
+                .OfType<IElement>();
+
+            ClipboardUtility.Copy(elements);
+        }
+
+        private bool CanCopy()
+        {
+            return SelectionService.GetSelected().Any();
+        }
+
+        private void Cut()
+        {
+            //Get the elements
+            var elements = SelectionService.GetSelected()
+                .OfType<IElement>()
+                .ToArray();
+
+            ClipboardUtility.Copy(elements);
+
+            foreach (var element in elements)
+            {
+                element?.Parent.RemoveElement(element);
+            }
+
+            SelectionService.SelectNone();
+        }
+
+        private bool CanCut()
+        {
+            return SelectionService.GetSelected().Any();
+        }
+
+        private void Paste()
+        {
+            var data = ClipboardUtility.Paste();
+
+            if (data != null)
+            {
+                Drop(data, true);
+            }
+        }
+
+        private bool CanPaste()
+        {
+            return ClipboardUtility.CanPaste();
+        }
 
         private void Undo()
         {
@@ -223,6 +293,14 @@ namespace CaptiveAire.VPL
                 MarkDirty();
 
                 SaveUndoState();
+
+                //Make sure that the new items are selected.
+                SelectionService.SelectNone();
+
+                foreach (var selectable in elements)
+                {
+                    SelectionService.Select(selectable);
+                }
 
                 return true;
             }

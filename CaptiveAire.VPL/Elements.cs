@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using CaptiveAire.VPL.Extensions;
 using CaptiveAire.VPL.Interfaces;
 
@@ -68,6 +69,11 @@ namespace CaptiveAire.VPL
                     _owner.SaveUndoState();
                 }
             }
+        }
+
+        public IElement[] GetChildren()
+        {
+            return this.ToArray();
         }
     }
 }

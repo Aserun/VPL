@@ -9,5 +9,7 @@ namespace CaptiveAire.VPL.Interfaces
         bool CanDrop(IElementClipboardData data);
 
         void Drop(IElement element, IElementClipboardData data);
+
+        IElement[] GetChildren();
     }
 }

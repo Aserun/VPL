@@ -30,7 +30,6 @@ namespace CaptiveAire.VPL.Plugins.Functions
             if (parameters == null) throw new ArgumentNullException(nameof(parameters));
             if (parent == null) throw new ArgumentNullException(nameof(parent));
 
-
             _owner = context.Owner;
             _parameters = parameters;
             _text = text;
@@ -181,7 +180,7 @@ namespace CaptiveAire.VPL.Plugins.Functions
             get { return _text; }
         }
 
-        private class CallFunctionData
+        internal class CallFunctionData
         {
             public Guid FunctionId { get; set; }
         }

@@ -34,8 +34,8 @@
     <DocumentationFile>bin\Release\CaptiveAire.VPL.Interfaces.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Cas.Common.WPF, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Cas.Common.WPF.1.0.36\lib\net45\Cas.Common.WPF.dll</HintPath>
+    <Reference Include="Cas.Common.WPF, Version=1.0.38.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Cas.Common.WPF.1.0.38\lib\net45\Cas.Common.WPF.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="PresentationCore" />

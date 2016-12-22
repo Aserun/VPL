@@ -22,26 +22,96 @@ namespace CaptiveAire.VPL.Extensions
             if (selectable == null)
                 return;
 
-            //Determine if we're adding to the selection
-            var isAddingToSelection = Keyboard.Modifiers == ModifierKeys.Control ||
-                                        Keyboard.Modifiers == ModifierKeys.Shift;
-
-            //See if this item is aready selected
-            if (selectable.IsSelected)
+            switch (Keyboard.Modifiers)
             {
-                //It is selected. Unselect it.
-                selectionService.Unselect(selectable);
+                case ModifierKeys.Control:
+
+                    if (selectable.IsSelected)
+                    {
+                        selectionService.Unselect(selectable);
+                    }
+                    else
+                    {
+                        selectionService.Select(selectable);
+                    }
+
+                    break;
+
+                case ModifierKeys.Shift:
+
+                    selectionService.ShiftSelect(selectable);
+
+                    break;
+
+                case ModifierKeys.None:
+
+                    selectionService.SelectNone();
+                    selectionService.Select(selectable);
+
+                    break;
+            }
+
+        }
+
+        private static void ShiftSelect(this ISelectionService selectionService, ISelectable selectable)
+        {
+            var siblings = selectable.GetSiblings();
+
+            //See if there are any non sibinglings that need to be 
+            var nonSiblingSelected = selectionService.GetSelected()
+                .Where(s => !siblings.Contains(s))
+                .ToArray();
+
+            foreach (var toUnselect in nonSiblingSelected)
+            {
+                selectionService.Unselect(toUnselect);
+            }
+
+            //Now, only existing siblings should be selected
+            var selected = selectionService.GetSelected();
+
+            //If there are none selected, then select all of the sibings up to this one
+            if (!selected.Any())
+            {
+                foreach (var sibling in siblings)
+                {
+                    selectionService.Select(sibling);
+
+                    if (sibling == selectable)
+                        break;
+                }
             }
             else
             {
-                //Unless we're adding to the selection, unselect everything.
-                if (!isAddingToSelection)
-                {
-                    selectionService.SelectNone();
-                }
+                //Do a range selection
+                selectionService.SelectBetween(siblings, selectable, selected.LastOrDefault());            
+            }
+        }
 
-                //Select the current item.
-                selectionService.Select(selectable);
+        private static void SelectBetween(this ISelectionService selectionService, 
+            ISelectable[] siblings, 
+            ISelectable start, 
+            ISelectable end)
+        {
+            //Select nothing
+            selectionService.SelectNone();
+
+            //Determine the start and stop
+            var startIndex = siblings.IndexOf(s => s == start);
+            var endIndex = siblings.IndexOf(s => s == end);
+
+            //If for some reason the siblings weren't found, bail
+            if (startIndex == null || endIndex == null)
+                return;
+
+            //Always start from the "first" sibling
+            var effectiveStart = Math.Min(startIndex.Value, endIndex.Value);
+            var effectiveEnd = Math.Max(startIndex.Value, endIndex.Value);
+
+            //Mark them all as selected.
+            for (int index = effectiveStart; index <= effectiveEnd; index++)
+            {
+                selectionService.Select(siblings[index]);        
             }
         }
 
@@ -62,6 +132,11 @@ namespace CaptiveAire.VPL.Extensions
                 return;
 
             selectionService.SelectWithKeyboardModifiers(selectable);
+
+            if (!selectable.IsSelected)
+            {
+                selectionService.Select(selectable);
+            }
         }
 
         public static void DragSelected(this ISelectionService selectionService, DependencyObject dragSource)
@@ -89,16 +164,16 @@ namespace CaptiveAire.VPL.Extensions
 
             if ((result & DragDropEffects.Move) == DragDropEffects.Move)
             {
+                //Unselect these - they're going away.
+                selectionService.SelectNone();
+
                 //Remove the originals from their spots
                 foreach (var element in elements)
                 {
                     //Remove the element from where it came from 
                     element.Parent?.RemoveElement(element);
                 }
-            }
-
-            //Probably redundant, but we'll do it anyway.
-            elements[0].Owner.MarkDirty();
+            }           
         }
 
         public static void CopySelected(this ISelectionService selectionService)
