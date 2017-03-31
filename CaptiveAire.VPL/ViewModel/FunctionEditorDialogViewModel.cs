@@ -13,17 +13,17 @@ using Cas.Common.WPF.Behaviors;
 using Cas.Common.WPF.Interfaces;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
-using Newtonsoft.Json;
 
 namespace CaptiveAire.VPL.ViewModel
 {
-    internal class FunctionEditorDialogViewModel : ViewModelBase, ICloseableViewModel
+    internal class FunctionEditorDialogViewModel : ViewModelBase, IFunctionEditorDialogViewModel
     {
         private readonly IVplServiceContext _context;
         private readonly Function _function;
         private readonly Action<FunctionMetadata> _saveAction;
         private readonly ITextEditService _textEditService;
         private readonly string _displayName;
+        private readonly IFunctionEditorManager _functionEditorManager;
         private CancellationTokenSource _cts;
         private readonly ToolsViewModel<IElementFactory> _tools;
         private IVplType _selectedType;
@@ -32,18 +32,20 @@ namespace CaptiveAire.VPL.ViewModel
         private double _scale = 1;
         private bool _isErrorsExpanded;
 
-        public FunctionEditorDialogViewModel(IVplServiceContext context, Function function, Action<FunctionMetadata> saveAction, ITextEditService textEditService, string displayName)
+        public FunctionEditorDialogViewModel(IVplServiceContext context, Function function, Action<FunctionMetadata> saveAction, ITextEditService textEditService, string displayName, IFunctionEditorManager functionEditorManager)
         {
             if (context == null) throw new ArgumentNullException(nameof(context));
             if (function == null) throw new ArgumentNullException(nameof(function));
             if (saveAction == null) throw new ArgumentNullException(nameof(saveAction));
             if (textEditService == null) throw new ArgumentNullException(nameof(textEditService));
+            if (functionEditorManager == null) throw new ArgumentNullException(nameof(functionEditorManager));
 
             _context = context;
             _function = function;
             _saveAction = saveAction;
             _textEditService = textEditService;
             _displayName = displayName;
+            _functionEditorManager = functionEditorManager;
 
             //Commands
             RunCommand = new RelayCommand(Run, CanRun);
@@ -68,6 +70,8 @@ namespace CaptiveAire.VPL.ViewModel
 
             //Save the initial state
             function.SaveUndoState();
+
+            _functionEditorManager.Register(this);
         }
 
         private void Function_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -419,6 +423,8 @@ namespace CaptiveAire.VPL.ViewModel
             }
         }
 
+        #region ICloseable
+
         public bool CanClose()
         {
             if (_cts != null)
@@ -432,8 +438,22 @@ namespace CaptiveAire.VPL.ViewModel
 
         public void Closed()
         {
+            _functionEditorManager.Unregister(this);
         }
 
+        #endregion
+
         public event EventHandler<CloseEventArgs> Close;
+
+        #region IActivateable
+
+        public event EventHandler Activated;
+
+        public void Activate()
+        {
+            Activated?.Invoke(this, EventArgs.Empty);
+        }
+
+        #endregion
     }
 }

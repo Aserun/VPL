@@ -22,5 +22,11 @@ namespace CaptiveAire.VPL.Interfaces
         /// <param name="id"></param>
         /// <returns></returns>
         FunctionMetadata GetFunction(Guid id);
+
+        /// <summary>
+        /// This is used to support "Go To Definition..."
+        /// </summary>
+        /// <param name="id"></param>
+        void EditFunction(Guid id);
     }
 }

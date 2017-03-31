@@ -27,7 +27,7 @@ namespace CaptiveAire.VPL.TestHost.ViewModel
             var commentFactory = new ElementFactory(CustomElementTypeIds.Comment, "Custom", "Comment",
                 context => new CommentViewModel(context), typeof(CommentViewModel));
 
-            var functionService = new FunctionService(GetFunctions, GetFunction);
+            var functionService = new FunctionService(GetFunctions, GetFunction, EditFunction);
 
             var factories = new IElementFactory[]
             {
@@ -74,6 +74,16 @@ namespace CaptiveAire.VPL.TestHost.ViewModel
         public static MainViewModel Main
         {
             get { return _main.Value; }
+        }
+
+        private static void EditFunction(Guid id)
+        {
+            var functionViewModel = _main.Value.Program.Functions.FirstOrDefault(f => f.Id == id);
+
+            if (functionViewModel != null)
+            {
+                functionViewModel.Edit();
+            }
         }
     }
 }
