@@ -10,6 +10,7 @@ namespace CaptiveAire.VPL.Model
 {
     internal class VplServiceContext : IVplServiceContext
     {
+        private readonly IVplService _vplService;
         private readonly IEnumerable<ResourceDictionary> _customResources;
         private readonly IElementFactoryManager _elementFactoryManager;
         private readonly IVplType[] _types;
@@ -17,8 +18,10 @@ namespace CaptiveAire.VPL.Model
         private readonly IElementBuilder _elementBuilder;
         private readonly IVplPlugin[] _plugins;
 
-        public VplServiceContext(IEnumerable<IVplPlugin> plugins = null)
+        public VplServiceContext(IVplService vplService, IEnumerable<IVplPlugin> plugins = null)
         {
+            if (vplService == null) throw new ArgumentNullException(nameof(vplService));
+            _vplService = vplService;
             _plugins = plugins?.ToArray() ?? new IVplPlugin[] {};
 
             _customResources = _plugins.SelectMany(p => p.Resources);
@@ -90,6 +93,11 @@ namespace CaptiveAire.VPL.Model
         public IElementBuilder ElementBuilder
         {
             get { return _elementBuilder; }
+        }
+
+        public IVplService VplService
+        {
+            get { return _vplService; }
         }
     }
 }

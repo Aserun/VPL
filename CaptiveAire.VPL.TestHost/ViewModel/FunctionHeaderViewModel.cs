@@ -2,7 +2,6 @@
 using System.Windows;
 using System.Windows.Input;
 using CaptiveAire.VPL.Metadata;
-using CaptiveAire.VPL.View;
 using Cas.Common.WPF;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
@@ -58,16 +57,16 @@ namespace CaptiveAire.VPL.TestHost.ViewModel
             return true;
         }
 
-        private void Edit()
+        public void Edit()
         {
             try
             {
-                HostViewModelLocator.VplService.EditFunction(_metadata, m =>
+                HostViewModelLocator.VplService.EditFunction(Id, m =>
                 {
                     _metadata = m;
                     RaisePropertyChanged(() => Name);
                     
-                }, false);
+                }, false, owner: Application.Current.MainWindow);
             }
             catch (Exception ex)
             {

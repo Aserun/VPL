@@ -62,7 +62,8 @@ namespace CaptiveAire.VPL.Plugins.Functions
 
             _actions = new IElementAction[]
             {
-                new ElementAction("Select function...", SelectFunction)
+                new ElementAction("Select function...", SelectFunction),
+                new ElementAction("Go to definition...", GoToDefinition, CanGoToDefinition), 
             };
         }
 
@@ -110,6 +111,18 @@ namespace CaptiveAire.VPL.Plugins.Functions
                 SelectFunction(selectedFunction);
                 _owner.MarkDirty();
             }
+        }
+
+        private void GoToDefinition()
+        {
+            var functionService = _owner.GetService<IFunctionService>();
+
+            functionService?.EditFunction(Function.Id);
+        }
+
+        private bool CanGoToDefinition()
+        {
+            return Function != null && _owner.GetService<IFunctionService>() != null;
         }
 
         private void SelectFunction(IFunctionReference function)

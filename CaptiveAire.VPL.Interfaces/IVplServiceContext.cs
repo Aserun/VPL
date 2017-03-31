@@ -33,5 +33,10 @@ namespace CaptiveAire.VPL.Interfaces
         /// Gets the element builder.
         /// </summary>
         IElementBuilder ElementBuilder { get; }
+
+        /// <summary>
+        /// Gets the vpl service for this context.
+        /// </summary>
+        IVplService VplService { get; }
     }
 }
