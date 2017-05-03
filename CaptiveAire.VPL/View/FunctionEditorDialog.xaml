@@ -14,6 +14,7 @@
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:windows="clr-namespace:Cas.Common.WPF.Behaviors.Windows;assembly=Cas.Common.WPF"
         xmlns:behaviors1="clr-namespace:CaptiveAire.VPL.Behaviors"
+        xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
         mc:Ignorable="d"
         Background="LightGray"
         x:ClassModifier="internal"
@@ -213,6 +214,7 @@
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="4"/>
                             <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
 
                         <Grid PreviewMouseWheel="ScaleOnPreviewMouseWheel">
@@ -287,6 +289,25 @@
 
                         </Expander>
 
+                        <Expander Grid.Row="3" Header="Call Stack" IsExpanded="True">
+                            <Expander.Resources>
+                                <CollectionViewSource x:Key="CallStackViewSource" Source="{Binding CallStack}">
+                                    <CollectionViewSource.SortDescriptions>
+                                        <componentModel:SortDescription PropertyName="Index" Direction="Descending"/>
+                                    </CollectionViewSource.SortDescriptions>
+                                </CollectionViewSource>
+                            </Expander.Resources>
+
+                            <DataGrid ItemsSource="{Binding Source={StaticResource CallStackViewSource}}" Height="200" AutoGenerateColumns="False">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Binding="{Binding Path=Index}" MinWidth="200"/>
+                                    <DataGridTextColumn Binding="{Binding Path=Name}" MinWidth="200"/>        
+                                </DataGrid.Columns>
+                            </DataGrid>
+                            
+                            
+                        </Expander>
+
                     </Grid>
 
                         
@@ -324,16 +345,6 @@
                         </Grid>
                     </GroupBox>
 
-                    <!--<GroupBox Grid.Row="1" Header="Dimensions">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Margin="4" VerticalAlignment="Center">Width</TextBlock>
-                            <xctk:IntegerUpDown MinWidth="200" Margin="4" VerticalAlignment="Center" Value="{Binding Path=Function.Width}"/>
-
-                            <TextBlock Margin="4" VerticalAlignment="Center">Height</TextBlock>
-                            <xctk:IntegerUpDown MinWidth="200" Margin="4" VerticalAlignment="Center" Value="{Binding Path=Function.Height}"/>
-                        </StackPanel>
-                    </GroupBox>-->
-                    
                     <GroupBox Grid.Row="2" Header="Arguments">
                         <Grid>
                             <Grid.RowDefinitions>

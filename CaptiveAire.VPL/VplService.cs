@@ -89,7 +89,7 @@ namespace CaptiveAire.VPL
                 var view = new FunctionEditorDialog(_serviceContext.CustomResources)
                 {
                     DataContext = editorViewModel,
-                    Owner = WindowUtil.GetActiveWindow()
+                    Owner = owner
                 };
 
                 //Show the dialog

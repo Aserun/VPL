@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,6 +19,8 @@ namespace CaptiveAire.VPL
         private readonly IVplServiceContext _serviceContext;
         private readonly IDictionary<Guid, FunctionMetadata> _cachedFunctions = new ConcurrentDictionary<Guid, FunctionMetadata>();
         private readonly Lazy<IFunctionService> _functionService;
+
+        private readonly CallStack _callStack = new CallStack();
 
         internal ExecutionContext(IVplServiceContext serviceContext)
         {
@@ -55,6 +58,22 @@ namespace CaptiveAire.VPL
             return functionMetadata;
         }
 
+        public async Task<object> ExecuteAsync(IFunction function, object[] parameters, CancellationToken cancellationToken)
+        {
+            Debug.WriteLine($"Pushing function '{function.Name}' onto the stack.");
+
+            _callStack.Push(new CallStackFrame(function, _callStack.Count));
+           
+            //Execute the function
+            object result = await function.ExecuteAsync(parameters, this, cancellationToken);
+
+            Debug.WriteLine($"Popping function '{function.Name}' from the stack with result '{result}'.");
+
+            _callStack.Pop();
+
+            return result;
+        }
+
         public async Task<object> ExecuteFunctionAsync(Guid functionId, object[] parameters, CancellationToken cancellationToken)
         {
             //Get the function metadata
@@ -64,11 +83,17 @@ namespace CaptiveAire.VPL
             var function = _serviceContext.ElementBuilder.LoadFunction(functionMetadata);
 
             //Execute the function
-            return await function.ExecuteAsync(parameters, this, cancellationToken);
+            return await ExecuteAsync(function, parameters,  cancellationToken);
+        }
+
+        public ICallStack CallStack
+        {
+            get { return _callStack; }
         }
 
         public void Dispose()
         {
+            Debug.WriteLine("ExecutionContext disposed.");
         }
     }
 }

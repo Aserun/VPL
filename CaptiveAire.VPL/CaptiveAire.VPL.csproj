@@ -115,6 +115,8 @@
     <Compile Include="Behaviors\ActivateableBehavior.cs" />
     <Compile Include="Behaviors\ElementDraggableBehavior.cs" />
     <Compile Include="Behaviors\ViewModelBehavior.cs" />
+    <Compile Include="CallStack.cs" />
+    <Compile Include="CallStackFrame.cs" />
     <Compile Include="Converters\CollapsedIfNotStatementConverter.cs" />
     <Compile Include="Converters\PercentageConverter.cs" />
     <Compile Include="Editors\BooleanValueCheckBoxView.xaml.cs">
@@ -166,6 +168,7 @@
     </Compile>
     <Compile Include="Model\UndoService.cs" />
     <Compile Include="Interfaces\IFunctionEditorDialogViewModel.cs" />
+    <Compile Include="ObservableStack.cs" />
     <Compile Include="View\ElementsView.xaml.cs">
       <DependentUpon>ElementsView.xaml</DependentUpon>
     </Compile>

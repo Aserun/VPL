@@ -31,6 +31,7 @@ namespace CaptiveAire.VPL.ViewModel
         private ErrorViewModel[] _errors;
         private double _scale = 1;
         private bool _isErrorsExpanded;
+        private ICallStack _callStack;
 
         public FunctionEditorDialogViewModel(IVplServiceContext context, Function function, Action<FunctionMetadata> saveAction, ITextEditService textEditService, string displayName, IFunctionEditorManager functionEditorManager)
         {
@@ -71,6 +72,7 @@ namespace CaptiveAire.VPL.ViewModel
             //Save the initial state
             function.SaveUndoState();
 
+            //Register this window.
             _functionEditorManager.Register(this);
         }
 
@@ -378,18 +380,37 @@ namespace CaptiveAire.VPL.ViewModel
 
                 using (var context = new ExecutionContext(_context))
                 {
-                    await function.ExecuteAsync(new object[] {}, context, _cts.Token);
+                    CallStack = context.CallStack;
+
+                    try
+                    {
+                        await context.ExecuteAsync(function, new object[] { }, _cts.Token);
+                    }
+                    catch (Exception ex)
+                    {
+                        _messageBoxService.Show(ex.Message, $"Error in '{context.CallStack.CurrentFrame?.Name}'", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+
+                        return;
+                    }
                 }
-
-                _cts = null;
-
+                
                 _messageBoxService.Show("Done");
             }
-            catch (Exception ex)
+            finally 
             {
                 _cts = null;
 
-                _messageBoxService.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                CallStack = null;
+            }
+        }
+
+        public ICallStack CallStack
+        {
+            get { return _callStack; }
+            private set
+            {
+                _callStack = value;
+                RaisePropertyChanged();
             }
         }
 
