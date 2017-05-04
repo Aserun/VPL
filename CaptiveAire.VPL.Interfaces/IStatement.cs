@@ -20,5 +20,10 @@ namespace CaptiveAire.VPL.Interfaces
         /// Gets or sets a value indicating whether this item is enabled or not.
         /// </summary>
         bool IsEnabled { get; set; }
+
+        /// <summary>
+        /// Gets or sets the "line number" of this element. This is actually a hierarchical number.
+        /// </summary>
+        string Number { get; set; }
     }
 }

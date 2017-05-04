@@ -33,5 +33,11 @@ namespace CaptiveAire.VPL.Interfaces
         /// accessing global information from an instance of a VplType editor.
         /// </summary>
         IEnumerable<object> Services { get; }
+
+        /// <summary>
+        /// Gets the runtime service factories
+        /// </summary>
+        /// <returns></returns>
+        IEnumerable<IRuntimeServiceFactory> RuntimeServiceFactories { get; }
     }
 }

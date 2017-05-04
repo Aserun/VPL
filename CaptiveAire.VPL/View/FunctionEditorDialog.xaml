@@ -14,6 +14,7 @@
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:windows="clr-namespace:Cas.Common.WPF.Behaviors.Windows;assembly=Cas.Common.WPF"
         xmlns:behaviors1="clr-namespace:CaptiveAire.VPL.Behaviors"
+        xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
         mc:Ignorable="d"
         Background="LightGray"
         x:ClassModifier="internal"
@@ -158,8 +159,6 @@
                             <TextBlock Grid.Row="0" Style="{StaticResource HeaderTextBlock}" Text="Elements" />
                             <view:ToolsView Grid.Row="1" DataContext="{Binding Path=Tools}"   />
                         </Grid>
-
-                        
                         
                         <Rectangle Grid.Row="1" VerticalAlignment="Top" Height="1" HorizontalAlignment="Stretch" Fill="DarkGray"/>
                         <GridSplitter Grid.Row="1" Background="LightGray" ResizeBehavior="PreviousAndNext" ResizeDirection="Rows" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
@@ -212,6 +211,7 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="4"/>
+                            <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
 
@@ -287,6 +287,33 @@
 
                         </Expander>
 
+                        <Expander Grid.Row="3" Header="Call Stack" IsExpanded="{Binding Path=IsCallStackExpanded}">
+                            <Expander.Resources>
+                                <CollectionViewSource x:Key="CallStackViewSource" Source="{Binding CallStack}">
+                                    <CollectionViewSource.SortDescriptions>
+                                        <componentModel:SortDescription PropertyName="Index" Direction="Descending"/>
+                                    </CollectionViewSource.SortDescriptions>
+                                </CollectionViewSource>
+                            </Expander.Resources>
+
+                            <DataGrid ItemsSource="{Binding Source={StaticResource CallStackViewSource}}" Height="200" AutoGenerateColumns="False" IsReadOnly="True" CanUserSortColumns="False">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Frame" Binding="{Binding Path=Index}" MinWidth="100" />
+                                    <DataGridTextColumn Header="Name"  Binding="{Binding Path=Prototype}" MinWidth="200"/>
+                                    <DataGridTextColumn Header="Statement" MinWidth="200">
+                                        <DataGridTextColumn.Binding>
+                                            <MultiBinding StringFormat="{}{0} Line {1}">
+                                                <Binding Path="Prototype" />
+                                                <Binding Path="CurrentStatement.Number" />
+                                            </MultiBinding>
+                                        </DataGridTextColumn.Binding>
+                                    </DataGridTextColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                            
+                            
+                        </Expander>
+
                     </Grid>
 
                         
@@ -324,16 +351,6 @@
                         </Grid>
                     </GroupBox>
 
-                    <!--<GroupBox Grid.Row="1" Header="Dimensions">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Margin="4" VerticalAlignment="Center">Width</TextBlock>
-                            <xctk:IntegerUpDown MinWidth="200" Margin="4" VerticalAlignment="Center" Value="{Binding Path=Function.Width}"/>
-
-                            <TextBlock Margin="4" VerticalAlignment="Center">Height</TextBlock>
-                            <xctk:IntegerUpDown MinWidth="200" Margin="4" VerticalAlignment="Center" Value="{Binding Path=Function.Height}"/>
-                        </StackPanel>
-                    </GroupBox>-->
-                    
                     <GroupBox Grid.Row="2" Header="Arguments">
                         <Grid>
                             <Grid.RowDefinitions>
@@ -448,6 +465,3 @@
         </Grid>
     </Grid>
 </Window>
-
-
-    

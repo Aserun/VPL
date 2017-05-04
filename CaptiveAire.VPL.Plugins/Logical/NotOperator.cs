@@ -19,7 +19,7 @@ namespace CaptiveAire.VPL.Plugins.Logical
 
         protected override async Task<object> EvaluateCoreAsync(IExecutionContext executionContext, CancellationToken cancellationToken)
         {
-            bool a = (bool)await ParameterA.EvaluateAsync(executionContext, cancellationToken);
+            bool a = (await ParameterA.EvaluateAsync(executionContext, cancellationToken)).GetConvertedValue<bool>();
 
             return !a;
         }

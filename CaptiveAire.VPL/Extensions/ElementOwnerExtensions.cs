@@ -197,40 +197,6 @@ namespace CaptiveAire.VPL.Extensions
                 .FirstOrDefault();
         }
 
-        ///// <summary>
-        ///// Gets the entrance point for a function.
-        ///// </summary>
-        ///// <param name="owner"></param>
-        ///// <returns></returns>
-        //internal static GetEntrancePointResult GetEntrancePoint(this IElementOwner owner)
-        //{
-        //    //Get the root statements.
-        //    var rootStatements = owner.GetRootElements()
-        //        .OfType<IStatement>()
-        //        .ToArray();
-
-        //    //Check to see if we have any
-        //    if (rootStatements.Length == 0)
-        //    {
-        //        return new GetEntrancePointResult("Unable to find an executable statement.");
-        //    }
-
-        //    //Check to see if we have too many
-        //    if (rootStatements.Length > 1)
-        //    {
-        //        //Set errors so it's more obvious to the user what is happening.
-        //        foreach (var rootStatement in rootStatements)
-        //        {
-        //            rootStatement.SetError("Multiple entrance points.");
-        //        }
-
-        //        return new GetEntrancePointResult("There is more than one entrance point.");
-        //    }
-
-        //    //We have found the entrance point.
-        //    return new GetEntrancePointResult(rootStatements[0]);           
-        //}
-
         /// <summary>
         /// Creates an instance of IElementCreationContext
         /// </summary>

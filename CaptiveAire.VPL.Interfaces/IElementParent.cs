@@ -12,4 +12,15 @@ namespace CaptiveAire.VPL.Interfaces
 
         IElement[] GetChildren();
     }
+
+    //public interface IStatementParent
+    //{
+    //    void RemoveStatement(IStatement statement);
+
+    //    bool CanDrop(IElementClipboardData data);
+
+    //    void Drop(IStatement statement, IElementClipboardData data);
+
+    //    IStatement[] GetChildren();
+    //}
 }

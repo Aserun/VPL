@@ -129,6 +129,8 @@
     <Compile Include="Metadata\RootMetadata.cs" />
     <Compile Include="Model\CustomElementTypeIds.cs" />
     <Compile Include="Model\HostPersistor.cs" />
+    <Compile Include="Model\MyRuntimeService.cs" />
+    <Compile Include="Model\MyRuntimeServiceFactory.cs" />
     <Compile Include="ViewModel\FunctionHeaderViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ProgramViewModel.cs" />

@@ -61,6 +61,8 @@
     <Compile Include="IArgument.cs" />
     <Compile Include="IBlock.cs" />
     <Compile Include="IBlocks.cs" />
+    <Compile Include="ICallStack.cs" />
+    <Compile Include="ICallStackFrame.cs" />
     <Compile Include="IClipboardDataItem.cs" />
     <Compile Include="IDeleteable.cs" />
     <Compile Include="IElement.cs" />
@@ -78,14 +80,17 @@
     <Compile Include="IErrorSource.cs" />
     <Compile Include="IExecutionContext.cs" />
     <Compile Include="IFunction.cs" />
+    <Compile Include="IFunctionExecutionContextFactory.cs" />
     <Compile Include="IFunctionSelector.cs" />
     <Compile Include="IFunctionService.cs" />
     <Compile Include="IOperator.cs" />
     <Compile Include="IParameter.cs" />
     <Compile Include="IParameters.cs" />
+    <Compile Include="IRuntimeServiceFactory.cs" />
     <Compile Include="ISelectable.cs" />
     <Compile Include="ISelectionService.cs" />
     <Compile Include="IStatement.cs" />
+    <Compile Include="IStatements.cs" />
     <Compile Include="ITool.cs" />
     <Compile Include="ITyped.cs" />
     <Compile Include="IUndoProvider.cs" />

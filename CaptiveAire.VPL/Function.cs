@@ -419,11 +419,8 @@ namespace CaptiveAire.VPL
                 errorSource?.ClearErrors();
             });
 
-            //Create the executor.
-            var executor = new StatementExecutor();
-
             //Execute the function.
-            await executor.ExecuteAsync(executionContext, Elements, cancellationToken);
+            await executionContext.ExecuteStatementsAsync(Elements, cancellationToken);
 
             //Find the return variable
             var returnVariable = Variables.FirstOrDefault(v => v.Id == ReturnValueVariable.ReturnVariableId);

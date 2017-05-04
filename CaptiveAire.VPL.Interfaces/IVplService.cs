@@ -17,7 +17,6 @@ namespace CaptiveAire.VPL.Interfaces
         /// <param name="saveAction"></param>
         /// <param name="modal"></param>
         /// <param name="displayName">Optional display name of the function.</param>
-        /// <param name="id">An optional id that uniquely identifies this function</param>
         /// <returns></returns>
         [Obsolete]
         void EditFunction(FunctionMetadata metadata, Action<FunctionMetadata> saveAction, bool modal = true, string displayName = null);

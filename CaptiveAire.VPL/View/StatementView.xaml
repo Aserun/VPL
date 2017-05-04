@@ -21,67 +21,86 @@
     </UserControl.Resources>
     
     <Grid>
-        <StackPanel>
-
-            <Grid HorizontalAlignment="Stretch">
-                <Grid HorizontalAlignment="Left" IsHitTestVisible="True" Background="Transparent" ToolTip="{Binding Path=Error}" x:Name="ContentGrid">
-                    <Grid.Style>
-                        <Style TargetType="Grid">
-                            <Setter Property="Opacity" Value="1"/>
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding Path=IsEnabled}" Value="False">
-                                    <Setter Property="Opacity" Value="0.5"></Setter>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Grid.Style>
-          
-                    <i:Interaction.Behaviors>
-                        <behaviors:ElementDraggableBehavior/>
-                    </i:Interaction.Behaviors>
-            
-                    <Rectangle RadiusX="5" RadiusY="5" >
-                        <Rectangle.Style>
-                            <Style TargetType="Rectangle">
-                                <Setter Property="Fill">
-                                    <Setter.Value>
-                                        <SolidColorBrush Color="{Binding Path=BackgroundColor}"/>
-                                    </Setter.Value>
-                                </Setter>
+        <Grid>
+            <StackPanel>
+                
+                
+                
+                <Grid HorizontalAlignment="Stretch">
+                    
+                    
+                    <Grid HorizontalAlignment="Left" IsHitTestVisible="True" Background="Transparent" ToolTip="{Binding Path=Error}" x:Name="ContentGrid">
+                        <Grid.Style>
+                            <Style TargetType="Grid">
+                                <Setter Property="Opacity" Value="1"/>
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding Path=HasError}" Value="True">
-                                        <Setter Property="Fill" Value="Red"/>
-                                    </DataTrigger>
                                     <DataTrigger Binding="{Binding Path=IsEnabled}" Value="False">
-                                        <Setter Property="Fill" Value="LightGray"/>
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
-                                        <Setter Property="Fill" Value="Aqua"/>
+                                        <Setter Property="Opacity" Value="0.5"></Setter>
                                     </DataTrigger>
                                 </Style.Triggers>
-                            
                             </Style>
-                        </Rectangle.Style>
-                    </Rectangle>
-                
-                    <StackPanel Orientation="Horizontal">
-                        <Image Source="/CaptiveAire.VPL;component/Images/Running.png" Margin="4" Width="16" Visibility="{Binding Path=IsExecuting, Converter={StaticResource CollapsedWhenFalseConverter}}" />
-                        <ContentControl VerticalAlignment="Center" Content="{Binding Path=Label}" Margin="4" >
-                            <ContentControl.Foreground>
-                                <SolidColorBrush Color="{Binding Path=ForegroundColor}" />
-                            </ContentControl.Foreground>
-                        </ContentControl>
-                        <view:ParametersView DataContext="{Binding Path=Parameters}" VerticalAlignment="Center" Margin="2"/>
-                    </StackPanel>
+                        </Grid.Style>
+                        
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+          
+                        <i:Interaction.Behaviors>
+                            <behaviors:ElementDraggableBehavior/>
+                        </i:Interaction.Behaviors>
 
-                    <Rectangle VerticalAlignment="Bottom" Height="4" Fill="Red" Visibility="{Binding Path=IsDraggingOver, Converter={StaticResource CollapsedWhenFalseConverter}}"/>
+                        
+
+                        <Rectangle RadiusX="5" RadiusY="5" Grid.ColumnSpan="2" Grid.Column="0" >
+                            <Rectangle.Style>
+                                <Style TargetType="Rectangle">
+                                    <Setter Property="Fill">
+                                        <Setter.Value>
+                                            <SolidColorBrush Color="{Binding Path=BackgroundColor}"/>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Path=HasError}" Value="True">
+                                            <Setter Property="Fill" Value="Red"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Path=IsEnabled}" Value="False">
+                                            <Setter Property="Fill" Value="LightGray"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
+                                            <Setter Property="Fill" Value="Aqua"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                            
+                                </Style>
+                            </Rectangle.Style>
+                        </Rectangle>
+
+                        <TextBlock VerticalAlignment="Center" Margin="4, 2, 2, 2" Text="{Binding Path=Number}" >
+                            <TextBlock.Foreground>
+                                <SolidColorBrush Color="{Binding Path=ForegroundColor}" />
+                            </TextBlock.Foreground>
+                        </TextBlock>
+
+                        <StackPanel Orientation="Horizontal" Grid.Column="1">
+                            <Image Source="/CaptiveAire.VPL;component/Images/Running.png" Margin="4" Width="16" Visibility="{Binding Path=IsExecuting, Converter={StaticResource CollapsedWhenFalseConverter}}" />
+                            <ContentControl VerticalAlignment="Center" Content="{Binding Path=Label}" Margin="4" >
+                                <ContentControl.Foreground>
+                                    <SolidColorBrush Color="{Binding Path=ForegroundColor}" />
+                                </ContentControl.Foreground>
+                            </ContentControl>
+                            <view:ParametersView DataContext="{Binding Path=Parameters}" VerticalAlignment="Center" Margin="2"/>
+                        </StackPanel>
+
+                        <Rectangle Grid.Column="0" Grid.RowSpan="2"  VerticalAlignment="Bottom" Height="4" Fill="Red" Visibility="{Binding Path=IsDraggingOver, Converter={StaticResource CollapsedWhenFalseConverter}}"/>
+                    </Grid>
+               
                 </Grid>
-                
-                <!--<Rectangle Height="2" Fill="LightGray" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"></Rectangle>-->
-            </Grid>
+            </StackPanel>
 
             <Rectangle Height="1" HorizontalAlignment="Stretch" Fill="LightGray" Margin="5,0,0,0" Opacity="0.05"/>
-        </StackPanel>
+            
+        </Grid>
     </Grid>
 </UserControl>
 
