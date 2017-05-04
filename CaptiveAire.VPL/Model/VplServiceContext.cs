@@ -99,5 +99,10 @@ namespace CaptiveAire.VPL.Model
         {
             get { return _vplService; }
         }
+
+        public IEnumerable<IVplPlugin> Plugins
+        {
+            get { return _plugins; }
+        }
     }
 }

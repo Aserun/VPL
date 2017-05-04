@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Windows;
-using Cas.Common.WPF.Interfaces;
 
 namespace CaptiveAire.VPL.Interfaces
 {
@@ -38,5 +37,10 @@ namespace CaptiveAire.VPL.Interfaces
         /// Gets the vpl service for this context.
         /// </summary>
         IVplService VplService { get; }
+
+        /// <summary>
+        /// Gets the plugins that are available in this context.
+        /// </summary>
+        IEnumerable<IVplPlugin> Plugins { get; }
     }
 }

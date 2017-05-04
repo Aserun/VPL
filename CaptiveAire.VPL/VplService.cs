@@ -136,8 +136,6 @@ namespace CaptiveAire.VPL
 
             return functionViewModel;
         }
-
-     
     }
 
     internal class FunctionEditorManager : IFunctionEditorManager

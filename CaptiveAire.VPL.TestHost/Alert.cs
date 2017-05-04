@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using CaptiveAire.VPL.Extensions;
 using CaptiveAire.VPL.Interfaces;
+using CaptiveAire.VPL.TestHost.Model;
 
 namespace CaptiveAire.VPL.TestHost
 {
@@ -26,9 +28,13 @@ namespace CaptiveAire.VPL.TestHost
 
         protected override async Task ExecuteCoreAsync(IExecutionContext executionContext, CancellationToken cancellationToken)
         {
-            var message = await _messageParameter.EvaluateAsync(executionContext, cancellationToken) as string;
+            var message = (await _messageParameter.EvaluateAsync(executionContext, cancellationToken))
+                .GetConvertedValue<string>();
 
-            throw new Exception("Something blew up!!!!!");
+
+            MyRuntimeService service = executionContext.RuntimeServices.OfType<MyRuntimeService>().First();
+
+            //throw new Exception("Something blew up!!!!!");
 
             MessageBox.Show(message);
         }

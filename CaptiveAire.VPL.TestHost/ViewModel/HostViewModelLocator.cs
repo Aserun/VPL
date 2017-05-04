@@ -29,6 +29,11 @@ namespace CaptiveAire.VPL.TestHost.ViewModel
 
             var functionService = new FunctionService(GetFunctions, GetFunction, EditFunction);
 
+            IRuntimeServiceFactory[] runtimeServiceFactories = new IRuntimeServiceFactory[]
+            {
+                new MyRuntimeServiceFactory(),
+            };
+
             var factories = new IElementFactory[]
             {
                 commentFactory,
@@ -39,7 +44,8 @@ namespace CaptiveAire.VPL.TestHost.ViewModel
                 "Host",
                 factories,
                 new[] { customResources },
-                services: new[] { functionService });
+                services: new[] { functionService },
+                runtimeServiceFactories: runtimeServiceFactories);
 
             var plugin1 = new VplPlugin("Alert",
                 new IElementFactory[]
@@ -53,6 +59,7 @@ namespace CaptiveAire.VPL.TestHost.ViewModel
             plugins.Add(plugin);
             plugins.Add(plugin1);
 
+            //Create the service
             VplService = new VplService(plugins);
         }
 

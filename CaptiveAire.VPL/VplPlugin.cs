@@ -7,6 +7,7 @@ namespace CaptiveAire.VPL
     public class VplPlugin : IVplPlugin
     {
         private readonly string _name;
+        private readonly IEnumerable<IRuntimeServiceFactory> _runtimeServiceFactories;
         private readonly IEnumerable<ResourceDictionary> _resources;
         private readonly IEnumerable<object> _services;
         private readonly IEnumerable<IVplType> _types;
@@ -17,9 +18,11 @@ namespace CaptiveAire.VPL
             IEnumerable<IElementFactory> elementFactories = null, 
             IEnumerable<ResourceDictionary> resources = null,
             IEnumerable<IVplType> types = null,
-            IEnumerable<object> services = null)
+            IEnumerable<object> services = null,
+            IEnumerable<IRuntimeServiceFactory> runtimeServiceFactories = null)
         {
             _name = name;
+            _runtimeServiceFactories = runtimeServiceFactories ?? new IRuntimeServiceFactory[]{};
             _elementFactories = elementFactories ?? new IElementFactory[] {};
             _resources = resources ?? new ResourceDictionary[] {};
             _services = services ?? new object[] {};
@@ -49,6 +52,11 @@ namespace CaptiveAire.VPL
         public IEnumerable<object> Services
         {
             get { return _services; }
+        }
+
+        public IEnumerable<IRuntimeServiceFactory> RuntimeServiceFactories
+        {
+            get { return _runtimeServiceFactories; }
         }
     }
 }

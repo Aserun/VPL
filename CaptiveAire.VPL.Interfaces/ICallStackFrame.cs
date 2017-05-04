@@ -7,5 +7,10 @@
         string Name { get; }
 
         IStatement CurrentStatement { get; set; }
+
+        /// <summary>
+        /// Gets the function name formatted with its arguments
+        /// </summary>
+        string Prototype { get; }
     }
 }

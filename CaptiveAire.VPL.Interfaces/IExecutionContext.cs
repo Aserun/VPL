@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -36,5 +37,10 @@ namespace CaptiveAire.VPL.Interfaces
         /// Gets the call stack for this execution context.
         /// </summary>
         ICallStack CallStack { get; }
+
+        /// <summary>
+        /// The services available at runtime. 
+        /// </summary>
+        IEnumerable<object> RuntimeServices { get; }
     }
 }

@@ -86,6 +86,7 @@
     <Compile Include="IOperator.cs" />
     <Compile Include="IParameter.cs" />
     <Compile Include="IParameters.cs" />
+    <Compile Include="IRuntimeServiceFactory.cs" />
     <Compile Include="ISelectable.cs" />
     <Compile Include="ISelectionService.cs" />
     <Compile Include="IStatement.cs" />

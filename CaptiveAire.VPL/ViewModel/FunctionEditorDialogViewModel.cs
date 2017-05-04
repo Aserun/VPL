@@ -33,6 +33,7 @@ namespace CaptiveAire.VPL.ViewModel
         private double _scale = 1;
         private bool _isErrorsExpanded;
         private ICallStack _callStack;
+        private bool _isCallStackExpanded;
 
         public FunctionEditorDialogViewModel(IVplServiceContext context, Function function, Action<FunctionMetadata> saveAction, ITextEditService textEditService, string displayName, IFunctionEditorManager functionEditorManager)
         {
@@ -382,12 +383,18 @@ namespace CaptiveAire.VPL.ViewModel
 
                 _cts = new CancellationTokenSource();
 
-                using (var context = new ExecutionContext(_context))
+                //Show the call stack
+                IsCallStackExpanded = true;
+
+                //Create the execution environment
+                using (var context = _context.VplService.CreateExecutionContext())
                 {
+                    //Let's expose the callstack so the UI can see it.
                     CallStack = context.CallStack;
 
                     try
                     {
+                        //Excecute it!
                         await context.ExecuteAsync(function, new object[] { }, _cts.Token);
                     }
                     catch (Exception ex)
@@ -398,6 +405,7 @@ namespace CaptiveAire.VPL.ViewModel
                     }
                 }
                 
+                //Let the user know that we're done.
                 _messageBoxService.Show("Done");
             }
             finally 
@@ -444,6 +452,16 @@ namespace CaptiveAire.VPL.ViewModel
             set
             {
                 _isErrorsExpanded = value; 
+                RaisePropertyChanged();
+            }
+        }
+
+        public bool IsCallStackExpanded
+        {
+            get { return _isCallStackExpanded; }
+            set
+            {
+                _isCallStackExpanded = value; 
                 RaisePropertyChanged();
             }
         }

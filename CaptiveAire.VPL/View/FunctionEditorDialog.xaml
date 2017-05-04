@@ -287,7 +287,7 @@
 
                         </Expander>
 
-                        <Expander Grid.Row="3" Header="Call Stack" IsExpanded="True">
+                        <Expander Grid.Row="3" Header="Call Stack" IsExpanded="{Binding Path=IsCallStackExpanded}">
                             <Expander.Resources>
                                 <CollectionViewSource x:Key="CallStackViewSource" Source="{Binding CallStack}">
                                     <CollectionViewSource.SortDescriptions>
@@ -299,11 +299,11 @@
                             <DataGrid ItemsSource="{Binding Source={StaticResource CallStackViewSource}}" Height="200" AutoGenerateColumns="False" IsReadOnly="True" CanUserSortColumns="False">
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Header="Frame" Binding="{Binding Path=Index}" MinWidth="100" />
-                                    <DataGridTextColumn Header="Name"  Binding="{Binding Path=Name}" MinWidth="200"/>
+                                    <DataGridTextColumn Header="Name"  Binding="{Binding Path=Prototype}" MinWidth="200"/>
                                     <DataGridTextColumn Header="Statement" MinWidth="200">
                                         <DataGridTextColumn.Binding>
-                                            <MultiBinding StringFormat="{}{0}() Line {1}">
-                                                <Binding Path="CurrentStatement.Factory.Name" />
+                                            <MultiBinding StringFormat="{}{0} Line {1}">
+                                                <Binding Path="Prototype" />
                                                 <Binding Path="CurrentStatement.Number" />
                                             </MultiBinding>
                                         </DataGridTextColumn.Binding>
