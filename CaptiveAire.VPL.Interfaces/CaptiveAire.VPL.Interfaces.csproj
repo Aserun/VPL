@@ -89,6 +89,7 @@
     <Compile Include="ISelectable.cs" />
     <Compile Include="ISelectionService.cs" />
     <Compile Include="IStatement.cs" />
+    <Compile Include="IStatements.cs" />
     <Compile Include="ITool.cs" />
     <Compile Include="ITyped.cs" />
     <Compile Include="IUndoProvider.cs" />

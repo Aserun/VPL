@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using CaptiveAire.VPL.Extensions;
 using CaptiveAire.VPL.Interfaces;
 using CaptiveAire.VPL.Metadata;
 
@@ -60,15 +61,31 @@ namespace CaptiveAire.VPL
 
         public async Task<object> ExecuteAsync(IFunction function, object[] parameters, CancellationToken cancellationToken)
         {
-            Debug.WriteLine($"Pushing function '{function.Name}' onto the stack.");
-
+            //Push this function onto the stack
             _callStack.Push(new CallStackFrame(function, _callStack.Count));
-           
-            //Execute the function
-            object result = await function.ExecuteAsync(parameters, this, cancellationToken);
 
-            Debug.WriteLine($"Popping function '{function.Name}' from the stack with result '{result}'.");
+            object result;
 
+            try
+            {
+                //Number the statements
+                function.NumberStatements();
+
+                //Execute the function
+                result = await function.ExecuteAsync(parameters, this, cancellationToken);
+            }
+            catch (VplRuntimeException)
+            {
+                //Just throw this - we've already handled it at a higher level.
+                throw;
+            }
+            catch (Exception ex)
+            {
+                //Wrap up the exception
+                throw new VplRuntimeException(ex.Message, CallStack?.ToString(), ex);
+            }
+
+            //Pop this function off of the stack.
             _callStack.Pop();
 
             return result;
@@ -84,6 +101,26 @@ namespace CaptiveAire.VPL
 
             //Execute the function
             return await ExecuteAsync(function, parameters,  cancellationToken);
+        }
+
+        public async Task ExecuteStatementsAsync(IElements elements, CancellationToken cancellationToken)
+        {
+            foreach (var element in elements)
+            {
+                var statement = element as IStatement;
+
+                if (statement != null)
+                {
+                    ICallStackFrame currentFrame = _callStack.CurrentFrame;
+
+                    if (currentFrame != null)
+                    {
+                        currentFrame.CurrentStatement = statement;
+                    }
+
+                    await statement.ExecuteAsync(this, cancellationToken);
+                }
+            }
         }
 
         public ICallStack CallStack

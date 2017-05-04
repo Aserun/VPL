@@ -159,8 +159,6 @@
                             <TextBlock Grid.Row="0" Style="{StaticResource HeaderTextBlock}" Text="Elements" />
                             <view:ToolsView Grid.Row="1" DataContext="{Binding Path=Tools}"   />
                         </Grid>
-
-                        
                         
                         <Rectangle Grid.Row="1" VerticalAlignment="Top" Height="1" HorizontalAlignment="Stretch" Fill="DarkGray"/>
                         <GridSplitter Grid.Row="1" Background="LightGray" ResizeBehavior="PreviousAndNext" ResizeDirection="Rows" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
@@ -298,10 +296,18 @@
                                 </CollectionViewSource>
                             </Expander.Resources>
 
-                            <DataGrid ItemsSource="{Binding Source={StaticResource CallStackViewSource}}" Height="200" AutoGenerateColumns="False">
+                            <DataGrid ItemsSource="{Binding Source={StaticResource CallStackViewSource}}" Height="200" AutoGenerateColumns="False" IsReadOnly="True" CanUserSortColumns="False">
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Binding="{Binding Path=Index}" MinWidth="200"/>
-                                    <DataGridTextColumn Binding="{Binding Path=Name}" MinWidth="200"/>        
+                                    <DataGridTextColumn Header="Frame" Binding="{Binding Path=Index}" MinWidth="100" />
+                                    <DataGridTextColumn Header="Name"  Binding="{Binding Path=Name}" MinWidth="200"/>
+                                    <DataGridTextColumn Header="Statement" MinWidth="200">
+                                        <DataGridTextColumn.Binding>
+                                            <MultiBinding StringFormat="{}{0}() Line {1}">
+                                                <Binding Path="CurrentStatement.Factory.Name" />
+                                                <Binding Path="CurrentStatement.Number" />
+                                            </MultiBinding>
+                                        </DataGridTextColumn.Binding>
+                                    </DataGridTextColumn>
                                 </DataGrid.Columns>
                             </DataGrid>
                             
@@ -459,6 +465,3 @@
         </Grid>
     </Grid>
 </Window>
-
-
-    

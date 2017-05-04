@@ -13,6 +13,7 @@ namespace CaptiveAire.VPL
         private bool _isDraggingOver;
 
         private readonly Elements _elements;
+        private string _number;
 
         public Block(IElementCreationContext context, string id) 
             : base(context)
@@ -59,9 +60,7 @@ namespace CaptiveAire.VPL
 
         public async Task ExecuteAsync(IExecutionContext executionContext, CancellationToken token)
         {
-            var executor = new StatementExecutor();
-
-            await executor.ExecuteAsync(executionContext, Elements, token);
+            await executionContext.ExecuteStatementsAsync(Elements, token);
         }
 
         public bool IsEnabled
@@ -70,6 +69,16 @@ namespace CaptiveAire.VPL
             set
             {
                 _isEnabled = value; 
+                RaisePropertyChanged();
+            }
+        }
+
+        public string Number
+        {
+            get { return _number; }
+            set
+            {
+                _number = value; 
                 RaisePropertyChanged();
             }
         }

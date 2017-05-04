@@ -129,6 +129,7 @@
     <Compile Include="Error.cs" />
     <Compile Include="ExecutionContext.cs" />
     <Compile Include="Extensions\ElementOwnerExtensions.cs" />
+    <Compile Include="Extensions\FunctionExtensions.cs" />
     <Compile Include="Extensions\IListExtensions.cs" />
     <Compile Include="Extensions\ISelectionServiceExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
@@ -148,6 +149,7 @@
     <Compile Include="Model\ElementBuilder.cs" />
     <Compile Include="ElementClipboardDataItem.cs" />
     <Compile Include="Model\ElementCreationContext.cs" />
+    <Compile Include="HierarchicalNumber.cs" />
     <Compile Include="Model\SelectionService.cs" />
     <Compile Include="Model\StatementExecutor.cs" />
     <Compile Include="FunctionService.cs" />
@@ -169,9 +171,11 @@
     <Compile Include="Model\UndoService.cs" />
     <Compile Include="Interfaces\IFunctionEditorDialogViewModel.cs" />
     <Compile Include="ObservableStack.cs" />
+    <Compile Include="Statements.cs" />
     <Compile Include="View\ElementsView.xaml.cs">
       <DependentUpon>ElementsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="VplRuntimeException.cs" />
     <Compile Include="VplTypeId.cs" />
     <Compile Include="Argument.cs" />
     <Compile Include="OperatorBase.cs" />

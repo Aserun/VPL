@@ -56,7 +56,7 @@ namespace CaptiveAire.VPL.Plugins.Date
         protected override async Task<object> EvaluateCoreAsync(IExecutionContext executionContext, CancellationToken cancellationToken)
         {
             var date = (DateTime) await DateParameter.EvaluateAsync(executionContext, cancellationToken);
-            var amount = (double) await AmountParameter.EvaluateAsync(executionContext, cancellationToken);
+            var amount = (await AmountParameter.EvaluateAsync(executionContext, cancellationToken)).GetConvertedValue<double>();
 
             return date + _service.GetTimeSpan(amount);           
         }

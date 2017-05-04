@@ -14,6 +14,7 @@ namespace CaptiveAire.VPL
         private bool _isDraggingOver;
         private bool _isExecuting;
         private bool _isEnabled = true;
+        private string _number;
 
         protected Statement(IElementCreationContext context) 
             : base(context)
@@ -67,6 +68,17 @@ namespace CaptiveAire.VPL
             } 
         }
 
+        public string Number
+        {
+            get { return _number; }
+            set
+            {
+                _number = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
         /// <summary>
         /// To be implemented by inheritors.
         /// </summary>
@@ -101,6 +113,7 @@ namespace CaptiveAire.VPL
                     await ExecuteCoreAsync(executionContext, token);
                 }
             }
+
             catch(Exception ex)
             {
                 //Display the error

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Windows;
@@ -74,6 +75,9 @@ namespace CaptiveAire.VPL.ViewModel
 
             //Register this window.
             _functionEditorManager.Register(this);
+
+            //Number the statements
+            function.NumberStatements();
         }
 
         private void Function_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -388,7 +392,7 @@ namespace CaptiveAire.VPL.ViewModel
                     }
                     catch (Exception ex)
                     {
-                        _messageBoxService.Show(ex.Message, $"Error in '{context.CallStack.CurrentFrame?.Name}'", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                        _messageBoxService.Show($"{ex.Message}\n\n{ex.StackTrace}", $"Error in '{context.CallStack.CurrentFrame?.Name}'", MessageBoxButton.OK, MessageBoxImage.Exclamation);
 
                         return;
                     }

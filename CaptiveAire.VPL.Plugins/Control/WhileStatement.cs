@@ -23,7 +23,7 @@ namespace CaptiveAire.VPL.Plugins.Control
 
         protected override async Task ExecuteCoreAsync(IExecutionContext executionContext, CancellationToken cancellationToken)
         {
-            while ((bool)await Condition.EvaluateAsync(executionContext, cancellationToken))
+            while ((await Condition.EvaluateAsync(executionContext, cancellationToken)).GetConvertedValue<bool>())
             {
                 cancellationToken.ThrowIfCancellationRequested();
 

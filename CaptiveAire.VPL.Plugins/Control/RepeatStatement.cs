@@ -23,7 +23,7 @@ namespace CaptiveAire.VPL.Plugins.Control
 
         protected override async Task ExecuteCoreAsync(IExecutionContext executionContext, CancellationToken cancellationToken)
         {
-            double repeatCount = (double) await Condition.EvaluateAsync(executionContext, cancellationToken);
+            double repeatCount = (await Condition.EvaluateAsync(executionContext, cancellationToken)).GetConvertedValue<double>();
 
             for (double index = 0; index < repeatCount; index++)
             {

@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using CaptiveAire.VPL.Extensions;
@@ -26,6 +27,8 @@ namespace CaptiveAire.VPL.TestHost
         protected override async Task ExecuteCoreAsync(IExecutionContext executionContext, CancellationToken cancellationToken)
         {
             var message = await _messageParameter.EvaluateAsync(executionContext, cancellationToken) as string;
+
+            throw new Exception("Something blew up!!!!!");
 
             MessageBox.Show(message);
         }

@@ -1,4 +1,6 @@
-﻿using CaptiveAire.VPL.Interfaces;
+﻿using System.Linq;
+using System.Text;
+using CaptiveAire.VPL.Interfaces;
 
 namespace CaptiveAire.VPL
 {
@@ -13,6 +15,18 @@ namespace CaptiveAire.VPL
 
                 return null;
             }
+        }
+
+        public override string ToString()
+        {
+            StringBuilder result = new StringBuilder();
+
+            foreach (ICallStackFrame frame in this)
+            {
+                result.AppendLine(frame.ToString());
+            }
+
+            return result.ToString();
         }
     }
 }

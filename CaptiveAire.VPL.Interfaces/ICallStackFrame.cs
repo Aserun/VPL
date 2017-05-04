@@ -5,5 +5,7 @@
         int Index { get; }
 
         string Name { get; }
+
+        IStatement CurrentStatement { get; set; }
     }
 }

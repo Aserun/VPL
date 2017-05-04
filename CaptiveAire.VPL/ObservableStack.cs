@@ -29,7 +29,7 @@ namespace CaptiveAire.VPL
             T item = _stack.Pop();
 
             CollectionChanged?.Invoke(this, 
-                new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, new T[] { item }));
+                new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, new T[] { item }, _stack.Count));
 
             return item;
         }

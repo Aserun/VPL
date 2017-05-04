@@ -72,6 +72,7 @@
                             <Rectangle Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource BackgroundRectangle}"  RadiusX="5" RadiusY="5" IsHitTestVisible="True" />
 
                             <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal">
+                                <TextBlock Text="{Binding Path=Number}" Margin="4" VerticalAlignment="Center" />
                                 <TextBlock Text="{Binding Path=Label}" Margin="4" VerticalAlignment="Center" />
                                 <view:ParametersView DataContext="{Binding Path=.Parameters}" VerticalAlignment="Center" Margin="2"/>
                             </StackPanel>
