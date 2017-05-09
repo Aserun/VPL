@@ -31,7 +31,6 @@ namespace CaptiveAire.VPL.TestHost
             var message = (await _messageParameter.EvaluateAsync(executionContext, cancellationToken))
                 .GetConvertedValue<string>();
 
-
             MyRuntimeService service = executionContext.RuntimeServices.OfType<MyRuntimeService>().First();
 
             //throw new Exception("Something blew up!!!!!");

@@ -383,9 +383,6 @@ namespace CaptiveAire.VPL.ViewModel
 
                 _cts = new CancellationTokenSource();
 
-                //Show the call stack
-                IsCallStackExpanded = true;
-
                 //Create the execution environment
                 using (var context = _context.VplService.CreateExecutionContext())
                 {
